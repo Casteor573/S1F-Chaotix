@@ -6701,8 +6701,138 @@ function PlayerObject_MoveAnimate
 	end if
 end function
 
+function P1_PartnerSwitching
+
+	if stage.player2Enabled == 1	
+		if inputPress.buttonZ == 1
+			CheckEqual(object[1].state, PlayerObject_Death)	//cant swap if youre dead
+			temp0 = checkResult
+			CheckEqual(object[1].state, PlayerObject_Drown)	//cant swap if youre dead
+			temp0 |= checkResult		
+			CheckEqual(object[1].outOfBounds, 1)	//cant swap if youre offscreen
+			temp0 |= checkResult	
+			CheckEqual(object.controlMode, -1)	//cant swap if youre not in control
+			temp0 |= checkResult				
+			if temp0 != 1
+				if current.player1 != object.partner
+					PlaySfx(SfxName[Swap], 0)
+					CreateTempObject(TypeName[Smoke Puff], 0, object.xpos, object.ypos)
+					object[tempObjectPos].drawOrder = 4
+					CreateTempObject(TypeName[Smoke Puff], 0, object[1].xpos, object[1].ypos)
+					object[tempObjectPos].drawOrder = 4
+				end if	
+					temp0 = current.player1
+					temp1 = object.partner
+					temp2 = object[0].propertyValue
+					temp3 = object[1].propertyValue
+					current.player1 = temp1
+					object.partner = temp0
+					object[0].propertyValue = temp3
+					object[1].propertyValue = temp2
+
+
+			
+				
+
+				switch current.player1
+					case 6
+						LoadAnimation("Espio.ani")
+						CallFunction(PlayerObject_HandleSuperPalEspio)
+						object[0].propertyValue = 6
+						object[0].value30 = -5
+						object[0].value32 = PlayerObject_Espio_WallClimbStartup
+						break			
+					case 7
+						LoadAnimation("Vector.ani")
+						CallFunction(PlayerObject_HandleSuperPalVector)
+						object[0].propertyValue = 7
+						object[0].value30 = -5
+						object[0].value32 = PlayerObject_Vector_AirDash
+						break		
+					case 8
+						LoadAnimation("Charmy.ani")
+						//CallFunction(PlayerObject_HandleSuperPalVector)
+						object[0].propertyValue = 8
+						object[0].value30 = -1
+						object[0].value32 = PlayerObject_Charmy_Flight
+						break				
+					case 9
+						LoadAnimation("Heavy.ani")
+						object[0].propertyValue = 9
+						object[0].value30 = -1
+						object[0].value32 = PlayerObject_HandleHeavyMoves
+						object[0].value33 = PlayerObject_StartJump
+						break		
+					case 10
+						LoadAnimation("Bomb.ani")
+						object[0].propertyValue = 10
+						object[0].value30 = 0
+						object[0].value32 = PlayerObject_HandleBombMoves
+						object[0].value33 = PlayerObject_StartSpindashCD
+						break
+				end switch	
+			else
+				PlaySfx(SfxName[Swap Fail], 0)
+			end if	
+		end if	
+	end if
+
+end function
+
+function PlayerList_Switching
+		
+			PlaySfx(SfxName[Swap], 0)
+			CreateTempObject(TypeName[Smoke Puff], 0, object.xpos, object.ypos)
+			object[tempObjectPos].drawOrder = 4
+
+
+			switch stage.playerlistpos
+				case 6
+					LoadAnimation("Espio.ani")
+					CallFunction(PlayerObject_HandleSuperPalEspio)
+					object[0].propertyValue = 6
+					object[0].value30 = -5
+					object[0].value32 = PlayerObject_Espio_WallClimbStartup
+					break			
+				case 7
+					LoadAnimation("Vector.ani")
+					CallFunction(PlayerObject_HandleSuperPalVector)
+					object[0].propertyValue = 7
+					object[0].value30 = -5
+					object[0].value32 = PlayerObject_Vector_AirDash
+					break		
+				case 8
+					LoadAnimation("Charmy.ani")
+					//CallFunction(PlayerObject_HandleSuperPalVector)
+					object[0].propertyValue = 8
+					object[0].value30 = -1
+					object[0].value32 = PlayerObject_Charmy_Flight
+					break				
+				case 9
+					LoadAnimation("Heavy.ani")
+					object[0].propertyValue = 9
+					object[0].value30 = -1
+					object[0].value32 = PlayerObject_HandleHeavyMoves
+					object[0].value33 = PlayerObject_StartJump
+					break		
+				case 10
+					LoadAnimation("Bomb.ani")
+					object[0].propertyValue = 10
+					object[0].value30 = 0
+					object[0].value32 = PlayerObject_HandleBombMoves
+					object[0].value33 = PlayerObject_StartSpindashCD
+					break
+			end switch
+
+
+
+			object.state = PlayerObject_HandleAir
+end function
 
 event ObjectMain
+
+	CallFunction(P1_PartnerSwitching)
+
 	if SuperTimeAttack == 2
 		SuperTimeAttack = 1
 		currentPlayer = 0
@@ -6922,18 +7052,81 @@ event ObjectDraw
 end event
 
 function PlayerObject_Force45
-	if object.gravity == GRAVITY_AIR
-		CheckEqual(stage.playerListPos, 5)
-		temp0 = checkResult
-		CheckEqual(object.animation, ANI_HAMMER_JUMP)
-		temp0 &= checkResult
+
+	switch stage.playerListPos
+	default
+				if object.rotation < 256
+				if object.rotation > 3
+					object.rotation -= 4
+				else
+					object.rotation = 0
+				end if
+			else
+				if object.rotation < 509
+					object.rotation += 4
+				else
+					object.rotation = 0
+				end if
+			end if
+	break	
+	case 5	
+		if object.gravity == GRAVITY_AIR
+			CheckEqual(object.animation, ANI_HAMMER_JUMP)
+			temp0 = checkResult
+			if temp0 == 1
+				if object.direction == 0
+					object.rotation += amy.spin.speed
+				else
+					object.rotation -= amy.spin.speed
+				end if
+			else		
+				if object.rotation < 256
+					if object.rotation > 3
+						object.rotation -= 4
+					else
+						object.rotation = 0
+					end if
+				else
+					if object.rotation < 509
+						object.rotation += 4
+					else
+						object.rotation = 0
+					end if
+				end if
+			end if
+		end if
+	break
+	case 6
+
+	 //upside down 52, 54 		sideways 1, 53, 58
+	CheckEqual(object.animation, 60)
+	temp0 |= checkResult
+	CheckEqual(object.animation, 53)
+	temp0 |= checkResult	
+	CheckEqual(object.animation, 58)
+	temp0 |= checkResult		
 		if temp0 == 1
 			if object.direction == 0
-				object.rotation += amy.spin.speed
+				object.rotation = -125
 			else
-				object.rotation -= amy.spin.speed
+				object.rotation = 125
 			end if
 		else		
+
+			CheckEqual(object.animation, 52)
+			temp0 |= checkResult
+			CheckEqual(object.animation, 54)
+			temp0 |= checkResult	
+				if temp0 == 1
+					if object.direction == 0
+						object.rotation = -255
+					else
+						object.rotation = 255
+					end if
+				else	
+
+
+
 			if object.rotation < 256
 				if object.rotation > 3
 					object.rotation -= 4
@@ -6948,7 +7141,12 @@ function PlayerObject_Force45
 				end if
 			end if
 		end if
-	end if
+		end if
+
+	break
+	end switch
+
+
 	temp0 = object.rotation
 	if object.rotation >= 0x100
 		temp1 = 532
@@ -7030,18 +7228,10 @@ function PlayerObject_ManiaRotate
 			end if
 		end if
 	else
-		CheckEqual(stage.playerListPos, 5)
-		temp0 = checkResult
-		CheckEqual(object.animation, ANI_HAMMER_JUMP)
-		temp0 &= checkResult
-		if temp0 == 1
-			if object.direction == 0
-				player.groundrotation += amy.spin.speed
-			else
-				player.groundrotation -= amy.spin.speed
-			end if
-			temp0 = player.groundrotation
-		else		
+	
+	switch stage.playerListPos
+	default
+
 			if player.groundrotation < 256
 				if player.groundrotation > 3
 					player.groundrotation -= 4
@@ -7055,7 +7245,78 @@ function PlayerObject_ManiaRotate
 					player.groundrotation = 0
 				end if
 			end if
+	
+
+	break
+	case 5
+		CheckEqual(object.animation, ANI_HAMMER_JUMP)
+		temp0 = checkResult
+		if temp0 == 1
+				if object.direction == 0
+					player.groundrotation += amy.spin.speed
+				else
+					player.groundrotation -= amy.spin.speed
+				end if
+				temp0 = player.groundrotation
+			else		
+				if player.groundrotation < 256
+					if player.groundrotation > 3
+						player.groundrotation -= 4
+					else
+						player.groundrotation = 0
+					end if
+				else
+					if player.groundrotation < 509
+						player.groundrotation += 4
+					else
+						player.groundrotation = 0
+					end if
+				end if
 		end if
+	case 6	
+			CheckEqual(object.state, PlayerObject_Espio_WallClimb)
+			temp1 = checkResult			
+			if temp1 == 1
+				if object.direction == 0
+					player.groundrotation = -125
+				else
+					player.groundrotation = 125
+				end if
+				temp0 = player.groundrotation
+			else		
+				CheckEqual(object.state, PlayerObject_Espio_CeilingClimb)
+				temp1 = checkResult			
+				if temp1 == 1
+					if object.direction == 0
+						player.groundrotation = -255
+					else
+						player.groundrotation = 255
+					end if
+					temp0 = player.groundrotation
+				else	
+
+
+				if player.groundrotation < 256
+					if player.groundrotation > 3
+						player.groundrotation -= 4
+					else
+						player.groundrotation = 0
+					end if
+				else
+					if player.groundrotation < 509
+						player.groundrotation += 4
+					else
+						player.groundrotation = 0
+					end if
+				end if
+				end if
+			end if
+
+
+	break
+	end switch	
+
+
 	end if
 	player.groundrotation &= 0x1FF
 	object.rotation = player.groundrotation
