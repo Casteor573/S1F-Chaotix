@@ -796,6 +796,7 @@ end event
 
 
 event ObjectStartup
+	
 	Player2Object_value13 = 1
 	Player2Object_value14 = 0
 	PlayerObject_StateUp = 0
@@ -831,7 +832,7 @@ event ObjectStartup
 			SpriteFrame(-30, -6, 24, 16, 231, 200)
 			SpriteFrame(-30, -6, 24, 16, 223, 100)
 		break
-		case 6	//ESPIO
+		case 6	//ESPIO //lala
 			ResetObjectEntity(1, TypeName[Player 2 Object], 1, object[0].xpos, object[0].ypos)
 			if stage.activeList == BONUS_STAGE
 				if stage.listPos == 2
