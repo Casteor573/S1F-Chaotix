@@ -983,6 +983,12 @@ function PlayerObject_ProcessSuperForms
 		case 5
 			CallFunction(PlayerObject_HandleSuperPalAmy)
 			break
+		case 6
+			CallFunction(PlayerObject_HandleSuperPalEspio)
+			break	
+		case 7
+			CallFunction(PlayerObject_HandleSuperPalVector)
+			break				
 		end switch
 	end if
 	if PlayerObject_SuperState == 1
