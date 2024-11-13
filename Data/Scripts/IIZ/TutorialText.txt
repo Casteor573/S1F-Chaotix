@@ -1,0 +1,132 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: GHZ Setup Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 39 : TYPE_GHZSETUP
+
+
+private alias object.value1 : object.index
+
+//if being stupid was a job
+function blahblah
+temp7 = screen.xcenter
+temp7 -= 0x55
+
+temp6 = screen.ycenter
+temp6 -= 0x75
+
+DrawSpriteScreenFX(0, FX_ROTOZOOM, temp7, temp6)
+
+
+end function
+
+
+event ObjectDraw
+object.drawOrder = 5
+
+
+BoxCollisionTest(C_TOUCH, object.entityPos, -96, -256, 96, 256, currentPlayer, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO)
+if checkResult == 1
+
+
+	ArrayPos0 = 0	//what letter ur on
+	
+	// Get how long the target text line is
+	GetTextInfo(temp1, 1, TEXTINFO_TEXTSIZE, Object.Index, 0)
+	
+	// The text should be just about aligned to the center, so do some maths based on the character length to make that happen
+	temp2   = temp1
+	temp2 <<= 18
+	FlipSign(temp2)
+	temp2  += Object.XPos
+	
+	// Loop through all the characters in the message
+	while temp1 > 0
+	
+		// Get the actual character at the current char pos
+		GetTextInfo(temp0, 1, TEXTINFO_TEXTDATA, Object.Index, ArrayPos0)
+		
+		Object.Frame = 0
+		
+		// Take uppercase letters and turn them into a matching Sprite Frame
+		if temp0 > 64
+			if temp0 < 91
+				Object.Frame  = temp0
+				Object.Frame -= 64
+			end if
+		end if
+		
+		// Take lowercase letters and turn them into a matching Sprite Frame
+		if temp0 > 96
+			if temp0 < 123
+				Object.Frame  = temp0
+				Object.Frame -= 96
+			end if
+		end if
+		
+		// Notably, the space character (32) is skipped over here, as it shouldn't draw anything
+		
+		if Object.Frame > 0
+			// The the letter, but only if it's a valid one
+			DrawSpriteXY(Object.Frame, temp2, object.ypos)
+		end if
+		
+		// Move to the next letter
+		ArrayPos0++
+		
+		// And decrease the remaining letter count, as well
+		temp1--
+		
+		// Each letter should be spaced 8 pixels apart
+		temp2 += 0x80000
+	loop
+
+end if
+
+
+
+end event
+
+event ObjectStartup
+
+	LoadTextFile(1, "Data/Game/Tutorial.txt")
+
+	LoadSpriteSheet("IIZ/Objects1.gif")
+
+
+	SpriteFrame(0, 0, 272, 69, 1, 149)	//0 the bar
+
+	// #1 -> #26 - Alphabet
+	// (Using loops to automate Sprite Framing)
+
+	//not related too stuff in objectdraw
+
+	//temp7: starting ypos, progresses by 17 and stops before 100, because theres only 3 rows
+	//temp6: starting xpos, the letter A
+	temp7 = 49	
+	while temp7 < 100
+		temp6 = 37	
+		while temp6 < 136
+			SpriteFrame(-3, -6, 8, 16, temp6, temp7)
+			temp6 += 9
+		loop
+
+		temp7 += 17
+	loop
+	
+
+	
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 143)
+end event

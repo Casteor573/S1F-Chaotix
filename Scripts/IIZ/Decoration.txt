@@ -1,0 +1,119 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Decoration
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 28 : TYPE_DECORATION
+
+
+event ObjectMain
+	switch object.propertyValue
+	case 0
+		switch object.state
+		case 0
+			//0x10000 is 1px
+
+			currentPlayer = 0
+			
+			BoxCollisionTest(C_TOUCH, object.entityPos, 10, -70, 65, 0, currentPlayer, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO)
+			if checkResult == 1
+					object.priority = PRIORITY_ACTIVE
+					temp0 = object[currentPlayer].xpos
+					temp0 -= object.xpos
+					temp1 = object[currentPlayer].ypos
+					temp1 -= object.ypos
+					ATan2(temp2, temp0, temp1)
+					Cos256(temp0, temp2)
+					Sin256(temp1, temp2)
+					temp0 *= -0x2000
+					temp1 *= 0x700
+					object[currentPlayer].xvel = temp0
+					object[currentPlayer].speed = object[currentPlayer].xvel
+					object[currentPlayer].value1 = 0
+					object[currentPlayer].gravity = GRAVITY_AIR
+					PlaySfx(SfxName[Boss Hit], 0)
+					object.state++
+			end if	
+		break
+		case 1
+			object.value0++
+			temp0 = object.value0
+			temp0 &= 7
+			if temp0 == 4
+				Rand(temp0, 96)
+				temp0 -= 18
+				temp0 <<= 16
+				temp0 += object.xpos
+				Rand(temp1, 48)
+				temp1 -= 64
+				temp1 <<= 16
+				temp1 += object.ypos
+				CreateTempObject(TypeName[Explosion], 0, temp0, temp1)
+				PlaySfx(SfxName[Explosion], 0)
+			end if
+			if object.value0 == 100
+				object.value0 = 0
+				object.state++
+			end if	
+		break
+		end switch
+	break
+	end switch	
+end event
+
+event ObjectDraw
+	switch object.propertyValue
+	case 0
+		switch object.state
+		case 0
+		case 1
+			DrawSpriteFX(1, FX_SCALE, object.xpos, object.ypos)	
+			DrawSpriteFX(3, FX_SCALE, object.xpos, object.ypos)		
+			DrawSpriteFX(0, FX_SCALE, object.xpos, object.ypos)
+			DrawSpriteFX(2, FX_SCALE, object.xpos, object.ypos)	
+		break
+		case 2
+			temp0 = object.ypos
+			temp0 += 0x110000
+			DrawSpriteFX(3, FX_SCALE, object.xpos, temp0)		
+		break		
+		end switch
+
+	
+
+	break
+	end switch
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("IIZ/Objects1.gif")
+
+
+	SpriteFrame(-0, -73, 76, 80, 5, 326)	//0 Capsule
+	SpriteFrame(22, -54, 32, 45, 128, 345)	//1 Capsule	 BG
+	SpriteFrame(18, -85, 40, 12, 84, 326)	//2 Capsule Lid
+
+	SpriteFrame(27, -30, 22, 20, 161, 437)	//3 mongus :sob:
+
+
+
+
+	foreach (TypeName[Capsule], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].priority = PRIORITY_ACTIVE
+	next
+
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("IIZ/Objects1.gif")
+	SpriteFrame(-0, -70, 76, 80, 5, 326)	//0 Capsule
+end event

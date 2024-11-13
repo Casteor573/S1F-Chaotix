@@ -1,0 +1,234 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Decoration
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 28 : TYPE_DECORATION
+
+private alias Object.Value3 : Object.AccessoryAnimation
+private alias Object.Value4 : Object.AccessoryFrame
+private alias Object.Value5 : Object.AccessoryFrameAlt
+
+reserve function MetalIntro
+
+
+function MetalIntro
+	switch object.state
+			case 0
+
+				object.ypos += object.yvel
+				object.xpos += object.xvel
+
+			
+				object.scale = 1
+				object.yvel -= 0x50
+
+				object.animation = 2
+				object.state++
+			break
+			case 1
+
+				object.ypos += object.yvel
+				object.xpos += object.xvel
+
+				object.value0++
+				object.scale += 1
+				object.yvel -= 0x50
+
+				object.animation = 2
+
+				if object.value0 >= 70
+					object.value0 = 0
+					object.state++
+				end if
+
+			break			
+			case 2
+				object.value0++
+
+				object.animation = 2
+
+				object.ypos += object.yvel
+				object.xpos += object.xvel
+
+				object.yvel -= 0x1000
+
+				object.scale += 12
+
+				if object.value0 >= 95
+					object.yvel = 0
+					object.value0 = 0
+					object.state++
+				end if		
+			break
+			case 3
+
+				Object.AccessoryAnimation = 1
+
+				object.value0++
+
+				object.ypos += object.yvel
+
+				object.yvel += 0x500
+
+				object.animation = 4
+
+				
+				if object.value0 >= 150
+					object.yvel = 0
+					object.value0 = 0
+					object.state++
+				end if	
+				
+			break
+			case 4
+				object.value0++
+
+				
+				
+
+				object.animation = 3
+
+				if object.value0 >= 100
+					object.yvel = 0
+					object.value0 = 0
+					object.state++
+				end if	
+			break
+			case 5
+				object.xpos -= object.xvel
+
+				object.xvel -= 0x2000
+
+				Object.AccessoryAnimation = 2
+				object.animation = 8
+
+			break
+		end switch
+
+
+
+
+	if object.state >= 3
+
+		ProcessAnimation()	
+
+	end if
+
+end function
+
+
+event ObjectMain
+
+	CallFunction(MetalIntro)
+
+
+
+
+end event
+
+event ObjectDraw
+	switch object.animation
+		case 2	//block
+			temp0 = object.animationTimer
+			temp0 /= 3	//speed
+			object.animationTimer++
+			object.animationTimer %= 4	//how many frames
+			DrawSpriteFX(temp0, FX_SCALE, object.xpos, object.ypos)
+		break
+		case 20	//block
+			temp0 = object.animationTimer
+			temp0 /= 3	//speed
+			temp0 += 10
+			object.animationTimer++
+			object.animationTimer %= 4	//how many frames
+			DrawSpriteFX(temp0, FX_SCALE, object.xpos, object.ypos)
+		break		
+	end switch
+
+
+
+	switch Object.AccessoryAnimation
+		
+	// ACCESSORY_NONE is an unhandled case since it's supposed to show nothing
+	
+	case 1
+		temp0 = object.AccessoryFrame
+		temp0 /= 3	//speed
+		temp0 += 2	//starting frame
+		object.AccessoryFrame++
+		object.AccessoryFrame %= 12	//how many frames
+		DrawSpriteXY(temp0, object.xpos, object.ypos)
+		break
+	case 2
+		temp0 = Object.AccessoryFrameAlt
+		temp0 /= 3	//speed
+		temp0 += 6	//starting frame
+		object.AccessoryFrameAlt++
+		object.AccessoryFrameAlt %= 12	//how many frames
+		DrawSpriteXY(temp0, object.xpos, object.ypos)
+		break
+	end switch	
+
+
+	if object.state >=  3
+	DrawObjectAnimation()
+
+	end if
+
+
+
+
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("IIZ/Objects1.gif")
+
+	//Metal Flying Towards Us
+
+	SpriteFrame(-40, -50, 79, 104, 1, 407)	//0
+	SpriteFrame(-40, -50, 79, 104, 81, 407)
+
+	//His flames
+
+	SpriteFrame(0, 0, 0, 0, 0, 0)	//2
+	SpriteFrame(-8, -5, 16, 16, 253, 437)	
+	SpriteFrame(0, 0, 0, 0, 0, 0)
+	SpriteFrame(-12, -7, 24, 24, 236, 454)	
+
+
+
+	//flames but more to the side
+
+	SpriteFrame(0, 0, 0, 0, 0, 0)	//6
+	SpriteFrame(-16, -5, 16, 16, 253, 437)	
+	SpriteFrame(0, 0, 0, 0, 0, 0)
+	SpriteFrame(-20, -7, 24, 24, 236, 454)	
+
+	SpriteFrame(-20, -25, 40, 48, 161, 388)	//10
+	SpriteFrame(-20, -25, 40, 48, 202, 388)	//10	
+
+
+
+	foreach (TypeName[Metal Sonic], arrayPos0, ALL_ENTITIES)
+
+		LoadAnimation("MetalSonic.ani")
+	//	object[arrayPos0].priority = PRIORITY_ACTIVE
+
+	next
+
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 143)
+end event

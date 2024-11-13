@@ -1,0 +1,110 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Motobug Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 58 : TYPE_MOTOBUG
+
+// Function declarations
+
+
+// Static Values
+
+// Tables
+
+
+
+
+event ObjectMain
+	currentPlayer = 0	
+	BoxCollisionTest(C_TOUCH, object.entityPos, -40, -70, 40, 0, currentPlayer, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO)
+	if checkResult == 1
+
+		if stage.playerlistpos == object.partner
+				object.partner += 1
+				if object.partner > 10	
+					object.partner = 6
+				end if
+			
+		end if
+
+
+
+
+			if inputPress.up == 1
+				stage.playerlistpos += 1
+				current.player1 = stage.playerlistpos
+				if stage.playerlistpos > 10
+					stage.playerlistpos = 6
+				end if
+
+				object[0].state = PlayerList_Switching
+
+			end if
+			if inputpress.down == 1
+				object.partner += 1
+
+				if object.partner > 10
+					object.partner = 6
+				end if
+
+			end if
+	end if
+end event
+
+
+event ObjectDraw
+	DrawSpriteXY(0, object.xpos, object.ypos)
+	DrawSpriteXY(1, object.xpos, object.ypos)
+
+	switch object.partner
+		case 6
+			DrawSpriteXY(2, object.xpos, object.ypos)
+		break
+		case 7
+			DrawSpriteXY(3, object.xpos, object.ypos)
+		break
+		case 8
+			DrawSpriteXY(4, object.xpos, object.ypos)
+		break
+		case 9
+			DrawSpriteXY(5, object.xpos, object.ypos)
+		break
+		case 10
+			DrawSpriteXY(6, object.xpos, object.ypos)
+		break			
+		case 11
+			DrawSpriteXY(7, object.xpos, object.ypos)
+		break						
+	end switch	
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("IIZ/Objects1.gif")
+	SpriteFrame(-30, -68, 58, 82, 243, 354)	//the thing
+	SpriteFrame(30, -68, 22, 22, 305, 354)	//box
+
+	SpriteFrame(33, -65, 16, 16, 329, 357)	//espio 2
+	SpriteFrame(33, -65, 16, 16, 346, 357)	//vector 3
+	SpriteFrame(33, -65, 16, 16, 363, 357)	//charm 4
+	SpriteFrame(33, -65, 16, 16, 380, 357)	//h 5
+	SpriteFrame(33, -65, 16, 16, 397, 357)	//bom 6
+	SpriteFrame(33, -65, 16, 16, 414, 357)	//who? 7
+	foreach (TypeName[Combi Catcher], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].priority = PRIORITY_ACTIVE
+	next
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("IIZ/Objects1.gif")
+	SpriteFrame(0, 0, 58, 82, 243, 354)	//chunk
+end event

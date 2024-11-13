@@ -1,0 +1,729 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Ending Pose Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 48 : TYPE_ENDINGPOSE
+
+// Function declarations
+reserve function EndingPose_Function107
+
+// Static Values
+
+// Tables
+
+function EndingPose_Function107
+	if object.value1 > 0
+		object.value1 -= 16
+	end if
+end function
+
+
+event ObjectMain
+	switch object.state
+	case 0
+		object.state++
+		if stage.playerListPos == 1
+			object.value2 = 36
+		end if
+	case 1
+		object.value0++
+		if stage.playerListPos == 1
+			object.value2 = object.value0
+			object.value2 >>= 3
+			object.value2 %= 5
+			object.value2 += 36
+		end if
+		if object.value0 == 240
+			currentPlayer = 1
+			while currentPlayer < playerCount
+				ResetObjectEntity(currentPlayer, TypeName[Ending Pose], 0, object[currentPlayer].xpos, object[currentPlayer].ypos)
+				object[currentPlayer].drawOrder = 6
+				object[currentPlayer].state = 14
+				object[currentPlayer].frame = 43
+				object[currentPlayer].direction = FLIP_X
+				currentPlayer++
+			loop
+			object.value0 = 0
+			switch stage.playerListPos
+			case 0
+			case 3
+				object.frame = 1
+				break
+			case 1
+				object.frame = 14
+				break
+			case 2
+				object.frame = 25
+				break
+			case 5
+				object.frame = 46
+				break
+			case 6	
+				object.frame = 62
+				break
+			case 7
+				object.frame = 63
+				break				
+			case 8
+				object.frame = 72
+				break	
+			case 9
+				object.frame = 90
+				break
+			case 10
+				object.frame = 100
+				break
+			end switch
+			object.state++
+			object.value2 = 0
+		else
+			currentPlayer = 1
+			while currentPlayer < playerCount
+				if object[currentPlayer].speed == 0
+					object[currentPlayer].direction = FLIP_X
+				end if
+				currentPlayer++
+			loop
+		end if
+		break
+	case 2
+		CallFunction(EndingPose_Function107)
+		object.value0++
+		if object.value0 == 12
+			object.value0 = 0
+			switch stage.playerListPos	//pre final
+			case 0
+			case 3
+				object.frame = 2
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break
+			case 1
+			case 2
+				break
+			case 5
+				object.frame = 52
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break
+			case 6
+				object.frame = 60
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break				
+			case 7
+				object.frame = 70
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break			
+			case 8
+				object.frame = 79
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break			
+			case 9
+				object.frame = 88
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break		
+			case 10
+				object.frame = 98
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break					
+			end switch
+			object.state++
+		end if
+		break
+	case 3
+		CallFunction(EndingPose_Function107)
+		object.value0++
+		if object.value0 == 4
+			object.value0 = -0x618
+			switch stage.playerListPos	//final pose
+			case 0
+			case 3
+				object.frame = 3
+				break
+			case 1
+				object.frame = 15
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break
+			case 2
+				object.frame = 26
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break
+			case 5
+				object.frame = 45
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break
+			case 6
+				object.frame = 61
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break			
+			case 7
+				object.frame = 71
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break		
+			case 8
+				object.frame = 80
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break	
+			case 9
+				object.frame = 89
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break	
+			case 10
+				object.frame = 99
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break																
+			end switch
+			object.state++
+		end if
+		break
+	case 4
+		if object.value0 < 320
+			object.value0 += 12
+		else
+			stage.activeList = PRESENTATION_STAGE
+			stage.listPos = 2
+			lampPostID = 0
+			recMilliSeconds = 0
+			recSeconds = 0
+			recMinutes = 0
+			LoadStage()
+		end if
+		if object.value0 > 0
+			temp0 = object.value0
+		else
+			temp0 = 0
+		end if
+		SetClassicFade(0, 0, 0, temp0)
+		break
+	case 5
+		object.value0++
+		if object.value0 == 80
+			object.value0 = 0
+			object.state++
+		else
+			switch stage.playerListPos	//emerald shine one
+			case 0
+			case 3
+				object.frame = 4
+				break
+			case 1
+				object.frame = 16
+				break
+			case 2
+				object.frame = 27
+				break
+			case 5
+				object.frame = 47
+				break
+			case 6
+				object.frame = 54
+				break		
+			case 7
+				object.frame = 64
+				break	
+			case 8
+				object.frame = 73
+				break			
+			case 9
+				object.frame = 82
+				break			
+			case 10
+				object.frame = 92
+				break				
+			end switch
+			currentPlayer = 1
+			while currentPlayer < playerCount
+				if object[currentPlayer].speed == 0
+					object[currentPlayer].direction = FLIP_X
+				end if
+				currentPlayer++
+			loop
+		end if
+		break
+	case 6
+		object.frame = object.value0
+		object.frame >>= 2
+		object.frame &= 1
+		switch stage.playerListPos	//shine 2
+		case 0
+		case 3
+			object.frame += 5
+			break
+		case 1
+			object.frame += 17
+			break
+		case 2
+			object.frame += 27
+			break
+		case 5
+			object.frame += 47
+			break
+		case 6
+			object.frame += 54
+			break		
+		case 7
+			object.frame += 64
+		break			
+		case 8
+			object.frame += 73
+		break		
+		case 9
+			object.frame += 82
+		break			
+		case 10
+			object.frame += 92
+		break					
+		end switch
+		object.value0++
+		if object.value0 == 80
+			object.value0 = 0
+			switch stage.playerListPos	//guh??
+			case 0
+			case 3
+				object.frame = 7
+				break
+			case 1
+				object.frame = 19
+				break
+			case 2
+				object.frame = 29
+				break
+			case 5
+				object.frame = 49
+				break
+			case 6
+				object.frame = 56
+				break				
+			case 7
+				object.frame = 66
+				break	
+			case 8
+				object.frame = 75
+				break	
+			case 9
+				object.frame = 84
+				break	
+			case 10
+				object.frame = 94
+				break				
+			end switch
+			currentPlayer = 1
+			while currentPlayer < playerCount
+				object[currentPlayer].up = 1
+				object[currentPlayer].controlMode = -1
+				currentPlayer++
+			loop
+			CreateTempObject(TypeName[Emeralds], 0, object.xpos, object.ypos)
+			object[tempObjectPos].drawOrder = 6
+			object.state++
+		else
+			currentPlayer = 1
+			while currentPlayer < playerCount
+				if object[currentPlayer].speed == 0
+					object[currentPlayer].direction = FLIP_X
+				end if
+				currentPlayer++
+			loop
+		end if
+		break
+	case 7
+		break
+	case 8
+		if object.value0 < 384
+			object.value0 += 6
+		else
+			object.value0 = 256
+			SetTileLayerEntry(184, 0, 2, 2)
+			SetTileLayerEntry(185, 0, 3, 2)
+			SetTileLayerEntry(186, 0, 2, 3)
+			SetTileLayerEntry(187, 0, 3, 3)
+			SetTileLayerEntry(188, 0, 4, 2)
+			SetTileLayerEntry(189, 0, 5, 2)
+			SetTileLayerEntry(190, 0, 4, 3)
+			SetTileLayerEntry(191, 0, 5, 3)
+			object.state++
+		end if
+		SetClassicFade(color6, color7, color6, object.value0)
+		break
+	case 9
+		if object.value0 > 0
+			object.value0 -= 16
+			SetClassicFade(color6, color7, color6, object.value0)
+		else
+			switch stage.playerListPos
+			case 0
+			case 3
+				object.frame = 8
+				break
+			case 1
+				object.frame = 20
+				break
+			case 2
+				object.frame = 30
+				break
+			case 5
+				object.frame = 50
+				break
+			case 6
+				object.frame = 57
+				break				
+			case 7
+				object.frame = 67
+				break	
+			case 8
+				object.frame = 76
+				break	
+			case 9
+				object.frame = 85
+				break
+			case 10
+				object.frame = 95
+				break							
+			end switch
+			object.state++
+			currentPlayer = 1
+			while currentPlayer < playerCount
+				ResetObjectEntity(currentPlayer, TypeName[Ending Pose], 0, object[currentPlayer].xpos, object[currentPlayer].ypos)
+				object[currentPlayer].drawOrder = 6
+				object[currentPlayer].state = 12
+				object[currentPlayer].frame = 43
+				object[currentPlayer].direction = FLIP_X
+				currentPlayer++
+			loop
+		end if
+		break
+	case 10
+		switch stage.playerListPos
+		case 0
+		case 3
+			object.frame = object.value0
+			object.frame /= 6
+			object.frame &= 1
+			object.frame += 8
+			break
+		case 1
+			object.frame = object.value0
+			object.frame /= 10
+			object.frame &= 3
+			object.frame += 20
+			if object.value0 >= 40
+				object.frame = 23
+			end if
+			break
+		case 2
+			object.frame = object.value0
+			object.frame /= 10
+			object.frame &= 3
+			object.frame += 30
+			if object.value0 >= 40
+				object.frame = 34
+			end if
+			break
+		case 5
+			object.frame = object.value0
+			object.frame /= 6
+			object.frame &= 1
+			object.frame += 50
+			break
+		case 6
+			object.frame = object.value0
+			object.frame /= 6
+			object.frame &= 1
+			object.frame += 57
+			break		
+		case 7
+			object.frame = object.value0
+			object.frame /= 6
+			object.frame &= 1
+			object.frame += 67
+			break		
+		case 8
+			object.frame = object.value0
+			object.frame /= 6
+			object.frame &= 1
+			object.frame += 76
+			break		
+		case 9
+			object.frame = object.value0
+			object.frame /= 6
+			object.frame &= 1
+			object.frame += 85
+			break
+		case 10
+			object.frame = object.value0
+			object.frame /= 6
+			object.frame &= 1
+			object.frame += 95
+			break												
+		end switch
+		object.value0++
+		if object.value0 == 42
+			object.value0 = 0
+			object.state++
+		end if
+		break
+	case 11
+		object.value0++
+		if object.value0 == 60
+			object.value0 = 0
+			switch stage.playerListPos
+			case 0
+			case 3
+				object.frame = 1
+				break
+			case 1
+				object.frame = 14
+				break
+			case 2
+				object.frame = 25
+				break
+			case 5
+				object.frame = 46
+				break
+			case 6	
+				object.frame = 59
+				break			
+			case 7
+				object.frame = 69
+				break	
+			case 8
+				object.frame = 78
+				break	
+			case 9
+				object.frame = 87
+				break	
+			case 10
+				object.frame = 97
+				break					
+			end switch
+			object.state = 2
+		end if
+		break
+	case 12
+		object.frame = object.value0
+		object.frame /= 10
+		object.frame &= 3
+		object.frame += 20
+		if object.value0 >= 40
+			object.frame = 23
+		end if
+		object.value0++
+		if object.value0 == 42
+			object.value0 = 0
+			object.state++
+		end if
+		break
+	case 13
+		object.value0++
+		if object.value0 == 60
+			object.value0 = 0
+			object.frame = 43
+			object.state++
+		end if
+		break
+	case 14
+		object.value0++
+		if object.value0 == 8
+			object.frame++
+			object.value0 = 0
+			object.state++
+		end if
+		break
+	end switch
+end event
+
+
+event ObjectDraw
+	if object.value2 != 0
+		DrawSprite(object.value2)
+	end if
+	DrawSpriteFX(object.frame, FX_FLIP, object.xpos, object.ypos)
+	if object.entityPos == 0
+		if object.state > 0
+			temp0 = screen.xcenter
+			temp0 -= 96
+			temp0 -= object.value1
+			if stage.player2Enabled == 1
+				if saved.region == 1
+					temp2 = 42
+				else
+					temp2 = 41
+				end if
+			else
+				temp2 = 0
+			end if
+			
+			temp1 = 10
+			if stage.playerListPos < 3
+				temp1 += stage.playerListPos
+			end if
+			DrawSpriteScreenXY(temp1, temp0, 80)
+			if temp2 > 0
+				DrawSpriteScreenXY(temp2, temp0, 80)
+			end if
+		end if
+	end if
+end event
+
+
+event ObjectStartup
+	//recGoggles = 5
+	if recGoggles == 5
+		LoadSpriteSheet("Ending/Objects2.gif")
+	else
+		LoadSpriteSheet("Ending/Objects.gif")
+	end if
+	SpriteFrame(-14, -20, 30, 39, 28, 16)
+	SpriteFrame(-16, -16, 32, 35, 3, 220)
+	SpriteFrame(-18, -27, 44, 71, 36, 184)
+	SpriteFrame(-56, -68, 174, 134, 81, 121) //3
+	SpriteFrame(-11, -21, 25, 40, 2, 16)
+	SpriteFrame(-11, -21, 25, 40, 2, 16)
+	SpriteFrame(-14, -21, 28, 40, 3, 57)
+	SpriteFrame(-16, -20, 29, 39, 3, 98)
+	SpriteFrame(-16, -21, 32, 40, 3, 138)
+	SpriteFrame(-16, -21, 32, 40, 3, 179)
+	SpriteFrame(-48, 0, 96, 40, 256, 141) //Sonic The Hedgehog Forever
+	SpriteFrame(-48, 0, 96, 40, 256, 141) //Tails in Sonic The Hedgehog Forever
+	SpriteFrame(-48, 0, 96, 40, 256, 141) // Knuckles in Sonic The Hedgehog Forever
+	SpriteFrame(-10, -13, 24, 31, 288, 16)
+	SpriteFrame(-19, -12, 33, 31, 254, 16)
+	SpriteFrame(-55, -48, 111, 96, 400, 1)
+	SpriteFrame(-12, -16, 27, 34, 313, 16)
+	SpriteFrame(-12, -16, 27, 34, 59, 16)
+	SpriteFrame(-15, -16, 30, 34, 87, 16)
+	SpriteFrame(-15, -14, 31, 32, 118, 16)
+	SpriteFrame(-12, -16, 25, 34, 150, 16)
+	SpriteFrame(-12, -16, 25, 34, 176, 16)
+	SpriteFrame(-12, -16, 25, 34, 202, 16)
+	SpriteFrame(-12, -16, 25, 34, 228, 16)
+	SpriteFrame(-14, -23, 27, 41, 325, 57)
+	SpriteFrame(-16, -21, 28, 39, 296, 57)
+	SpriteFrame(-32, -52, 64, 104, 448, 98)
+	SpriteFrame(-12, -23, 24, 41, 32, 57)
+	SpriteFrame(-16, -23, 28, 41, 57, 57)
+	SpriteFrame(-18, -22, 45, 40, 86, 57)
+	SpriteFrame(-16, -23, 33, 41, 132, 57)
+	SpriteFrame(-16, -23, 33, 41, 166, 57)
+	SpriteFrame(-16, -23, 33, 41, 200, 57)
+	SpriteFrame(-16, -23, 33, 41, 200, 57)
+	SpriteFrame(-16, -23, 27, 41, 268, 57)
+	SpriteFrame(-16, -23, 33, 41, 234, 57)
+	SpriteFrame(-21, -6, 16, 24, 256, 99)
+	SpriteFrame(-25, -6, 20, 24, 273, 99)
+	SpriteFrame(-25, -6, 20, 24, 294, 99)
+	SpriteFrame(-25, -6, 20, 24, 315, 99)
+	SpriteFrame(-25, -6, 20, 24, 336, 99)
+	SpriteFrame(-48, 0, 96, 40, 256, 141) //Sonic The Hedgehog Forever
+	SpriteFrame(-48, 0, 96, 40, 256, 141) //Sonic The Hedgehog Forever
+	SpriteFrame(-10, -13, 22, 31, 58, 99)
+	SpriteFrame(-20, -17, 36, 35, 44, 131) //44
+	SpriteFrame(-40, -75, 109, 154, 402, 208)
+	//amy
+	SpriteFrame(-10, -15, 23, 33, 432,402) //46
+	SpriteFrame(-11, -17, 23, 35, 488, 365) //47
+	SpriteFrame(-15, -17, 27, 35, 460, 365) //48
+	SpriteFrame(-13, -18, 26, 36, 433, 365) //49
+	SpriteFrame(-13, -16, 26, 34, 456, 403) //50
+	SpriteFrame(-13, -16, 26, 34, 484, 403) //51
+	SpriteFrame(-18, -27, 53, 82, 348, 208) //52
+
+	//espio i think
+
+	SpriteFrame(-11, -21, 24, 42, 147, 229)	//53 nothing??
+
+	SpriteFrame(-11, -22, 24, 42, 98, 256)	//54 emerald in hand 1
+	SpriteFrame(-15, -22, 28, 42, 123, 256)	//55 emerald in hand 2
+	SpriteFrame(-16, -22, 29, 42, 152, 256)	//56 guh??
+	SpriteFrame(-16, -22, 32, 42, 182, 256)	//57 looking around
+	SpriteFrame(-16, -22, 32, 42, 215, 256)	//58 looking around 2
+	SpriteFrame(-16, -22, 32, 42, 248, 256)	//59 prep jump
+	SpriteFrame(-16, -21, 48, 71, 98, 299)	//60 pre big
+	SpriteFrame(-36, -64, 108, 155, 293, 291) //61	biggest one
+
+	SpriteFrame(-11, -22, 24, 42, 256, 213)	//62 BRO YOU SUCK HOW DID YOU NOT GET ALL EMERALDS 
+
+	//vector i think
+
+	SpriteFrame(-25, -40, 36, 58, 358, 138)	//63 you LOSE
+
+	SpriteFrame(-25, -40, 34, 58, 313, 191)	//64 emerald in hand 1
+	SpriteFrame(-25, -40, 41, 58, 251, 299)	//65 emerald in hand 2
+	SpriteFrame(-25, -41, 38, 59, 212, 298)	//66 guh??
+	SpriteFrame(-25, -40, 40, 58, 211, 358)	//67 looking around
+	SpriteFrame(-25, -40, 40, 58, 252, 358)	//68 looking around 2
+	SpriteFrame(-30, -36, 44, 54, 166, 342)	//69 prep jump
+	SpriteFrame(-30, -21, 68, 85, 165, 417)	//70 pre big
+	SpriteFrame(-40, -74, 163, 170, 1, 396) //71 biggest one
+
+	//charmy i think
+
+	SpriteFrame(-9, -6, 16, 24, 234, 417)	//72 you LOSE
+
+	SpriteFrame(-9, -6, 16, 24, 251, 417)	//73 emerald in hand 1
+	SpriteFrame(-9, -6, 16, 24, 268, 417)	//74 emerald in hand 2
+	SpriteFrame(-9, -6, 16, 24, 234, 442)	//75 guh??
+	SpriteFrame(-9, -6, 16, 24, 251, 442)	//76 looking around
+	SpriteFrame(-9, -6, 16, 24, 268, 442)	//77 looking around 2
+	SpriteFrame(-11, -4, 18, 22, 234, 467)	//78 prep jump
+	SpriteFrame(-11, 6, 25, 41, 242, 490)	//79 pre big
+	SpriteFrame(-37, -44, 73, 100, 165, 503) //80 biggest one
+
+	//tf2
+
+	SpriteFrame(-11, -21, 24, 42, 147, 229)	//81 nothing??
+
+	SpriteFrame(-22, -16, 38, 32, 246, 533)	//82 emerald in hand 1
+	SpriteFrame(-22, -16, 38, 32, 246, 566)	//83 emerald in hand 2
+	SpriteFrame(-24, -18, 41, 34, 282, 598)	//84 guh??
+	SpriteFrame(-24, -16, 42, 32, 324, 600)	//85 looking around
+	SpriteFrame(-24, -16, 42, 32, 367, 600)	//86 looking around 2
+	SpriteFrame(-24, -17, 42, 33, 410, 599)	//87 prep jump
+	SpriteFrame(-56, -21, 88, 75, 462, 438)	//88 pre big
+	SpriteFrame(-76, -64, 176, 150, 285, 447) //89	biggest one
+
+	SpriteFrame(-22, -16, 39, 33, 242, 599)	//90 BRO YOU SUCK HOW DID YOU NOT GET ALL EMERALDS 
+
+	//kaboom
+
+	SpriteFrame(-11, -21, 24, 42, 147, 229)	//91 nothing??
+
+	SpriteFrame(-13, -10, 23, 26, 462, 514)	//92 emerald in hand 1
+	SpriteFrame(-13, -10, 23, 26, 486, 514)	//93 emerald in hand 2
+	SpriteFrame(-16, -7, 32, 23, 510, 517)	//94 guh??
+	SpriteFrame(-17, -10, 37, 26, 462, 541)	//95 looking around
+	SpriteFrame(-22, -10, 37, 26, 500, 541)	//96 looking around 2
+	SpriteFrame(-22, -8, 44, 24, 462, 568)	//97 prep jump
+	SpriteFrame(-30, -25, 71, 85, 694, 438)	//98 pre big
+	SpriteFrame(-76, -74, 142, 169, 551, 438) //99	biggest one
+
+	SpriteFrame(-13, -10, 28, 26, 507, 568)	//100 BRO YOU SUCK HOW DID YOU NOT GET ALL EMERALDS 
+
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 143)
+end event

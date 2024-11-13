@@ -1,0 +1,162 @@
+//------------Sonic CD Ring Script-------------//
+//--------Scripted by Christian Whitehead 'The Taxman'--------//
+//-------Unpacked By Rubberduckycooly's Script Unpacker-------//
+
+//-------Aliases-------//
+
+private alias Object.YPos : Object.ZPos
+
+private alias Object.Value4 : Object.ScreenXPos // Difference from the center of the camera (which is where Sonic is always located)
+private alias Object.Value5 : Object.ScreenDepth
+
+private alias object.value8 : HUD.SphereCount
+private alias Object.Value9 : HUD.Spheres
+
+
+event ObjectMain
+
+	//thank god for this code from the ufo else i would have no clue what im doing lole
+	temp0 = Object.XPos
+	temp0 -= TileLayer[0].XPos
+	temp0 >>= 8
+	
+	// Z mutliplier
+	temp1 = Object.ZPos
+	temp1 -= TileLayer[0].ZPos
+	temp1 >>= 8
+	
+	// Calculating the X difference
+	Sin(temp2, TileLayer[0].Angle)
+	temp2 *= temp1
+	Cos(temp3, TileLayer[0].Angle)
+	temp3 *= temp0
+	Object.ScreenXPos = temp2
+	Object.ScreenXPos -= temp3
+	Object.ScreenXPos >>= 9
+	
+	// Calculating the Z difference
+	Cos(temp2, TileLayer[0].Angle)
+	temp2 *= temp1
+	Sin(temp3, TileLayer[0].Angle)
+	temp3 *= temp0
+	Object.ScreenDepth = temp2
+	Object.ScreenDepth += temp3
+	Object.ScreenDepth >>= 9
+
+	
+	// The Player has to be more than 54 pixels off the ground, but lower than 122 pixels towards the sky
+	foreach (TypeName[Sonic], arrayPos2, ALL_ENTITIES)	
+
+			
+			// The UFO has to be within the 2100 range from the player, who's at a depth of 0x5800 normally
+			if Object.ScreenDepth < 0x58C8
+				if Object.ScreenDepth > 0x5094
+					
+					// The UFO has to be between -0.125 and +0.125 pixels away from the screen centre
+					if Object.ScreenXPos > -0x2000
+						if Object.ScreenXPos < 0x2000
+							
+							// All those checks passed, let's destroy this UFO!
+							
+							temp0 = Object.ScreenXPos
+							temp0 *= 192
+							temp0 /= Object.ScreenDepth
+							temp0 += Screen.xcenter
+							temp0 <<= 16
+							
+							temp1 = TileLayer[0].YPos
+							temp1 >>= 8
+							temp1 -= 0x6000
+							temp1 *= 96
+							temp1 /= Object.ScreenDepth
+							temp1 += 128
+							temp1 <<= 16
+							
+							// Play the ring SFX
+							PlaySfx(SfxName[BlueSphere], 0)
+							
+							HUD[4].Spheres += 1
+							HUD[4].SphereCount--
+				
+							
+							// Blank this UFO object since it's been
+							ResetObjectEntity(Object.entityPos, TypeName[Blank Object], 0, 0, 0)
+							
+							// And now, close a whole lotta end if's...
+							
+						end if
+					end if
+				end if
+			end if
+
+	next
+	
+end event
+
+event ObjectDraw
+	if Object.ScreenDepth>256
+
+		Object.Scale = 0xC00000
+		Object.Scale /= Object.ScreenDepth
+
+		temp0 = 768
+		temp0 -= Object.Scale
+		temp0 /= 6
+		
+		temp1 = Object.ScreenDepth
+		temp1 >>= 12
+		
+		if temp0 > 0
+			Object.Scale += temp0
+			Object.Scale -= temp1
+		end if
+
+		temp0 = Object.ScreenXPos
+		temp0 *= 192
+		temp0 /= Object.ScreenDepth
+		temp0 += Screen.xcenter
+		
+		temp1=TileLayer[0].YPos
+		temp1>>=8
+		temp1-=4576
+		temp1*=96
+		temp1/=Object.ScreenDepth
+		temp1+=128
+		temp2=Object.Value7
+		temp2&=31
+		temp2>>=2
+		DrawSpriteScreenFX(temp2,FX_SCALE,temp0,temp1)
+
+			// Find the position of the ground where the ring is
+		temp1 = TileLayer[0].YPos
+		temp1 >>= 8
+		temp1 *= 96
+		temp1 /= Object.ScreenDepth
+		temp1 += 128	
+		DrawSpriteScreenFX(1, FX_SCALE, temp0, temp1)	
+	endif
+end event
+
+
+event ObjectStartup
+     temp6=0
+	LoadSpriteSheet("3D_Test/Objects.gif")
+	SpriteFrame(-10,-20,24,24,83,180) //Ring 1
+
+SpriteFrame(-9, -4, 18, 8, 83, 117)	
+
+	ArrayPos0 = 32
+	while ArrayPos0 < 1056
+		if Object[ArrayPos0].Type==TypeName[BlueSphere]
+			Object[ArrayPos0].Priority= PRIORITY_ACTIVE
+			HUD[4].SphereCount += 1
+		endif
+		
+		ArrayPos0++
+	loop
+end event
+
+event RSDK
+	LoadSpriteSheet("Global/Display.gif")
+	SetEditorIcon(Icon0,SingleIcon,-16,-16,32,32,1,143)
+end event

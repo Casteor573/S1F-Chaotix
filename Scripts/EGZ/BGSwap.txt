@@ -1,0 +1,57 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Motobug Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 58 : TYPE_MOTOBUG
+
+// Function declarations
+
+
+// Static Values
+
+// Tables
+
+
+
+
+event ObjectMain
+
+
+	switch object.propertyValue
+	case 0 
+		if object[0].xpos >= object.xpos
+			Stage.ActiveLayer[1] = 2
+		else
+			Stage.ActiveLayer[1] = 1
+		end if
+		break
+	end switch	
+
+end event
+
+
+event ObjectDraw
+end event
+
+
+event ObjectStartup
+
+	foreach (TypeName[BG Swap], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].priority = PRIORITY_ACTIVE
+	next
+
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("IIZ/Objects1.gif")
+	SpriteFrame(0, 0, 128, 128, 383, 1)
+end event

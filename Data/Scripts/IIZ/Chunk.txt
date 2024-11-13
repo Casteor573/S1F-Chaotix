@@ -1,0 +1,76 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Motobug Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 58 : TYPE_MOTOBUG
+
+// Function declarations
+
+
+// Static Values
+
+// Tables
+
+
+
+
+event ObjectMain
+	switch stage.playerlistpos
+	case 6
+	case 8
+		object.type = TypeName[Blank Object]
+	break
+	default
+
+	break
+	end switch
+
+
+	switch object.propertyValue
+	case 0
+		BoxCollisionTest(C_BOX, object.entityPos, -0, -0, 128, 128, currentPlayer, object[currentPlayer].value40, object[currentPlayer].value38, object[currentPlayer].value41, object[currentPlayer].value39)
+	break
+	case 1
+		BoxCollisionTest(C_BOX, object.entityPos, -0, -0, 64, 128, currentPlayer, object[currentPlayer].value40, object[currentPlayer].value38, object[currentPlayer].value41, object[currentPlayer].value39)	
+	break
+	end switch
+
+end event
+
+
+event ObjectDraw
+	switch object.propertyValue
+	case 0
+		DrawSpriteXY(0, object.xpos, object.ypos)
+	break
+	case 1
+		DrawSpriteXY(2, object.xpos, object.ypos)
+	break
+	case 2
+		DrawSpriteXY(0, object.xpos, object.ypos)
+	break	
+	end switch	
+end event
+
+
+event ObjectStartup
+
+	LoadSpriteSheet("IIZ/Objects1.gif")
+	SpriteFrame(0, 0, 128, 128, 383, 1)	//chunk
+	SpriteFrame(0, 0, 32, 128, 344, 1)	//chunk 1
+	SpriteFrame(0, 0, 64, 128, 278, 1)	//chunk 2	
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("IIZ/Objects1.gif")
+	SpriteFrame(0, 0, 128, 128, 383, 1)
+end event

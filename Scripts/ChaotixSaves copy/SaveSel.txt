@@ -1,0 +1,363 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Menu Control Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 2 : TYPE_MENUCONTROL
+//NEW SYNTAX KEY
+	private alias object.value0 : fade.alpha
+	private alias object.value1 : nosave.arrowflash
+	private alias object.value3 : swoopin
+	private alias object.value4 : nosave.offset
+	private alias object.value5 : bg.scroll
+	private alias 20 : ST.xspeed
+	public alias 3 : slot.total	
+
+	public alias saveRAM[257] : saved.spindash
+	public alias saveRAM[258] : saved.speedCap
+	public alias saveRAM[259] : saved.airSpeedCap
+	public alias saveRAM[260] : saved.spikeBehavior
+	public alias saveRAM[261] : saved.shieldType
+	public alias saveRAM[262] : saved.superStates
+	public alias saveRAM[263] : saved.Jumplock
+	public alias saveRAM[264] : saved.Supermusic
+	public alias saveRAM[265] : saved.Dropdash
+	public alias saveRAM[266] : saved.Instashield
+	public alias saveRAM[267] : saved.Peelout
+	public alias saveRAM[268] : saved.FlightCancel
+	public alias saveRAM[269] : saved.SonicMaxDash
+	public alias saveRAM[270] : saved.Speen
+	public alias saveRAM[271] : saved.Supercancel
+	public alias saveRAM[272] : saved.Drowning
+	public alias saveRAM[273] : saved.Timer
+	public alias saveRAM[274] : saved.region
+	public alias saveRAM[275] : saved.UFO
+	public alias saveRAM[276] : saved.rotate
+	public alias saveRAM[277] : saved.invincibilityType
+	public alias saveRAM[280] : saved.gogoplus
+	public alias saveRAM[281] : saved.lives
+	public alias saveRAM[282] : saved.bubble
+	public alias saveRAM[285] : saved.GHZwater
+	public alias saveRAM[286] : saved.language
+	public alias saveRAM[295] : saved.mobile
+	public alias saveRAM[296] : saved.transmobile
+
+	//Saveslot 0	0-7
+	//Saveslot 1	8-15
+	//Saveslot 2	16-23
+	//Saveslot 3	24-31
+	//Saveslot 4	32 - 39
+	//Saveslot 5	40 - 47
+
+	// Function declarations
+	reserve function save_fadein
+	reserve function save_slotselect
+	reserve function save_stageselect
+	reserve function save_charaselect
+	reserve function save_loadsave
+	reserve function save_loadspecial
+	reserve function save_loadcomplete
+	reserve function save_loadnew
+	reserve function save_exit
+	reserve function nosave_highlight
+	reserve function nosave_charaselect
+	reserve function nosave_load
+	reserve function delete_highlight
+	reserve function delete_slotselect
+	reserve function delete_confirm
+	reserve function delete_execute
+	reserve function PlayRingSound
+	reserve function SlotTouch
+
+	// Static Values
+	public value save.highlight = 0;
+	public value complete.stage = 0;
+	public value new.character = 0;
+	public value DeleteYesNo = 0;
+	public value pop.frame = 0;
+	public value pop.timer = 0;
+	public value partnerpop.frame = 0;
+	public value partnerpop.timer = 0;
+	public value touch.delay = 0;
+
+function save_fadein
+	if fade.alpha == 0
+		fade.alpha = 384
+	end if
+	SetClassicFade(0, 0, 0, fade.alpha)
+	fade.alpha -= 16
+	if fade.alpha <= 0
+		PlayMusic(1)
+		fade.alpha = 0
+		object.state = save_slotselect
+	end if
+end function
+
+
+function save_slotselect
+	if inputPress.left == 1
+		save.highlight--
+		PlaySfx(SfxName[Score Add], 0)
+		while save.highlight < 0
+			save.highlight += slot.total
+		loop
+	else
+		if inputPress.right == 1
+			save.highlight++
+			PlaySfx(SfxName[Score Add], 0)
+			save.highlight %= slot.total
+		end if
+	end if
+
+	if inputPress.buttonB == 1
+		object.state = save_exit
+	else
+
+	end if	
+
+	if inputPress.down == 1
+		PlaySfx(SfxName[Score Add], 0)
+		object.state = nosave_highlight
+	end if
+
+
+end function
+
+function nosave_highlight
+	if inputPress.buttonB == 1
+		object.state = save_exit
+	else
+		if inputPress.up == 1
+			PlaySfx(SfxName[Score Add], 0)
+			object.state = save_slotselect
+		else
+			temp0 = inputPress.buttonA
+			temp0 |= inputPress.start
+			if temp0 == 1
+				CallFunction(PlayRingSound)
+				object.state = nosave_charaselect
+			end if
+		end if
+	end if
+end function
+
+
+function save_exit
+	fade.alpha += 16
+	music.volume -= 2
+	SetClassicFade(0, 0, 0, fade.alpha)
+	if fade.alpha >= 384
+		StopMusic()
+		stage.activeList = PRESENTATION_STAGE
+		stage.listPos = 12
+		LoadStage()
+	end if
+end function
+
+
+function nosave_charaselect
+	//CallFunction(SlotTouch)
+	temp3 = 4
+	temp3 += saveRAM[412]
+	
+	if inputPress.buttonB == 1
+		object.state = nosave_highlight
+	else
+		if inputPress.left == 1
+			new.character--
+			PlaySfx(SfxName[Score Add], 0)
+			while new.character < 0
+				new.character += temp3
+			loop
+		else
+			if inputPress.right == 1
+				new.character++
+				PlaySfx(SfxName[Score Add], 0)
+				new.character %= temp3
+			else
+				temp0 = inputPress.buttonA
+				temp0 |= inputPress.start
+				if temp0 == 1
+					CallFunction(PlayRingSound)
+					object.state = nosave_load
+				end if
+			end if
+		end if
+	end if		
+end function
+
+
+function nosave_load
+	fade.alpha += 16
+	music.volume -= 2
+	SetClassicFade(0, 0, 0, fade.alpha)
+	if fade.alpha >= 384
+		StopMusic()
+		options.gameMode = 0
+		options.attractMode = 0
+		lampPostID = 0
+		
+		switch new.character
+			case 0 //Espio
+				stage.playerListPos = 6
+				break				
+			case 1 //Vector
+				stage.playerListPos = 7
+				break			
+			case 2 //Charmy
+				stage.playerListPos = 8
+				break			
+			case 3 //Heavy
+				stage.playerListPos = 9
+				break			
+			case 4 //Bomb
+				stage.playerListPos = 10
+				break												
+		end switch
+		
+		player.lives = 3
+		player.score = 0
+		player.scoreBonus = 50000
+		stage.listPos = 2
+		stage.activeList = BONUS_STAGE
+		specialStage.emeralds = 0
+		specialStage.listPos = 0
+		player.continues = 0
+		LoadStage()
+	end if
+end function
+
+event ObjectMain
+object.priority = PRIORITY_ACTIVE
+
+CallFunction(object.state)
+
+
+end event
+
+
+event ObjectDraw
+
+
+
+
+	DrawRect(0, 0, screen.xsize, screen.ysize, color3, color2, color2, 255)	//xpos, ypos, xsize , ysize
+
+	temp0 = 0
+	temp1 = 0
+	while temp0 < screen.xsize
+		while temp1 < screen.ysize
+			DrawSpriteScreenXY(1, temp0, temp1)
+			temp1 += 64
+		loop
+		temp1 = 0
+		temp0 += 64
+	loop
+
+
+	DrawRect(0, 220, screen.xsize, 20, color4, color4, color7, 255)	//xpos, ypos, xsize , ysize
+
+	bg.scroll++
+	temp1 = bg.scroll
+	FlipSign(temp1)
+	while temp1 < screen.xsize
+		DrawSpriteScreenXY(11, temp1, 200)
+		temp1 += 25			
+	loop
+
+
+	temp0 = screen.xcenter
+	temp0 -= 175
+	DrawSpriteScreenXY(0, temp0, 0)	//normal sprite
+
+	temp3 = 0
+	temp0 = screen.xsize
+	temp0 -= 135
+	DrawSpriteScreenXY(2, temp0, screen.ysize)
+	if object.state == nosave_highlight
+		DrawSpriteScreenXY(3, temp0, screen.ysize)
+		DrawSpriteScreenXY(4, temp0, screen.ysize)
+	else
+		CheckEqual(object.state, nosave_charaselect)
+		temp2 = checkResult
+		temp3 = checkResult
+		CheckEqual(object.state, nosave_load)
+		temp2 |= checkResult
+		if temp2 == 1	//the drawing slop			
+			temp1 = new.character
+			temp1 += 5
+			
+
+		
+				
+					
+			DrawSpriteScreenXY(temp1, temp0, screen.ysize)
+			DrawSpriteScreenXY(4, temp0, screen.ysize)
+			if temp3 == 1
+				if nosave.arrowflash < 30
+					DrawSpriteScreenXY(10, temp0, screen.ysize)
+				end if
+			end if
+		end if			
+	end if
+
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("SecretMenu/ObjectsStuff.gif")
+	SetMusicTrack("HappyDay.ogg", 1, 1)		
+	SpriteFrame(0, 0, 360, 64, 316, 342)	//DATA LOAD 0
+	SpriteFrame(0, 0, 64, 64, 558, 96)	//DATA LOAD 1
+	SpriteFrame(0, -55, 66, 55, 249, 342) //2 No Save Frame
+	SpriteFrame(13, -44, 38, 26, 277, 398) //3 Red X
+	SpriteFrame(6, -13, 53, 11, 262, 425) //4 No Save Text
+
+	//NO SAVES
+
+	SpriteFrame(13, -44, 38, 26, 316, 523) //5 Espio
+	SpriteFrame(13, -44, 38, 26, 355, 523) //6 Vector		
+	SpriteFrame(13, -44, 38, 26, 394, 523) //7 Charmy	
+	SpriteFrame(13, -44, 38, 26, 433, 523) //8 Heavy	
+	SpriteFrame(13, -44, 38, 26, 472, 523) //9 Bomb
+
+	SpriteFrame(16, -46, 32, 24, 283, 437) //10 Select Arrow 
+
+	SpriteFrame(0, 0, 30, 30, 285, 462)	//11	
+
+
+	foreach (TypeName[Save Select Menu], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].type = TypeName[Blank Object]
+		
+		object[9].type = TypeName[Save Select Menu]
+		object[9].priority = PRIORITY_ACTIVE
+		object[9].drawOrder = 1
+		object[9].state = save_fadein
+		screen.xoffset = -1500
+	next	
+
+end event
+
+function PlayRingSound
+	if ringPan == 0
+		PlaySfx(SfxName[Ring L], 0)
+		SetSfxAttributes(SfxName[Ring L], -1, -100)
+		ringPan = 1
+	else
+		PlaySfx(SfxName[Ring R], 0)
+		SetSfxAttributes(SfxName[Ring R], -1, 100)
+		ringPan = 0
+	end if
+end function
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 143)
+end event

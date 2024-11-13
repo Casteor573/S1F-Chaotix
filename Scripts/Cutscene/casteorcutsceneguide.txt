@@ -1,0 +1,9 @@
+what does what i think
+
+SaveRAM[4001]: if we are using cutscene act transition/act fade
+CutsceneActivate: if were doing a cutscene 1, else 0
+
+CutsceneActFinish: controls act transitions and starts up cutscenes
+CutsceneControl:   controls player            during the cutscene      woah
+CutsceneSignPost: uhh idk??     blocks off the signpost area so you cant go back
+NoFadeInTitleCard:    activates with saveram 4001

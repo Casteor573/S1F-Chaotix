@@ -1,0 +1,81 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Motobug Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 58 : TYPE_MOTOBUG
+
+// Function declarations
+
+
+// Static Values
+
+// Tables
+
+
+
+
+event ObjectMain
+	switch object.state
+	case 0
+		DrawTintRect(0,0,320,240,0)
+		object.state++
+		break
+	case 1 //Expanding Colour Circle
+
+		if Object.Scale<1408
+			Object.Scale+=12
+		end if
+
+		temp0=128
+		temp0*=Object.Scale
+		temp0>>=9
+
+		temp5=256
+		temp5*=Object.Scale
+		temp5>>=9
+
+		temp1=160
+		temp1-=temp0
+
+		temp2=temp1
+		temp2+=temp5
+
+		temp3=120
+		temp3-=temp0
+
+		temp4=temp3
+		temp4+=temp5
+
+		DrawTintRect(0,0,temp1,240,0)
+		DrawTintRect(temp2,0,320,240,0)
+		DrawTintRect(temp1,0,temp5,temp3,0)
+		DrawTintRect(temp1,temp4,temp5,240,0)
+		
+		DrawSpriteScreenFX(111,3,160,120)
+		break
+	end switch
+end event
+
+
+event ObjectDraw
+end event
+
+
+event ObjectStartup
+
+	
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("IIZ/Objects1.gif")
+	SpriteFrame(0, 0, 128, 128, 383, 1)
+end event

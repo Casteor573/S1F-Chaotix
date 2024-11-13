@@ -1,0 +1,106 @@
+//----------------Sonic CD WaterSplash Script-----------------//
+//--------Scripted by Christian Whitehead 'The Taxman'--------//
+//-------Unpacked By Rubberduckycooly's Script Unpacker-------//
+
+// Aliases
+
+// HUD Alias
+private alias Object.Value7 : HUD.WaterTimer
+
+// Player Alises
+private alias object.XPos : SSSonic.XPos
+private alias object.ypos : SSSonic.YPos
+private alias Object.Value0 : SSSonic.ZPos
+
+// Stage SFX
+private alias 1 : SFX_S_WATERSPLASH
+
+// Tile Info
+private alias 6 : TILEINFO_ANGLEA
+
+
+event ObjectDraw
+	if SSSonic[2].YPos > 0
+		// If Sonic's in the air, he certainly isn't splashing around anymore so unload
+		ResetObjectEntity(3, TypeName[Blank Object], 0, 0, 0)
+	else
+		
+		// Find the player's truncated X and Z pos
+		
+		temp0 = SSSonic.XPos
+		temp0 >>= 16
+		
+		temp1 = SSSonic[-1].ZPos
+		temp1 >>= 16
+		
+		// Get the tile type Sonic's currently standing on
+		Get16x16TileInfo(CheckResult, temp0, temp1, TILEINFO_ANGLEA)
+		
+		// Is it a water tile?
+		if CheckResult == 2
+			
+			if Object.Frame == 0
+			
+				
+				if Stage.TimeEnabled == true
+					HUD[4].WaterTimer = 40
+				end if
+			end if
+			
+			// Animate the object
+			Object.Frame++
+			if Object.Frame == 40
+				Object.Frame = 28
+			end if
+			
+			// Get the frame it should draw
+			temp0 = Object.Frame
+			temp0 >>= 2
+			
+			// Draw the sprite around the center of the screen
+			DrawSpriteScreenXY(temp0, Screen.xcenter, 224)
+			
+		else
+			// Sonic's not on a water tile, erase the Water Splash object
+			ResetObjectEntity(3, TypeName[Blank Object], 0, 0, 0)
+			HUD[4].WaterTimer = 0
+		end if
+	end if
+	
+end event
+
+
+event ObjectStartup
+	
+	LoadSpriteSheet("3D_Test/Objects.gif")
+	
+	// Water Splash Frames
+	SpriteFrame(-20, -32, 40, 32, 1, 84)
+	SpriteFrame(-20, -32, 40, 32, 42, 84)
+	SpriteFrame(-20, -32, 40, 32, 83, 84)
+	SpriteFrame(-20, -48, 40, 48, 124, 58)
+	SpriteFrame(-20, -64, 40, 64, 165, 58)
+	SpriteFrame(-20, -8, 40, 8, 124, 107)
+	SpriteFrame(-20, -8, 40, 8, 124, 116)
+	SpriteFrame(-20, -32, 40, 32, 42, 84)
+	SpriteFrame(-20, -32, 40, 32, 83, 84)
+	SpriteFrame(-20, -32, 40, 32, 1, 84)
+	
+end event
+
+
+// ========================
+// Editor events
+// ========================
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+
+event RSDKLoad
+	LoadSpriteSheet("3D_Test/Objects.gif")
+	SpriteFrame(-20, -32, 40, 32, 42, 84)
+
+	SetVariableAlias(ALIAS_VAR_PROPVAL, "unused")
+end event

@@ -1,0 +1,124 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Motobug Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 58 : TYPE_MOTOBUG
+
+// Function declarations
+ 
+
+// Static Values
+
+// Tables
+reserve function CustsceneControl
+
+
+
+event ObjectMain
+	if CutsceneActivate == 1
+		//ISOLATED ISLAND CUTSCENE 1
+		screen.cameraStyle = 2
+		switch object.state	
+		case 0
+			currentPlayer = 0
+			while currentPlayer < playerCount
+				object[currentPlayer].interaction = 1
+				object[currentPlayer].controlMode = -1
+				currentPlayer++
+			loop
+			object[0].right = 1
+			object.state++
+			break
+		case 1
+			temp0 = 10381	//sonlvl positions work
+			temp0 <<= 16
+			Abs(temp0)
+			
+			if object[0].xpos >= temp0
+				object[0].right = 0
+				object[0].xpos = temp0
+				object[0].speed = 0
+				object.state++
+			end if
+		break
+		case 2
+			object.value0++
+			
+			if object.value0 >= 75
+				object[0].right = 1
+			end if
+			if object.value0 == 110
+				object[0].jumpPress = 1
+			end if
+			if object.value0 >= 130
+				object.value0 = 0
+				object.state++
+			end if
+		break
+		case 3
+			if object[0].state != PlayerObject_HandleGround
+				object[0].right = 0
+				object[0].jumpPress = 0
+				object[0].left = 1
+			else
+				object[0].direction = 0
+				object[0].left = 0
+				object[0].speed = 0
+				object.state++
+			end if
+		break
+		case 4
+			object.value0++
+			CheckGreater(object.value0, 100)
+			temp1 = checkResult
+			CheckLower(object.value0, 240)
+			temp1 &= checkResult			
+			if temp1 == 1
+
+			object[0].prevAnimation = ANI_LOOKINGUP
+			object[0].animation = ANI_LOOKINGUP
+			object[0].frame = 2
+			object[0].animationTimer = 0
+			object[0].animationSpeed = 0	
+
+			end if
+
+			if object.value0 == 240
+				object.value0 = 0
+				object.state++
+			end if
+		break
+		case 5
+			screen.cameraStyle = 0
+		//	object[0].controlMode = 0
+
+		break
+
+		end switch
+	end if
+end event
+
+
+event ObjectDraw
+
+end event
+
+
+event ObjectStartup
+	foreach (TypeName[Cutscene Control], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].priority = PRIORITY_ACTIVE
+	next	
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("IIZ/Objects.gif")
+	SpriteFrame(0, 0, 128, 128, 383, 1)
+end event

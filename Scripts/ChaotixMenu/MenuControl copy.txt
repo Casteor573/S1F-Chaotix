@@ -1,0 +1,316 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Menu Control Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 2 : TYPE_MENUCONTROL
+//NEW SYNTAX KEY
+	private alias object.value0 : object.timer
+	private alias object.value6 : object.extraoffset
+	private alias object.value7 : object.extratarget
+
+	private alias object.value8 : object.extrachoose	
+
+	public alias saveRAM[295]: saved.mobile
+	private alias 20 : ST.xspeed
+	public alias 3 : slot.total
+
+	reserve function TitleScreen
+
+//STATE LIST
+
+//0: Fade in
+//1: Fade in 2
+//2: the scroll
+//3: logo appears and scales in
+
+
+
+function Titlescreen
+	object.priority = PRIORITY_ACTIVE
+
+	object.ypos += object.yvel
+	object.xpos += object.xvel
+
+	
+	switch object.state
+	case 0
+		object.timer = 320
+		SetClassicFade(0, 0, 0, object.timer)	//fade in
+
+	
+		object.state++
+		break
+	case 1	//more fade in stuff
+		if object.timer > 0
+			object.timer -= 16
+		else
+			object.timer = 0
+			PlayMusic(0)
+			object.state++
+		end if
+		SetClassicFade(0, 0, 0, object.timer)
+		break
+	case 2
+		object.timer++
+		if object.timer == 30
+			
+			object.state++
+			object.timer = 0
+
+		end if
+	break
+	case 3	
+		object.timer++
+		if object.timer == 30
+			object.state++
+			object.timer = 0
+		end if	
+	break
+	case 4
+		CheckTouchRect(0, 0, screen.xsize, screen.ysize)
+		if checkResult > -1
+			object.state = 5
+		end if
+
+		CheckTouchRect(0, 0, 64, 64)
+		if checkResult > -1
+			object.state = 100
+		end if
+
+		
+
+
+		if inputpress.start == 1
+			object.state = 99
+		end if
+
+		if inputPress.buttonB == 1	//leave lol
+			object.state = 100
+		end if	
+	break
+	case 5
+	
+		music.volume -= 2
+		if music.volume == 0
+			PlayMusic(1)
+			object.state++
+		end if
+	break
+	case 6	//data select
+		
+		if inputPress.buttonB == 1	//leave lol
+			PlayMusic(0)
+			object.state = 4
+		end if	
+	break
+	end switch
+end function
+
+
+event ObjectMain
+
+
+CallFunction(TitleScreen)
+end event
+
+
+event ObjectDraw
+	temp0 = object.extraoffset	
+	temp0 -= object.extratarget
+	Abs(temp0)
+	if temp0 < ST.xspeed // if object.extraoffset is less then ST.xspeed/15
+		object.extraoffset = object.extratarget 	// offset = target
+	else	// if its not
+		if object.extraoffset < object.extratarget // if offset is less then target
+			object.extraoffset += ST.xspeed	//go left
+		end if
+		if object.extraoffset > object.extratarget // if offset is greater then target
+			object.extraoffset -= ST.xspeed	//go right
+		end if
+	end if
+	switch object.state
+		case 5
+		case 6
+			object.extratarget = screen.xsize
+			object.extratarget += 300
+			break
+		default
+			object.extratarget = 0
+	end switch
+
+	
+
+
+
+		switch object.state
+		case 0
+		case 1
+		case 2
+		break
+		case 3	//INTRO SCALE SETUP
+		
+		temp3 = screen.xcenter	
+		temp3 -= 10
+
+		temp4 = screen.ycenter	
+		temp4 -= 90
+		object.alpha = 0
+
+		object.scale = 2000	//522 IS MOST NORMAL
+		
+		if object.timer >= 35
+		DrawSpriteScreenFX(3, FX_SCALE, temp3, temp4)		//sign	
+		end if
+		break
+		case 4	//TITLE + SCALE IN
+			temp3 = screen.xcenter	
+			temp3 -= 10
+
+			temp4 = screen.ycenter	
+			temp4 -= 90
+			
+
+			if object.scale >= 522
+			object.scale -= 30
+			end if
+			if object.scale >= 522
+			DrawSpriteScreenFX(3, FX_SCALE, temp3, temp4)		//island	
+			else
+			DrawSpriteScreenXY(3, temp3, temp4)	//normal sprite
+
+				if saved.mobile == 1
+					object.alpha += 8
+					object.inkEffect = INK_ALPHA
+
+					DrawSpriteScreenFX(4, FX_INK, 0, 0)	//back button		
+				end if	
+			end if
+
+
+
+
+			temp0 = screen.xsize
+			temp0 *= 2
+			temp0 -= 140
+			temp0 -= object.extraoffset
+			temp1 = temp0
+			temp1 += 57
+			temp2 = screen.xsize
+			temp2 += 20
+			DrawRect(temp0, 0, temp2, screen.ysize, color3, color2, color2, 255)	//xpos, ypos, xsize , ysize
+
+			temp0 += 48
+			DrawSpriteScreenXY(5, temp0, 0)	//normal sprite
+
+		break
+	
+
+		case 5	//save select
+		case 6
+			temp3 = screen.xcenter	
+			temp3 -= 10
+			temp4 = screen.ycenter	
+			temp4 -= 90		
+			DrawSpriteScreenXY(3, temp3, temp4)	//normal sprite
+				
+
+
+
+			temp0 = screen.xsize
+			temp0 *= 2
+			temp0 -= 140
+			temp0 -= object.extraoffset
+			temp1 = temp0
+			temp1 += 57
+			temp2 = screen.xsize
+			temp2 += 20
+			DrawRect(temp0, 0, temp2, screen.ysize, color3, color2, color2, 255)	//xpos, ypos, xsize , ysize
+
+			temp0 += 48
+			DrawSpriteScreenXY(5, temp0, 0)	//normal sprite
+			
+
+		
+		
+		
+		
+
+
+
+	break
+		case 99	
+		
+			if object.value0 < 320
+				object.value0 += 16
+				music.volume -= 2
+			else
+				StopMusic()
+				stage.activeList = PRESENTATION_STAGE
+				stage.listPos = 13
+				LoadStage()
+			end if
+			SetClassicFade(0, 0, 0, object.value0)
+			temp3 = screen.xcenter	
+			temp3 -= 10
+			temp4 = screen.ycenter	
+			temp4 -= 90		
+			DrawSpriteScreenXY(3, temp3, temp4)	//normal sprite
+		
+			break	
+		case 100	
+			
+			if object.value0 < 320
+				object.value0 += 16
+				music.volume -= 2
+			else
+				StopMusic()
+				stage.activeList = PRESENTATION_STAGE
+				stage.listPos = 6
+				LoadStage()
+			end if
+			SetClassicFade(0, 0, 0, object.value0)
+			temp3 = screen.xcenter	
+			temp3 -= 10
+			temp4 = screen.ycenter	
+			temp4 -= 90		
+			DrawSpriteScreenXY(3, temp3, temp4)	//normal sprite
+		
+			break
+	end switch	
+		
+	object.drawOrder = 4
+	object.priority = PRIORITY_ACTIVE
+		
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("SecretMenu/ObjectsStuff.gif")
+	
+	SetMusicTrack("ChaotixTitle.ogg", 0, 153396)	//167086
+	SetMusicTrack("HappyDay.ogg", 1, 1)	
+	//old data dont worry about it
+	SpriteFrame(0, 0, 8, 288, 256, 0)	//TRIANGLE 0	
+	SpriteFrame(0, 0, 158, 16, 1, 256)	//SECRETS RUN 1	
+	//new here
+	SpriteFrame(0, 0, 280, 136, 265, 1)	//NEWTROGIC HIGH 2	
+	SpriteFrame(-135, -20, 292, 203, 265, 138)	//CHAOTIX 3
+	SpriteFrame(0, 0, 64, 64, 179, 216)	//MOBILE BACK BUTTON 4
+	SpriteFrame(0, 0, 360, 64, 316, 342)	//DATA LOAD 5
+	SpriteFrame(0, 0, 217, 57, 316, 407)	//SAVE SELECT ON 6
+	SpriteFrame(0, 0, 217, 57, 316, 465)	//SAVE SELECT OFF 7
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 143)
+end event

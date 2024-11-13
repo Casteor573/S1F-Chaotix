@@ -1,0 +1,234 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: GHZ Setup Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 39 : TYPE_GHZSETUP
+
+
+private alias object.value1 : object.index
+
+//if being stupid was a job
+
+event ObjectMain
+object.inkEffect = INK_ALPHA
+
+switch stage.playerListPos
+case 6
+Object.Index = object.propertyValue
+break
+case 7
+Object.Index = object.propertyValue
+		switch object.propertyValue
+		case 1
+		Object.type = TypeName[blank object]
+		break
+		case 2
+		Object.Index = 4
+		break
+		case 3
+		Object.Index = 5
+		break		
+		end switch
+break
+case 9
+Object.Index = object.propertyValue
+		switch object.propertyValue
+		case 1
+		Object.type = TypeName[blank object]
+		break
+		case 2
+		Object.Index = 6
+		break
+		case 3
+		Object.Index = 5
+		break		
+		end switch
+break
+case 10
+Object.Index = object.propertyValue
+		switch object.propertyValue
+		case 1
+		Object.type = TypeName[blank object]
+		break
+		case 2
+		Object.Index = 7
+		break
+		case 3
+		Object.Index = 5
+		break		
+		end switch
+break
+
+default
+Object.Index = object.propertyValue
+end switch
+end event
+
+event ObjectDraw
+object.drawOrder = 5
+
+
+BoxCollisionTest(C_TOUCH, object.entityPos, -96, -256, 96, 256, currentPlayer, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO)
+if checkResult == 1
+
+	object.alpha +=	16
+
+	if object.alpha >= 255
+		object.alpha = 255	
+	end if
+
+
+
+	temp7 = screen.xcenter
+	temp7 -= 0x55
+
+	temp6 = screen.ycenter
+	temp6 -= 0x75
+
+	
+	DrawSpriteScreenFX(31, FX_INK, temp7, temp6)
+
+
+
+	ArrayPos0 = 0	//starting letter
+
+
+
+
+	// Get how long the target text line is
+	//temp1 is how many letters there are
+	//what menu your on, doesnt really matter here
+	//not sure/forgot
+	//what line of text is loaded from the string file
+	//offset idk
+	GetTextInfo(temp1, 1, TEXTINFO_TEXTSIZE, Object.Index, 0)
+	
+	//xpos
+
+		temp2 = 138	//screen xpos		line one
+		temp3 = -102	//line 2
+
+	
+	
+	
+	// Loop through all the characters in the message
+	while temp1 > 0
+	
+	// Get the actual character at the current char pos
+	GetTextInfo(temp0, 1, TEXTINFO_TEXTDATA, Object.Index, ArrayPos0)
+
+
+		Object.Frame = 0
+	
+		
+		// Take uppercase letters and turn them into a matching Sprite Frame
+		if temp0 > 64
+			if temp0 < 91
+				Object.Frame  = temp0
+				Object.Frame -= 64
+			end if
+		end if
+		
+		// Take lowercase letters and turn them into a matching Sprite Frame
+		if temp0 > 96
+			if temp0 < 123
+				Object.Frame  = temp0
+				Object.Frame -= 96
+			end if
+		end if
+		
+		// Notably, the space character (32) is skipped over here, as it shouldn't draw anything
+		
+	
+	
+		
+			temp5 = screen.ycenter
+			if ArrayPos0 < 30
+			temp5 -= 0x58
+			DrawSpriteScreenFX(Object.Frame, FX_INK, temp2, temp5)
+			else
+			temp5 -= 0x49
+			DrawSpriteScreenFX(Object.Frame, FX_INK, temp3, temp5)
+			end if
+			// The the letter, but only if it's a valid one
+			
+	
+
+			
+
+		// Move to the next letter
+		ArrayPos0++
+		
+		
+
+		// And decrease the remaining letter count, as well
+		temp1--
+		
+		// Each letter should be spaced 8 pixels apart
+		temp2 += 0x8
+		temp3 += 0x8
+	
+	loop
+	
+
+
+else
+	object.alpha -=	16
+
+	if object.alpha <= 0
+		object.alpha = 0
+	end if
+
+end if
+
+
+
+end event
+
+event ObjectStartup
+
+	LoadTextFile(1, "Data/Game/Tutorial.txt")
+	LoadSpriteSheet("IIZ/Objects1.gif")
+
+	SpriteFrame(0, 0, 0, 0, 0, 0)	//0 the bar
+
+	// #1 -> #26 - Alphabet
+	// (Using loops to automate Sprite Framing)
+
+	//not related too stuff in objectdraw
+
+	//temp7: starting ypos, progresses by 17 and stops before 100, because theres only 3 rows
+	//temp6: starting xpos, the letter A
+	temp7 = 1	
+	while temp7 < 25
+		temp6 = 1	
+		while temp6 < 81
+			SpriteFrame(-3, -6, 8, 8, temp6, temp7)
+			temp6 += 8
+		loop
+
+		temp7 += 8
+	loop
+	
+	SpriteFrame(0, 0, 272, 69, 1, 79)	//31 the bar
+
+	
+	foreach (TypeName[Tutorial], arrayPos0, ALL_ENTITIES)
+	//object[arrayPos0].value1++
+	next
+
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("IIZ/Objects1.gif")
+	SpriteFrame(0, 0, 64, 64, 153, 154)
+end event

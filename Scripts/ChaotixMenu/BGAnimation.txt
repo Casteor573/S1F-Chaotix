@@ -1,0 +1,80 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: BG Animation Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 1 : TYPE_BGANIMATION
+public alias 256 : GROUP_PLAYERS
+public alias 65536 : HITBOX_AUTO
+public alias arrayPos6 : currentPlayer
+public alias arrayPos7 : playerCount
+
+private alias object.value2 : bg.scroll
+
+// Static Values
+public value BGAnimation_value0 = 0;
+
+
+event ObjectDraw	//draw order is bottom to top
+
+
+	//object.value3++
+	//temp1 = object.value3
+	//FlipSign(temp1)
+//	while temp1 < screen.xsize
+//		DrawSpriteScreenXY(4, temp1, -140)
+//			temp1 += 300
+//	loop
+
+	temp3 = screen.xcenter	
+	temp3 = 52
+	object.scale = 350
+	DrawSpriteScreenFX(3, FX_SCALE, temp3, 20)		//island	
+
+		
+
+	bg.scroll++
+	temp1 = bg.scroll
+	FlipSign(temp1)
+	while temp1 < screen.xsize
+		DrawSpriteScreenXY(0, temp1, -15)
+			temp1 += 20
+		DrawSpriteScreenXY(1, temp1, 225)
+			temp1 += 5			
+	loop
+		
+
+
+
+	
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("SecretMenu/ObjectsStuff.gif")
+	foreach (TypeName[BG Animation], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].priority = PRIORITY_ACTIVE
+		object[arrayPos0].drawOrder = 4
+	next
+	SpriteFrame(0, 0, 30, 30, 1, 21)	//0
+	SpriteFrame(0, 0, 30, 30, 32, 21)	//1
+	SpriteFrame(0, 0, 16, 16, 63, 21)	//2
+	SpriteFrame(98, 80, 280, 136, 265, 1)	//NEWTROGIC HIGH 2		
+	SpriteFrame(98, 80, 314, 225, 1, 342)	//space
+
+
+
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 143)
+end event
