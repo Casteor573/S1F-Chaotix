@@ -170,7 +170,8 @@ function MetalIntro
 				object[0].animation = ANI_LOOKINGUP
 				object[0].xvel = 0
 				object[0].speed = 0	
-
+				object[0].yvel += 100000
+				object[1].yvel += 100000
 				object[1].state = PlayerObject_LookingUp
 				object[1].animation = ANI_LOOKINGUP
 				object[1].xvel = 0
@@ -194,7 +195,8 @@ function MetalIntro
 				object[0].animation = ANI_LOOKINGUP
 				object[0].xvel = 0
 				object[0].speed = 0	
-
+				object[0].yvel += 100000
+				object[1].yvel += 100000
 				object[1].state = PlayerObject_LookingUp
 				object[1].animation = ANI_LOOKINGUP
 				object[1].xvel = 0
@@ -225,7 +227,8 @@ function MetalIntro
 				object[0].animation = ANI_LOOKINGUP
 				object[0].xvel = 0
 				object[0].speed = 0	
-
+				object[0].yvel += 100000
+				object[1].yvel += 100000
 				object[1].state = PlayerObject_LookingUp
 				object[1].animation = ANI_LOOKINGUP
 				object[1].xvel = 0
