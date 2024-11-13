@@ -200,7 +200,7 @@ function MetalIntro
 				object[1].xvel = 0
 				object[1].speed = 0	
 
-
+				object.scale = 512
 
 					
 				Object.AccessoryAnimation = 1
