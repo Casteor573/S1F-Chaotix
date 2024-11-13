@@ -554,7 +554,7 @@ end event
 
 
 event ObjectStartup
-	specialstage.emeralds = 127
+//	specialstage.emeralds = 127
 	SetMusicTrack("Specialstage.ogg", 0, 1)
 	if stage.playerListPos >= 6
 		if saveRAM[1100] == 1
