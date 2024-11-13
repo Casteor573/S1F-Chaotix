@@ -139,8 +139,8 @@ function MetalIntro
 					music.volume -= 1
 					object[0].controlMode = -1
 					object[1].controlMode = -1
-					object[0].yvel += 4800
-					object[1].yvel += 4800
+					object[0].yvel += 100000
+					object[1].yvel += 100000
 					object[0].state = PlayerObject_Blank
 					object[0].animation = ANI_STOPPED
 					object[1].state = PlayerObject_Blank
