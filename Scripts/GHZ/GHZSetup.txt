@@ -281,28 +281,10 @@ event ObjectStartup
 			end switch
 			break
 		case 5 //sonic copy, may need new one?
-			switch credits.screen
-			case 0
-				PlayerObject_ReplayTable = GHZSetup_table0
-				PlayerObject_ReplaySize = 102
-				PlayerObject_ReplayLength = 0x708
-				break
-			case 1
-				PlayerObject_ReplayTable = GHZSetup_table3
-				PlayerObject_ReplaySize = 58
-				PlayerObject_ReplayLength = 540
-				break
-			case 8
-				PlayerObject_ReplayTable = GHZSetup_table4
-				PlayerObject_ReplaySize = 10
-				PlayerObject_ReplayLength = 540
-				break
-			end switch
-			break
-		case 6 //sonic copy, may need new one?
-		case 7 //sonic copy, may need new one?
-		case 8 //sonic copy, may need new one?
-		case 9 
+		case 6
+		case 7
+		case 8
+		case 9
 		case 10
 			switch credits.screen
 			case 0
@@ -321,7 +303,7 @@ event ObjectStartup
 				PlayerObject_ReplayLength = 540
 				break
 			end switch
-			break									
+			break
 		end switch
 		CallFunction(PlayerObject_InitReplay)
 	end if
