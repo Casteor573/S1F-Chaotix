@@ -3956,11 +3956,19 @@ function PlayerObject_Vector_AirDash
 								temp6 &= 3
 								switch temp6	
 									case 1	//hold up
-										object.yvel = -0x75000
+										if player.gravityValue == 0x3800
+											object.yvel = -0x75000
+										else
+											object.yvel = -0x55000
+										end if
 									
 										break
 									case 2	//hold down
-										object.yvel = 0x75000
+										if player.gravityValue == 0x3800
+											object.yvel = 0x75000
+										else
+											object.yvel = 0x55000
+										end if
 									
 										break
 									default	//none
@@ -3972,11 +3980,19 @@ function PlayerObject_Vector_AirDash
 								temp6 &= 12
 								switch temp6
 									case 4	//left
-										object.xvel = -0x75000
+										if player.gravityValue == 0x3800
+											object.xvel = -0x75000
+										else
+											object.xvel = -0x55000
+										end if
 										
 										break
 									case 8	//right
-										object.xvel = 0x75000
+										if player.gravityValue == 0x3800
+											object.xvel = 0x75000
+										else
+											object.xvel = 0x55000
+										end if
 										
 										break
 									default
@@ -3991,9 +4007,17 @@ function PlayerObject_Vector_AirDash
 							else
 								GetBit(temp0, object.direction, 0)
 								if temp0 == 0
-									object.xvel = 0x75000
+										if player.gravityValue == 0x3800
+											object.xvel = 0x75000
+										else
+											object.xvel = 0x55000
+										end if
 								else
-									object.xvel = -0x75000
+										if player.gravityValue == 0x3800
+											object.xvel = -0x75000
+										else
+											object.xvel = -0x55000
+										end if
 								end if
 								object.speed = object.xvel
 								object.yvel = 0
