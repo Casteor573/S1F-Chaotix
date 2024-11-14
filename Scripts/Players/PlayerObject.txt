@@ -1059,6 +1059,37 @@ function PlayerObject_CheckHit
 	temp0 |= checkResult
 	CheckEqual(object[currentPlayer].animation, ANI_GLIDING_STOP)
 	temp0 |= checkResult
+
+
+	if object[0].propertyValue == 6
+		CheckEqual(object[currentPlayer].animation, 56)
+		temp0 |= checkResult	
+		CheckEqual(object[currentPlayer].animation, 57)
+		temp0 |= checkResult	
+	end if		
+	if object[0].propertyValue == 7
+		CheckEqual(object[currentPlayer].animation, 52)
+		temp0 |= checkResult	
+	end if
+	if object[0].propertyValue == 8
+		CheckEqual(object[currentPlayer].animation, ANI_PEELOUT)
+		temp0 |= checkResult
+		CheckEqual(object[currentPlayer].animation, 53)
+		temp0 |= checkResult			
+	end if	
+	if object[0].propertyValue == 9
+		CheckEqual(object[currentPlayer].animation, ANI_RUNNING)
+		temp0 |= checkResult	
+		CheckEqual(object[currentPlayer].animation, 52)
+		temp0 |= checkResult		
+		CheckEqual(object[currentPlayer].animation, 54)
+		temp0 |= checkResult			
+	end if
+	if object[0].propertyValue == 10
+		CheckEqual(object[currentPlayer].animation, 43)
+		temp0 |= checkResult			
+	end if	
+
 	CheckNotEqual(object[currentPlayer].value7, 0)
 	temp0 |= checkResult
 	CheckEqual(object[currentPlayer].animation, ANI_FLYING)
