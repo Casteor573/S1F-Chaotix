@@ -126,9 +126,9 @@ reserve function PlayerObject_Vector_AirDashing
 reserve function PlayerObject_Charmy_Flight
 reserve function PlayerObject_Charmy_FlightEnd
 reserve function PlayerObject_HandleHeavyMoves
-reserve function PlayerObject_HeavyJumpCharge
+
 reserve function PlayerObject_HeavyStompLand
-reserve function PlayerObject_HeavyAirDash
+reserve function PlayerObject_HeavyAirDashStart
 reserve function PlayerObject_Vector_WallClimb
 
 reserve function PlayerObject_HandleSpindash
@@ -190,6 +190,7 @@ reserve function PlayerObject_HandleHammerSwing
 reserve function PlayerObject_StartHammerSpin
 reserve function PlayerObject_HandleHammerSpin
 
+reserve function PlayerObject_HeavyJumpCharge
 reserve function PlayerObject_HeavyAirDashing
 reserve function PlayerObject_HeavyWallStick
 reserve function PlayerObject_HandleBombMoves
@@ -532,7 +533,7 @@ public table PlayerObject_CharmyPhysicsTable
 end table
 
 public table PlayerObject_HeavyPhysicsTable
-	0x62000, 0xA00,  0x1800, 0x600,  0x2500,  0x600, 0x90000, -0x70000	// Normal
+	0x62000, 0xA00,  0x1800, 0x600,  0x2500,  0x600, 0x70000, -0x70000	// Normal
 	0x40000, 0x700,  0xC00,  0x300,  0x4000,  0x300, 0x60000, -0x40000	// Underwater
 	0xA0000, 0x3000, 0x6000, 0x1800, 0x10000, 0x600, 0x60000, -0x40000
 	0x50000, 0x1800, 0x3000, 0xC00,  0x8000,  0x300, 0x30000, -0x20000
@@ -2184,7 +2185,11 @@ function PlayerObject_StartJump
 			else
 				object.state = PlayerObject_HandleAir
 			end if
-			PlaySfx(SfxName[Jump], 0)
+			if object.propertyValue == 9
+				PlaySfx(SfxName[Heavy Jump], 0)
+			else
+				PlaySfx(SfxName[Jump], 0)
+			end if
 			player.doubleJumpState = 1
 		end if
 
@@ -3044,41 +3049,68 @@ function PlayerObject_HandleGround
 						object.down = 0
 					end if
 				else
-					if object.left == 0
-						if object.right == 0
-							CheckEqual(object.propertyValue, 5)
-							temp0 = checkResult
-							CheckEqual(saved.AmyMoveset, 1)
-							temp0 &= checkResult
-							if temp0 == 0
-								if object.speed > 0
-									if object.speed > 0x8800
-										object.state = PlayerObject_HandleRoll
-										object.animation = ANI_JUMPING
-										if object.prevAnimation != ANI_JUMPING
-											object.iypos -= player.jumpOffset
+					switch object.propertyValue
+						case 9
+
+						break
+						default
+							if object.left == 0
+								if object.right == 0
+									CheckEqual(object.propertyValue, 5)
+									temp0 = checkResult
+									CheckEqual(saved.AmyMoveset, 1)
+									temp0 &= checkResult
+									if temp0 == 0
+										if object.speed > 0
+											if object.speed > 0x8800
+												object.state = PlayerObject_HandleRoll
+
+												if stage.playerlistpos == 9
+													object.animation = ANI_JUMPING
+													object.prevAnimation = ANI_JUMPING
+													object.animationTimer = 0
+													object.animationSpeed = 0		
+													object.frame = 6								
+												else
+													object.animation = ANI_JUMPING
+												end if
+
+												if object.prevAnimation != ANI_JUMPING
+													object.iypos -= player.jumpOffset
+												end if
+												object.value2 = 0x400
+												PlaySfx(SfxName[Rolling], 0)
+											end if
+										else
+											if object.speed < -0x8800
+												object.state = PlayerObject_HandleRoll
+
+												if stage.playerlistpos == 9
+													object.animation = ANI_JUMPING
+													object.prevAnimation = ANI_JUMPING
+													object.animationTimer = 0
+													object.animationSpeed = 0		
+													object.frame = 6								
+												else
+													object.animation = ANI_JUMPING
+												end if
+
+												if object.prevAnimation != ANI_JUMPING
+													object.iypos -= player.jumpOffset
+												end if
+												object.value2 = 0x400
+												PlaySfx(SfxName[Rolling], 0)
+											end if
 										end if
-										object.value2 = 0x400
-										PlaySfx(SfxName[Rolling], 0)
-									end if
-								else
-									if object.speed < -0x8800
-										object.state = PlayerObject_HandleRoll
-										object.animation = ANI_JUMPING
-										if object.prevAnimation != ANI_JUMPING
-											object.iypos -= player.jumpOffset
-										end if
-										object.value2 = 0x400
-										PlaySfx(SfxName[Rolling], 0)
 									end if
 								end if
 							end if
-						end if
+						break
+						end switch
 					end if
 				end if
 			end if
 		end if	
-	end if
 end function
 
 
@@ -4343,14 +4375,14 @@ function PlayerObject_HandleHeavyMoves
 
 		if player.doubleJumpState == 1
 			if object.jumpPress == 1	
-				object.state = PlayerObject_HeavyAirDash
+				object.state = PlayerObject_HeavyAirDashStart
 			end if
 		end if
 
 		if object.down == 1
 			object.state = PlayerObject_HeavyStompLand	
 			object.animation = 52
-			object.yvel += 0xA0000
+			object.yvel += 0xF0000
 		end if			
 	end if
 
@@ -4455,7 +4487,7 @@ function PlayerObject_HeavyStompLand
 		end if	
 end function
 
-function PlayerObject_HeavyAirDash
+function PlayerObject_HeavyAirDashStart
 	PlaySfx(SfxName[Drop Dash Release],0)
 	object.animation = 54
 	GetBit(temp0, object.direction, 0)
@@ -4469,7 +4501,6 @@ function PlayerObject_HeavyAirDash
 	player.doubleJumpState = 2
 	object.state = PlayerObject_HeavyAirDashing
 	object.value2 = 20
-
 end function
 
 
