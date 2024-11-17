@@ -141,9 +141,11 @@ function MetalIntro
 					object[1].controlMode = -1
 					object[0].yvel += 100000
 					object[1].yvel += 100000
-					object[0].state = PlayerObject_Blank
+					object[0].value34 = 1
+					object[1].value34 = 1
+					object[0].state = PlayerObject_HandleAir
 					object[0].animation = ANI_STOPPED
-					object[1].state = PlayerObject_Blank
+					object[1].state = PlayerObject_HandleAir
 					object[1].animation = ANI_STOPPED	
 					object[1].xvel = 0
 					object[1].speed = 0					
@@ -166,13 +168,15 @@ function MetalIntro
 					PlayMusic(0)
 				end if
 
-				object[0].state = PlayerObject_LookingUp
+				object[0].state = PlayerObject_HandleAir
 				object[0].animation = ANI_LOOKINGUP
 				object[0].xvel = 0
-				object[0].speed = 0	
+				object[0].speed = 0
+				object[0].value34 = 1
+				object[1].value34 = 1					
 				object[0].yvel += 100000
 				object[1].yvel += 100000
-				object[1].state = PlayerObject_LookingUp
+				object[1].state = PlayerObject_HandleAir
 				object[1].animation = ANI_LOOKINGUP
 				object[1].xvel = 0
 				object[1].speed = 0					
@@ -191,13 +195,15 @@ function MetalIntro
 
 			break			
 			case 2
-				object[0].state = PlayerObject_LookingUp
+				object[0].state = PlayerObject_HandleAir
 				object[0].animation = ANI_LOOKINGUP
 				object[0].xvel = 0
 				object[0].speed = 0	
+				object[0].value34 = 1
+				object[1].value34 = 1				
 				object[0].yvel += 100000
 				object[1].yvel += 100000
-				object[1].state = PlayerObject_LookingUp
+				object[1].state = PlayerObject_HandleAir
 				object[1].animation = ANI_LOOKINGUP
 				object[1].xvel = 0
 				object[1].speed = 0	
@@ -223,13 +229,15 @@ function MetalIntro
 				
 			break
 			case 3
-				object[0].state = PlayerObject_LookingUp
+				object[0].state = PlayerObject_HandleAir
 				object[0].animation = ANI_LOOKINGUP
 				object[0].xvel = 0
 				object[0].speed = 0	
+				object[0].value34 = 1
+				object[1].value34 = 1				
 				object[0].yvel += 100000
 				object[1].yvel += 100000
-				object[1].state = PlayerObject_LookingUp
+				object[1].state = PlayerObject_HandleAir
 				object[1].animation = ANI_LOOKINGUP
 				object[1].xvel = 0
 				object[1].speed = 0	
