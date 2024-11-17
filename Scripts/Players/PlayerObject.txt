@@ -4064,7 +4064,9 @@ function PlayerObject_Vector_AirDash
 								if camera.lockTimer == 0
 									camera.lockTimer = 15
 								end if
+							if stage.playerlistpos == 7	
 								screen.cameraStyle = 4
+							end if	
 						end if
 						object.state = PlayerObject_Vector_AirDashing
 						object.value2 = 15
