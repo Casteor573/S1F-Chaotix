@@ -1087,9 +1087,10 @@ function PlayerObject_CheckHit
 	end if
 	if object[0].propertyValue == 10
 		CheckEqual(object[currentPlayer].animation, 43)
-		temp0 |= checkResult			
+		temp0 |= checkResult	
+		CheckEqual(object[currentPlayer].animation, 56)
+		temp0 |= checkResult				
 	end if	
-
 	CheckNotEqual(object[currentPlayer].value7, 0)
 	temp0 |= checkResult
 	CheckEqual(object[currentPlayer].animation, ANI_FLYING)
@@ -1177,7 +1178,9 @@ function PlayerObject_BadnikBreak
 	end if
 	if object[0].propertyValue == 10
 		CheckEqual(object[currentPlayer].animation, 43)
-		temp0 |= checkResult			
+		temp0 |= checkResult	
+		CheckEqual(object[currentPlayer].animation, 56)
+		temp0 |= checkResult				
 	end if	
 
 	CheckNotEqual(object[currentPlayer].value7, 0)
@@ -6385,7 +6388,15 @@ function PlayerObject_Death
 	object.yvel += 0x3800
 	if object.animation != ANI_BORED
 		if object.animation != 46
-			object.animation = ANI_DYING
+			if stage.playerlistpos == 10
+				object.animation = 58
+				object.value2++
+				if object.value2 == 20
+				PlaySfx(SfxName[Explosion], 0)	
+				end if
+			else
+				object.animation = ANI_DYING
+			end if
 		end if
 	end if
 	if object.yvel > 0x100000
