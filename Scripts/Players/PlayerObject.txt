@@ -2202,10 +2202,6 @@ function PlayerObject_StartJump
 				end if
 			end if
 			
-			if object.propertyValue == 10
-				object.animation = 61
-				object.value10 = 61
-			end if
 
 			CallFunction(PlayerObject_HandleRollAnimSpd)
 			if object.state == PlayerObject_HandleRoll
