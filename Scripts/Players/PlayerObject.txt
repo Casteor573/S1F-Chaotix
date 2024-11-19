@@ -7007,7 +7007,7 @@ end function
 
 event ObjectMain
 
-	CallFunction(P1_PartnerSwitching)
+//	CallFunction(P1_PartnerSwitching)
 
 	if SuperTimeAttack == 2
 		SuperTimeAttack = 1
