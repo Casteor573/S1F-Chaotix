@@ -2202,6 +2202,11 @@ function PlayerObject_StartJump
 				end if
 			end if
 			
+			if object.propertyValue == 10
+				object.animation = 61
+				object.value10 = 61
+			end if
+
 			CallFunction(PlayerObject_HandleRollAnimSpd)
 			if object.state == PlayerObject_HandleRoll
 				if saved.Jumplock == 1
@@ -3278,6 +3283,21 @@ function PlayerObject_HandleAir
 					end if
 				end if
 			end if
+
+
+				if object.propertyValue == 10
+					CheckEqual(object.animation, 61)
+					temp0 = checkResult
+					CheckEqual(object.animation, ANI_JUMPING)
+					temp0 |= checkResult
+					if temp0 == 1				
+						if object.jumpPress == 1		
+						CallFunction(PlayerObject_HandleBombMoves)
+						player.doubleJumpState = 2
+						end if
+					end if
+				end if
+
 		else
 			if object.entityPos == 0
 				if player.dropDashCharge < 21
@@ -3790,7 +3810,31 @@ function PlayerObject_Crouching
 			object.value1 = 0
 		else
 			if object.jumpPress == 1
-				CallFunction(player.spindashFunction)
+				switch object[0].propertyValue
+					case 9
+						CallFunction(PlayerObject_StartJump)
+					break
+					case 10
+						CallFunction(PlayerObject_StartSpindashCD)
+					break
+					default
+						switch saved.spindash
+						case 0
+							if options.attractMode == 0
+								CallFunction(PlayerObject_StartJump)
+							else
+								CallFunction(PlayerObject_StartSpindash)
+							end if
+								break
+						case 1
+							CallFunction(PlayerObject_StartSpindash)
+							break
+						case 2
+							CallFunction(PlayerObject_StartSpindashCD)
+							break
+						end switch
+					break	
+				end switch	
 			end if
 		end if
 	end if
@@ -6832,6 +6876,31 @@ function P1_PartnerSwitching
 					object[1].propertyValue = temp2
 
 
+				switch current.player1
+					case 9
+						object[0].value33 = PlayerObject_StartJump
+					break
+					case 10
+						object[0].value33 = PlayerObject_StartSpindashCD
+					break
+					default
+						switch saved.spindash
+						case 0
+							if options.attractMode == 0
+								object[0].value33 = PlayerObject_StartJump
+							else
+								object[0].value33 = PlayerObject_StartSpindash
+							end if
+								break
+						case 1
+							object[0].value33 = PlayerObject_StartSpindash
+							break
+						case 2
+							object[0].value33 = PlayerObject_StartSpindashCD
+							break
+						end switch
+					break	
+				end switch	
 			
 				
 
@@ -6842,6 +6911,7 @@ function P1_PartnerSwitching
 						object[0].propertyValue = 6
 						object[0].value30 = -5
 						object[0].value32 = PlayerObject_Espio_WallClimbStartup
+						object[0].value33 = PlayerObject_StartJump
 						break			
 					case 7
 						LoadAnimation("Vector.ani")
@@ -6862,14 +6932,12 @@ function P1_PartnerSwitching
 						object[0].propertyValue = 9
 						object[0].value30 = -1
 						object[0].value32 = PlayerObject_HandleHeavyMoves
-						object[0].value33 = PlayerObject_StartJump
 						break		
 					case 10
 						LoadAnimation("Bomb.ani")
 						object[0].propertyValue = 10
 						object[0].value30 = 0
 						object[0].value32 = PlayerObject_HandleBombMoves
-						object[0].value33 = PlayerObject_StartSpindashCD
 						break
 				end switch	
 			else
@@ -7515,14 +7583,14 @@ event ObjectStartup
 			object[0].value0 = 20
 		end if
 		
-			switch object.propertyValue
-			case 0
-			case 1
-			case 2
-			case 5
-			case 6
-			case 7
-			case 8
+		switch object[0].propertyValue
+			case 9
+				object[0].value33 = PlayerObject_StartJump
+			break
+			case 10
+				object[0].value33 = PlayerObject_StartSpindashCD
+			break
+			default
 				switch saved.spindash
 				case 0
 					if options.attractMode == 0
@@ -7538,26 +7606,7 @@ event ObjectStartup
 					object[0].value33 = PlayerObject_StartSpindashCD
 					break
 				end switch
-			break
-			default
-				object[0].value33 = PlayerObject_StartJump
-			break
-			end switch	
-
-		switch saved.spindash
-   		case 0
-			if options.attractMode == 0
-				object[0].value33 = PlayerObject_StartJump
-			else
-				object[0].value33 = PlayerObject_StartSpindash
-			end if
-    			break
-  		case 1
-			object[0].value33 = PlayerObject_StartSpindash
-			break
-		case 2
-			object[0].value33 = PlayerObject_StartSpindashCD
-			break
+			break	
 		end switch
 
 		if stage.playerListPos == 5
@@ -7634,14 +7683,12 @@ event ObjectStartup
 			object[0].propertyValue = 9
 			object[0].value30 = -1
 			object[0].value32 = PlayerObject_HandleHeavyMoves
-			object[0].value33 = PlayerObject_HandleAir
 			break		
 		case 10
 			LoadAnimation("Bomb.ani")
 			object[0].propertyValue = 10
 			object[0].value30 = 0
 			object[0].value32 = PlayerObject_HandleBombMoves
-			object[0].value33 = PlayerObject_StartSpindashCD
 			break				
 		end switch
 

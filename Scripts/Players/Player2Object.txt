@@ -831,6 +831,17 @@ event ObjectStartup
 			SpriteFrame(-30, -6, 24, 16, 231, 183)
 			SpriteFrame(-30, -6, 24, 16, 231, 200)
 			SpriteFrame(-30, -6, 24, 16, 223, 100)
+
+				if saved.spindash == 1
+					object[1].value33 = PlayerObject_StartSpindash
+				else
+					if options.attractMode == 0
+						object[1].value33 = PlayerObject_StartJump
+					else
+						object[1].value33 = PlayerObject_StartSpindash			
+					end if
+				end if
+
 		break
 		case 6	//ESPIO //lala
 			ResetObjectEntity(1, TypeName[Player 2 Object], 1, object[0].xpos, object[0].ypos)
@@ -864,6 +875,17 @@ event ObjectStartup
 			SpriteFrame(-30, -6, 24, 16, 231, 183)
 			SpriteFrame(-30, -6, 24, 16, 231, 200)
 			SpriteFrame(-30, -6, 24, 16, 223, 100)
+
+				if saved.spindash == 1
+					object[1].value33 = PlayerObject_StartSpindash
+				else
+					if options.attractMode == 0
+						object[1].value33 = PlayerObject_StartJump
+					else
+						object[1].value33 = PlayerObject_StartSpindash			
+					end if
+				end if
+
 		break
 		case 7	//VECTOR
 			ResetObjectEntity(1, TypeName[Player 2 Object], 1, object[0].xpos, object[0].ypos)
@@ -897,6 +919,17 @@ event ObjectStartup
 			SpriteFrame(-30, -6, 24, 16, 231, 183)
 			SpriteFrame(-30, -6, 24, 16, 231, 200)
 			SpriteFrame(-30, -6, 24, 16, 223, 100)
+
+				if saved.spindash == 1
+					object[1].value33 = PlayerObject_StartSpindash
+				else
+					if options.attractMode == 0
+						object[1].value33 = PlayerObject_StartJump
+					else
+						object[1].value33 = PlayerObject_StartSpindash			
+					end if
+				end if
+
 		break		
 		case 8	//VECTOR
 			ResetObjectEntity(1, TypeName[Player 2 Object], 1, object[0].xpos, object[0].ypos)
@@ -930,6 +963,17 @@ event ObjectStartup
 			SpriteFrame(-30, -6, 24, 16, 231, 183)
 			SpriteFrame(-30, -6, 24, 16, 231, 200)
 			SpriteFrame(-30, -6, 24, 16, 223, 100)
+
+				if saved.spindash == 1
+					object[1].value33 = PlayerObject_StartSpindash
+				else
+					if options.attractMode == 0
+						object[1].value33 = PlayerObject_StartJump
+					else
+						object[1].value33 = PlayerObject_StartSpindash			
+					end if
+				end if
+
 		break	
 		case 9	//VECTOR
 			ResetObjectEntity(1, TypeName[Player 2 Object], 1, object[0].xpos, object[0].ypos)
@@ -963,6 +1007,9 @@ event ObjectStartup
 			SpriteFrame(-30, -6, 24, 16, 231, 183)
 			SpriteFrame(-30, -6, 24, 16, 231, 200)
 			SpriteFrame(-30, -6, 24, 16, 223, 100)
+
+		object[1].value33 = PlayerObject_StartJump
+
 		break	
 		case 10	//VECTOR
 			ResetObjectEntity(1, TypeName[Player 2 Object], 1, object[0].xpos, object[0].ypos)
@@ -996,6 +1043,11 @@ event ObjectStartup
 			SpriteFrame(-30, -6, 24, 16, 231, 183)
 			SpriteFrame(-30, -6, 24, 16, 231, 200)
 			SpriteFrame(-30, -6, 24, 16, 223, 100)
+
+			object[1].value33 = PlayerObject_StartSpindashCD
+
+
+
 		break							
 	end switch	
 
@@ -1015,27 +1067,7 @@ event ObjectStartup
 		object[1].value16 = 1
 		object[1].value32 = Player2Object_Function70
 
-		switch object[1].partner
-		case 9
-			if object[1].propertyValue == 9
-				object[1].value33 = PlayerObject_StartJump
-			end if
-		break
-		case 10
-			object[1].value33 = PlayerObject_StartSpindashCD
-		break
-		default
-				if saved.spindash == 1
-					object[1].value33 = PlayerObject_StartSpindash
-				else
-					if options.attractMode == 0
-						object[1].value33 = PlayerObject_StartJump
-					else
-						object[1].value33 = PlayerObject_StartSpindash			
-					end if
-				end if
-		break
-		end switch
+
 
 
 		

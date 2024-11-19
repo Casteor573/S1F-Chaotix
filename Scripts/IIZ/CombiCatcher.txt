@@ -23,35 +23,33 @@ event ObjectMain
 	BoxCollisionTest(C_TOUCH, object.entityPos, -40, -70, 40, 0, currentPlayer, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO)
 	if checkResult == 1
 
-		if stage.playerlistpos == object.partner
-				object.partner += 1
-				if object.partner > 10	
-					object.partner = 6
-				end if
-			
+
+
+
+		if inputPress.up == 1
+			stage.playerlistpos += 1
+			current.player1 = stage.playerlistpos
+			if stage.playerlistpos > 10
+				stage.playerlistpos = 6
+			end if
+
+			object[0].state = PlayerList_Switching
+
+		end if
+		if inputpress.down == 1
+			object.partner += 1
+			if object.partner > 10
+				object.partner = 6
+			end if
 		end if
 
-
-
-
-			if inputPress.up == 1
-				stage.playerlistpos += 1
-				current.player1 = stage.playerlistpos
-				if stage.playerlistpos > 10
-					stage.playerlistpos = 6
-				end if
-
-				object[0].state = PlayerList_Switching
-
+		if stage.playerlistpos == object.partner
+			object.partner += 1
+			if object.partner > 10	
+				object.partner = 6
 			end if
-			if inputpress.down == 1
-				object.partner += 1
+		end if
 
-				if object.partner > 10
-					object.partner = 6
-				end if
-
-			end if
 	end if
 end event
 
@@ -78,7 +76,10 @@ event ObjectDraw
 		break			
 		case 11
 			DrawSpriteXY(7, object.xpos, object.ypos)
-		break						
+		break	
+		default
+			DrawSpriteXY(2, object.xpos, object.ypos)
+		break					
 	end switch	
 end event
 
