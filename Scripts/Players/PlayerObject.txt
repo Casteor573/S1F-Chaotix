@@ -4388,7 +4388,7 @@ if object.gravity == GRAVITY_AIR
 		object.yvel -= 3000
 
 	else
-		
+			object.animation = ANI_JUMPING		
 		
 			CreateTempObject(TypeName[Explosion], 0, object.xpos, object.ypos)
 			PlaySfx(SfxName[Explosion], 0)
@@ -4410,7 +4410,7 @@ if object.gravity == GRAVITY_AIR
 
 	end if
 else
-object.state = PlayerObject_HandleAir
+	object.state = PlayerObject_HandleAir
 end if
 end function
 
@@ -4421,7 +4421,7 @@ function PlayerObject_BombJumpThingTwo
 			object.xpos += object.XVel
 			object.ypos = object.ypos
 
-
+			
 			
 			
 			if	object.direction == FACING_RIGHT
@@ -4480,6 +4480,7 @@ function PlayerObject_BombJumpThingTwo
 			end if
 			end if
 							
+		object.animation = ANI_JUMPING					
 
 		object.value2--
 		if object.value2 == 0
@@ -7416,6 +7417,45 @@ end function
 
 
 event ObjectStartup
+	current.player1 = stage.playerlistpos
+
+	CheckCurrentStageFolder("ZoneT")
+	if checkResult == 1
+		stage.player2Enabled = 1
+
+		switch stage.playerlistpos
+			case 6
+				partner.value = 7	
+			break
+			case 7
+				partner.value = 8	//charmy partner
+			break
+			case 8
+				partner.value = 6	//espio partner
+			break
+			case 9
+				partner.value = 10	//bomb partner
+			break
+			case 10
+				partner.value = 9	//heavy partner
+			break									
+
+		end switch
+	end if
+
+	CheckCurrentStageFolder("Hub")
+	if checkResult == 1
+		stage.player2Enabled = 0
+		partner.value = object.partner
+	end if
+
+	CheckCurrentStageFolder("ZoneM")
+	if checkResult == 1
+		stage.player2Enabled = 0
+		partner.value = object.partner
+	end if
+
+
 	playerCount = 0
 	foreach (TypeName[Player Object], arrayPos0, ALL_ENTITIES)
 		screen.cameraEnabled = 1
@@ -7431,6 +7471,21 @@ event ObjectStartup
 				stage.playerListPos = 2
 				stage.player2Enabled = 1
 				break
+			case 6	
+				object.partner = partner.value
+				break
+			case 7
+				object.partner = partner.value
+				break
+			case 8	
+				object.partner = partner.value
+				break
+			case 9	
+				object.partner = partner.value
+				break
+			case 10
+				object.partner = partner.value
+				break				
 			case 100
 				stage.playerListPos = 0
 				SuperTimeAttack = 1
@@ -7566,6 +7621,20 @@ event ObjectStartup
 		ResetObjectEntity(arrayPos0, TypeName[Blank Object], 0, 0, 0)
 	next
 	goggleType = TypeName[Goggles]
+
+	CheckCurrentStageFolder("ZoneT")
+	temp0 = checkResult
+	CheckCurrentStageFolder("Hub")
+	temp0 |= checkResult	
+	if temp0 == 1
+		if saveRAM[4001] == 1 //act trans
+			object[0].xpos = prevPos
+		else	//block off the signpost there
+			temp0 = object.ixpos
+			temp0 += screen.xcenter
+			stage.newXBoundary1 = temp0
+		end if
+	end if	
 		
 	LoadSpriteSheet("Players/Sonic4.gif")		
 	//DropDash Sprites

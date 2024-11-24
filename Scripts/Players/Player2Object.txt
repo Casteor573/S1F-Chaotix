@@ -616,53 +616,6 @@ event ObjectMain
 
 	CallFunction(P2_PartnerSwitch)
 
-	switch object.partner
-	case 0
-	break
-	default
-		CheckEqual(object[0].animation, 56)
-		temp5 = checkResult	
-		CheckEqual(object[0].animation, 57)
-		temp5 |= checkResult		
-		CheckEqual(object[0].state, PlayerObject_HandleAir)
-		temp5 |= checkResult	
-		if temp5 == 1
-			ANI_JUMPING = 10
-			object[1].animation = ANI_JUMPING
-		end if
-
-
-		CheckEqual(object[0].state, PlayerObject_HandleSpindash)
-		temp5 = checkResult
-		if temp5 == 1
-			object[1].animation = ANI_SPINDASH
-		end if
-
-		if object[1].propertyValue == 8
-			CheckEqual(object[0].state, PlayerObject_HandleRoll)
-			temp5 = checkResult
-			if temp5 == 1
-				object[1].animation = ANI_RUNNING
-			end if
-		end if
-
-
-
-
-
-		CheckEqual(object[1].animation, 53)
-		temp5 = checkResult
-		CheckEqual(object[1].state, PlayerObject_HeavyJumpCharge)
-		temp5 |= checkResult		
-		if temp5 == 1
-			object.speed = 0
-			object.xvel = 0
-		end if
-
-	break
-	end switch
-
-
 	
 
 

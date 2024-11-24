@@ -23,9 +23,6 @@ event ObjectMain
 	BoxCollisionTest(C_TOUCH, object.entityPos, -40, -70, 40, 0, currentPlayer, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO)
 	if checkResult == 1
 
-
-
-
 		if inputPress.up == 1
 			stage.playerlistpos += 1
 			current.player1 = stage.playerlistpos
@@ -55,6 +52,27 @@ end event
 
 
 event ObjectDraw
+	currentPlayer = 0	
+	BoxCollisionTest(C_TOUCH, object.entityPos, -40, -70, 40, 0, currentPlayer, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO)
+	if checkResult == 1
+		if object[0].xpos > object.xpos
+			object.direction = 1
+			DrawSpriteFX(9, FX_FLIP, object.xpos, object.ypos)
+		else
+			object.direction = 0
+			DrawSpriteFX(9, FX_FLIP, object.xpos, object.ypos)
+		end if
+	else
+		if object[0].xpos > object.xpos
+			object.direction = 0
+			DrawSpriteFX(8, FX_FLIP, object.xpos, object.ypos)
+		else
+			object.direction = 1
+			DrawSpriteFX(8, FX_FLIP, object.xpos, object.ypos)
+		end if
+	end if
+
+
 	DrawSpriteXY(0, object.xpos, object.ypos)
 	DrawSpriteXY(1, object.xpos, object.ypos)
 
@@ -95,6 +113,9 @@ event ObjectStartup
 	SpriteFrame(33, -65, 16, 16, 380, 357)	//h 5
 	SpriteFrame(33, -65, 16, 16, 397, 357)	//bom 6
 	SpriteFrame(33, -65, 16, 16, 414, 357)	//who? 7
+
+	SpriteFrame(-11, -38, 24, 42, 460, 469)	//mighty? 8
+	SpriteFrame(-12, -38, 24, 42, 487, 469)	//mighty? 8
 	foreach (TypeName[Combi Catcher], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].priority = PRIORITY_ACTIVE
 	next

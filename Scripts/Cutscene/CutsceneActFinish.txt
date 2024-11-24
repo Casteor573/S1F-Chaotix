@@ -542,6 +542,7 @@ event ObjectMain
 			saveRAM[arrayPos1] = specialStage.listPos
 		end if
 
+		//subtract signpost from previous act to next act
 		switch stage.listPos
 		case 2
 			temp1 = 10454 	//position	 of sign in act 1

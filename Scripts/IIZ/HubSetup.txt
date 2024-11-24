@@ -91,11 +91,11 @@ event ObjectMain
 		end if
 	end if
 
-//	object.value6++
-//	if object.value6 == 36
-//		object.value6 = 0
-//		SetPaletteFade(0, 0, 1, 64, 128, 256)
-//	end if	
+	object.value6++
+	if object.value6 == 36
+		object.value6 = 0
+		SetPaletteFade(0, 0, 1, 96, 128, 256)	//idk, idk, what palette bank is being loaded, forgot, what lines overwrites, idk sorry
+	end if	
 
 	
 end event
@@ -132,6 +132,9 @@ event ObjectStartup
 	switch saveRAM[9000]
 	case 0	
 		LoadPalette("IsoIsland_Morning.act", 0, 128, 128, 256)
+		LoadPalette("IsoIsland_Day.act", 1, 128, 128, 256)
+		LoadPalette("IsoIsland_Sunset.act", 2, 128, 128, 256)
+		LoadPalette("IsoIsland_Night.act", 3, 128, 128, 256)
 		SetMusicTrack("Walkin.ogg", 0, 43884) //Morning	
 	break	
 	case 1
