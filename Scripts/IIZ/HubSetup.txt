@@ -92,9 +92,9 @@ event ObjectMain
 	end if
 
 	object.value6++
-	if object.value6 == 36
+	if object.value6 == 96
 		object.value6 = 0
-		SetPaletteFade(0, 0, 1, 96, 128, 256)	//idk, idk, what palette bank is being loaded, forgot, what lines overwrites, idk sorry
+		SetPaletteFade(0, 0, 1, 128, 128, 256)	//idk, idk, what palette bank is being loaded, forgot, what lines overwrites, idk sorry
 	end if	
 
 	
