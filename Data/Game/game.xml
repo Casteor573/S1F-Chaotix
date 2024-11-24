@@ -1,61 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <game xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<title name="Sonic 1 Forever" />
-	<palette>
-		<color bank="0" index="55" r="64" g="32" b="96"/>
-		<color bank="0" index="56" r="128" g="64" b="160"/>
-		<color bank="0" index="57" r="192" g="96" b="224"/>
-		<color bank="0" index="58" r="224" g="128" b="224"/>
-		<color bank="0" index="59" r="224" g="160" b="96"/>
-		<color bank="0" index="60" r="160" g="96" b="32"/>
-		<color bank="0" index="61" r="0" g="64" b="32"/>
-		<color bank="0" index="62" r="32" g="128" b="0"/>
-		<color bank="0" index="63" r="96" g="192" b="32"/>
-		<color bank="0" index="68" r="160" g="224" b="32"/>	
-		<color bank="0" index="69" r="192" g="96" b="0"/>	
-		<color bank="0" index="70" r="128" g="64" b="0"/>		
-	</palette>
-	<variables>
-		<variable name="object.partner" value="0" />
-		<variable name="monitorbounce" value="0" />
-		<variable name="partner.value" value="0" />
-		<variable name="prevPos" value="0" />    
-		<variable name="prevPos2" value="0" />
-		<variable name="og.player" value="0" />
-		<variable name="current.player1" value="0" />
-		<variable name="is.Heavy" value="0" /> 
-	</variables>	
-	<sounds>
-		<soundfx name="Burst" path="Global/KC_5B.ogg" />
-		<soundfx name="Sting" path="Global/CharmyLaunch.ogg" />		
-		<soundfx name="Heavy Jump" path="Global/HeavyJump.ogg" />	
-		<soundfx name="Robo Hurt" path="Global/RoboHurt.ogg" />	
-		<soundfx name="Heavy Stomp A" path="Global/HeavyStomp1.ogg" />
-		<soundfx name="Bomb Dash" path="Global/BombDash.ogg" />
-		<soundfx name="Emerald Get Short" path="Global/EmeraldGetShort.ogg" />
-		<soundfx name="Emerald Get" path="Global/EmeraldGet.ogg" />											
-		<soundfx name="Swap" path="Global/Swap.wav" />		
-		<soundfx name="Swap Fail" path="Global/SwapFail.wav" />		
-		<soundfx name="Blast" path="Global/Blast.ogg" />		
-	</sounds>
-	<players>
-		<player name="ESPIO" />
-		<player name="VECTOR" />
-		<player name="CHARMY" />
-		<player name="HEAVY" />			
-		<player name="BOMB" />	
-	</players>
-	<presentationStages>
-		<stage name="CHAOTIXMENU" folder="ChaotixMenu" id="1" highlight="true" />
-		<stage name="CHAOTIXSAVES" folder="ChaotixSaveSelect" id="1" highlight="true" />
-	</presentationStages>	
-	<bonusStages>
-		<stage name="ISOLATED HILL 1" folder="ZoneT" id="1" highlight="true" />
-		<stage name="2" folder="ZoneT" id="2" highlight="false" />
-		<stage name="3" folder="ZoneT" id="3" highlight="false" />
-		<stage name="HUB" folder="Hub" id="1" highlight="true" />
-		<stage name="EGG GAUNLET 1" folder="ZoneM" id="1" highlight="true" />
-		<stage name="3D TEST" folder="SS1" id="1" highlight="true" />
-		<stage name="SPECIAL TEST" folder="SpecialTest" id="1" highlight="true" />
-	</bonusStages>	
+  <title name="Sonic 1 Forever" />
+  <palette>
+    <color bank="0" index="55" r="64" g="32" b="96" />
+    <color bank="0" index="56" r="128" g="64" b="160" />
+    <color bank="0" index="57" r="192" g="96" b="224" />
+    <color bank="0" index="58" r="224" g="128" b="224" />
+    <color bank="0" index="59" r="224" g="160" b="96" />
+    <color bank="0" index="60" r="160" g="96" b="32" />
+    <color bank="0" index="61" r="0" g="64" b="32" />
+    <color bank="0" index="62" r="32" g="128" b="0" />
+    <color bank="0" index="63" r="96" g="192" b="32" />
+    <color bank="0" index="68" r="160" g="224" b="32" />
+    <color bank="0" index="69" r="192" g="96" b="0" />
+    <color bank="0" index="70" r="128" g="64" b="0" />
+  </palette>
+  <objects />
+  <variables>
+    <variable name="object.partner" value="0" />
+    <variable name="monitorbounce" value="0" />
+    <variable name="partner.value" value="0" />
+    <variable name="prevPos" value="0" />
+    <variable name="prevPos2" value="0" />
+    <variable name="og.player" value="0" />
+    <variable name="current.player1" value="0" />
+    <variable name="is.Heavy" value="0" />
+  </variables>
+  <sounds>
+    <soundfx name="Burst" path="Global/KC_5B.ogg" />
+    <soundfx name="Sting" path="Global/CharmyLaunch.ogg" />
+    <soundfx name="Heavy Jump" path="Global/HeavyJump.ogg" />
+    <soundfx name="Robo Hurt" path="Global/RoboHurt.ogg" />
+    <soundfx name="Heavy Stomp A" path="Global/HeavyStomp1.ogg" />
+    <soundfx name="Bomb Dash" path="Global/BombDash.ogg" />
+    <soundfx name="Emerald Get Short" path="Global/EmeraldGetShort.ogg" />
+    <soundfx name="Emerald Get" path="Global/EmeraldGet.ogg" />
+    <soundfx name="Swap" path="Global/Swap.wav" />
+    <soundfx name="Swap Fail" path="Global/SwapFail.wav" />
+    <soundfx name="Blast" path="Global/Blast.ogg" />
+  </sounds>
+  <players>
+    <player name="ESPIO" />
+    <player name="VECTOR" />
+    <player name="CHARMY" />
+    <player name="HEAVY" />
+    <player name="BOMB" />
+  </players>
+  <presentationStages>
+    <stage name="CHAOTIXMENU" folder="ChaotixMenu" id="1" highlight="true" />
+    <stage name="CHAOTIXSAVES" folder="ChaotixSaveSelect" id="1" highlight="true" />
+  </presentationStages>
+  <regularStages />
+  <specialStages />
+  <bonusStages>
+    <stage name="ISOLATED HILL 1" folder="ZoneT" id="1" highlight="true" />
+    <stage name="2" folder="ZoneT" id="2" highlight="false" />
+    <stage name="3" folder="ZoneT" id="3" highlight="false" />
+    <stage name="HUB" folder="Hub" id="1" highlight="true" />
+    <stage name="EGG GAUNLET 1" folder="ZoneM" id="1" highlight="true" />
+    <stage name="3D TEST" folder="SS1" id="1" highlight="true" />
+    <stage name="SPECIAL TEST" folder="SpecialTest" id="1" highlight="true" />
+  </bonusStages>
 </game>

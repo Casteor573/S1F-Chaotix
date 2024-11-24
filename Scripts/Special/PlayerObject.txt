@@ -447,7 +447,14 @@ end event
 
 
 event ObjectDraw
-	object.animation = ANI_JUMPING
+	switch stage.playerlistpos
+		case 8
+			object.animation = 54
+		break	
+		default
+			object.animation = ANI_JUMPING
+		break
+	end switch
 	DrawObjectAnimation()
 end event
 
