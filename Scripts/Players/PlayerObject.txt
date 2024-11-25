@@ -5033,7 +5033,11 @@ function PlayerObject_Crouching
 			object.value1 = 0
 		else
 			if object.jumpPress == 1
-				CallFunction(player.spindashFunction)
+				if object.propertyValue != 9
+					CallFunction(player.spindashFunction)
+				else
+					
+				end if
 			end if
 		end if
 	end if
@@ -7506,21 +7510,31 @@ event ObjectStartup
 			object[0].value0 = 20
 		end if
 		
-		switch saved.spindash
-   		case 0
-			if options.attractMode == 0
+		switch object[0].propertyValue
+			case 9
 				object[0].value33 = PlayerObject_StartJump
-			else
-				object[0].value33 = PlayerObject_StartSpindash
-			end if
-    			break
-  		case 1
-			object[0].value33 = PlayerObject_StartSpindash
 			break
-		case 2
-			object[0].value33 = PlayerObject_StartSpindashCD
+			case 10
+				object[0].value33 = PlayerObject_StartSpindashCD
 			break
-		end switch
+			default
+				switch saved.spindash
+				case 0
+					if options.attractMode == 0
+						object[0].value33 = PlayerObject_StartJump
+					else
+						object[0].value33 = PlayerObject_StartSpindash
+					end if
+						break
+				case 1
+					object[0].value33 = PlayerObject_StartSpindash
+					break
+				case 2
+					object[0].value33 = PlayerObject_StartSpindashCD
+					break
+				end switch
+			break	
+		end switch			
 
 		if stage.playerListPos == 5
 			if saved.amymoveset == 1
