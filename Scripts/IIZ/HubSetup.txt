@@ -91,10 +91,24 @@ event ObjectMain
 		end if
 	end if
 
+
 	object.value6++
 	if object.value6 == 96
 		object.value6 = 0
-		SetPaletteFade(0, 0, 1, 128, 128, 256)	//idk, idk, what palette bank is being loaded, forgot, what lines overwrites, idk sorry
+		switch saveRAM[9000]
+		case 0	//fade to morning
+			SetPaletteFade(0, 0, 0, 128, 128, 256)	//idk, idk, what palette bank is being loaded, forgot, what lines overwrites, idk sorry
+		break
+		case 1 //fade to day
+			SetPaletteFade(0, 0, 1, 128, 128, 256)	//idk, idk, what palette bank is being loaded, forgot, what lines overwrites, idk sorry
+		break	
+		case 2 //fade to day
+			SetPaletteFade(0, 0, 2, 128, 128, 256)	//idk, idk, what palette bank is being loaded, forgot, what lines overwrites, idk sorry
+		break		
+		case 3 //fade to day
+			SetPaletteFade(0, 0, 2, 128, 128, 256)	//idk, idk, what palette bank is being loaded, forgot, what lines overwrites, idk sorry
+		break				
+		end switch
 	end if	
 
 	
@@ -127,26 +141,25 @@ event ObjectStartup
 	//rand(checkResult, 2)
 	//if checkResult == 1
 
-	saveRAM[9000] = 0
+//	saveRAM[9000] = 0
 
-	switch saveRAM[9000]
-	case 0	
+
 		LoadPalette("IsoIsland_Morning.act", 0, 128, 128, 256)
 		LoadPalette("IsoIsland_Day.act", 1, 128, 128, 256)
 		LoadPalette("IsoIsland_Sunset.act", 2, 128, 128, 256)
 		LoadPalette("IsoIsland_Night.act", 3, 128, 128, 256)
+
+	switch saveRAM[9000]
+	case 0	
 		SetMusicTrack("Walkin.ogg", 0, 43884) //Morning	
 	break	
 	case 1
-		LoadPalette("IsoIsland_Day.act", 0, 128, 128, 256)
 		SetMusicTrack("HyperHyper.ogg", 0, 498662) //Day
 	break
 	case 2
-		LoadPalette("IsoIsland_Sunset.act", 0, 128, 128, 256)
 		SetMusicTrack("EveningStar.ogg", 0, 390619) //Evening		duh
 	break
 	case 3
-		LoadPalette("IsoIsland_Night.act", 0, 128, 128, 256)
 		SetMusicTrack("Moonrise.ogg", 0, 334048) //Night	
 	break
 	end switch	

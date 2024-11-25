@@ -491,6 +491,7 @@ function MetalIntro
 				object[1].controlmode = -1
 				object.xvel += 0x2800
 				music.volume -= 2
+				saveRAM[9000] = 1
 				if object.outOfBounds == 1
 					SetMusicTrack("Combination.ogg", 0, 51488) //51488
 					PlayMusic(0)
