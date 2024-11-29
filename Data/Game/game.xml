@@ -14,6 +14,9 @@
     <color bank="0" index="68" r="160" g="224" b="32" />
     <color bank="0" index="69" r="192" g="96" b="0" />
     <color bank="0" index="70" r="128" g="64" b="0" />
+    <color bank="0" index="71" r="32" g="32" b="32" />    
+    <color bank="0" index="72" r="224" g="64" b="64" />      
+    <color bank="0" index="73" r="224" g="128" b="96" />        
   </palette>
   <objects />
   <variables>
@@ -45,6 +48,7 @@
     <player name="CHARMY" />
     <player name="HEAVY" />
     <player name="BOMB" />
+    <player name="MIGHTY" />    
   </players>
   <presentationStages>
     <stage name="CHAOTIXMENU" folder="ChaotixMenu" id="1" highlight="true" />

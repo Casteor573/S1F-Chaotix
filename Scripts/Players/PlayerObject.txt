@@ -452,6 +452,32 @@ public table PlayerObject_CharmySuperPal
 	0x604080, 0xa060c0, 0xe080e0, 0xe0c0e0
 end table
 
+public table PlayerObject_MightySuperPal
+	0x600020, 0xC00020, 0xe04040, 0xe08060
+	0x802020, 0xe04040, 0xe06060, 0xe0a080	//1
+	0xA04040, 0xe06060, 0xE080C0, 0xe0c0a0	//2
+	0xC06060, 0xe08080, 0xe08080, 0xe0e0c0	//3
+	0xe08080, 0xe0a0a0, 0xe0c0c0, 0xe0e0e0	//4
+	0xe0a0a0, 0xe0c0c0, 0xE0E0E0, 0xe0e0e0	//5
+	0xe08080, 0xe0a0a0, 0xe0c0c0, 0xe0e0e0	//4
+	0xC06060, 0xe08080, 0xe08080, 0xe0e0c0	//3
+	0xA04040, 0xe06060, 0xE080C0, 0xe0c0a0	//2
+end table
+
+public table PlayerObject_MightySuperAltPal
+	0x600020, 0xC00020, 0xe04040, 0xe08060
+	0x802020, 0xe04040, 0xe06060, 0xe0a080	//1
+	0xA04040, 0xe06060, 0xE080C0, 0xe0c0a0	//2
+	0xC06060, 0xe08080, 0xe08080, 0xe0e0c0	//3
+	0xe08080, 0xe0a0a0, 0xe0c0c0, 0xe0e0e0	//4
+	0xe0a0a0, 0xe0c0c0, 0xE0E0E0, 0xe0e0e0	//5
+	0xe08080, 0xe0a0a0, 0xe0c0c0, 0xe0e0e0	//4
+	0xC06060, 0xe08080, 0xe08080, 0xe0e0c0	//3
+	0xA04040, 0xe06060, 0xE080C0, 0xe0c0a0	//2
+end table
+
+
+
 ////////// END CHAOTIX PALETTES
 
 
@@ -563,6 +589,18 @@ public table PlayerObject_BombPhysicsTable
 	0xC0000, 0x1800, 0x3000, 0xC00,  0x8000,  0x600, 0x80000, -0x40000
 	0x60000, 0xC00,  0x1800, 0x600,  0x4000,  0x300, 0x38000, -0x20000
 end table
+
+public table PlayerObject_MightyPhysicsTable
+	0x65000, 0xC00,  0x1800, 0x600,  0x7000,  0x600, 0x69000, -0x40000
+	0x30000, 0x600,  0xC00,  0x300,  0x4000,  0x300, 0x38000, -0x20000
+	0xA0000, 0x3000, 0x6000, 0x1800, 0x10000, 0x600, 0x80000, -0x40000
+	0x50000, 0x1800, 0x3000, 0xC00,  0x8000,  0x300, 0x38000, -0x20000
+	0xC0000, 0x1800, 0x3000, 0xC00,  0x8000,  0x600, 0x68000, -0x40000
+	0x60000, 0xC00,  0x1800, 0x600,  0x4000,  0x300, 0x38000, -0x20000
+	0xC0000, 0x1800, 0x3000, 0xC00,  0x8000,  0x600, 0x80000, -0x40000
+	0x60000, 0xC00,  0x1800, 0x600,  0x4000,  0x300, 0x38000, -0x20000
+end table
+
 
 ///////////// END CHAOTIX PHYSICS
 
@@ -900,6 +938,51 @@ function PlayerObject_HandleSuperPalVector
 	SetPaletteEntry(1, 68, temp0)
 end function
 
+function PlayerObject_HandleSuperPalMighty
+	if PlayerObject_SuperState == 1
+		PlayerObject_value3++
+		if PlayerObject_value3 >= 4
+			PlayerObject_value3 = 0
+			PlayerObject_value2 += 4
+			if PlayerObject_value2 >= 36	//how fast it cycles ig
+				PlayerObject_value2 = 4	//where it starts
+			end if
+		end if
+	else
+		PlayerObject_value3++
+		if PlayerObject_value3 >= 8
+			PlayerObject_value3 = 0
+			PlayerObject_value2 -= 4
+			if PlayerObject_value2 <= 0
+				PlayerObject_value2 = 0
+				PlayerObject_SuperState = 0
+			end if
+			if PlayerObject_value2 >= 24
+				PlayerObject_value2 = 24
+			end if
+		end if
+	end if
+	temp1 = PlayerObject_value2
+	GetTableValue(temp0, temp1, PlayerObject_MightySuperPal)
+	SetPaletteEntry(0, 26, temp0)
+	GetTableValue(temp0, temp1, PlayerObject_MightySuperAltPal)
+	SetPaletteEntry(1, 26, temp0)
+	temp1++
+	GetTableValue(temp0, temp1, PlayerObject_MightySuperPal)
+	SetPaletteEntry(0, 27, temp0)
+	GetTableValue(temp0, temp1, PlayerObject_MightySuperAltPal)
+	SetPaletteEntry(1, 27, temp0)
+	temp1++
+	GetTableValue(temp0, temp1, PlayerObject_MightySuperPal)
+	SetPaletteEntry(0, 72, temp0)
+	GetTableValue(temp0, temp1, PlayerObject_MightySuperAltPal)
+	SetPaletteEntry(1, 72, temp0)
+	temp1++	
+	GetTableValue(temp0, temp1, PlayerObject_MightySuperPal)
+	SetPaletteEntry(0, 73, temp0)
+	GetTableValue(temp0, temp1, PlayerObject_MightySuperAltPal)
+	SetPaletteEntry(1, 73, temp0)	
+end function
 
 function PlayerObject_SwapPhysics
 	switch stage.playerListPos
@@ -931,6 +1014,9 @@ function PlayerObject_SwapPhysics
 	case 10
 		temp0 = PlayerObject_BombPhysicsTable
 		break		
+	case 11
+		temp0 = PlayerObject_MightyPhysicsTable
+		break	
 	end switch
 	temp1 = 0
 	temp2 = 0
@@ -998,7 +1084,10 @@ function PlayerObject_ProcessSuperForms
 			break	
 		case 7
 			CallFunction(PlayerObject_HandleSuperPalVector)
-			break				
+			break		
+		case 11
+			CallFunction(PlayerObject_HandleSuperPalMighty)
+			break			
 		end switch
 	end if
 	if PlayerObject_SuperState == 1
@@ -4809,6 +4898,7 @@ function PlayerObject_LookingUp
 					case 8
 					case 9
 					case 10		
+					case 11
 						CallFunction(PlayerObject_StartJump)
 						break
 				end switch
@@ -6767,6 +6857,7 @@ function PlayerObject_MoveAnimate
 				break
 			case 9 //Heavy
 			case 10
+			case 11
 				object.animation = ANI_RUNNING
 				break											
 		end switch
@@ -7616,7 +7707,14 @@ event ObjectStartup
 			object[0].propertyValue = 10
 			object[0].value30 = 0
 			object[0].value32 = PlayerObject_HandleBombMoves
-			break			
+			break	
+		case 11
+			LoadAnimation("Mighty.ani")
+			CallFunction(PlayerObject_HandleSuperPalMighty)
+			object[0].propertyValue = 11
+			object[0].value30 = -5
+		//	object[0].value32 = PlayerObject_HandleShieldAbilities
+			break					
 		end switch
 
 		if saved.Speen == 1

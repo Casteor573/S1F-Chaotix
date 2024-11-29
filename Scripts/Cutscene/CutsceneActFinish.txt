@@ -545,8 +545,8 @@ event ObjectMain
 		//subtract signpost from previous act to next act
 		switch stage.listPos
 		case 2
-			temp1 = 10454 	//position	 of sign in act 1
-			temp1 -= 948 	//position of sign in act 2
+			temp1 = 10454 	// signt xpos of stage you're on
+			temp1 -= 948 	// sign of next stage
 		break		
 		case 3
 			temp1 = 9778 	//position	 of sign in act 2
