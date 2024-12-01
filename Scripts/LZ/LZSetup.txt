@@ -711,6 +711,72 @@ function LZSetup_VectorSuperPal
 	loop
 end function
 
+function LZSetup_MightySuperPal
+	temp0 = 0
+	GetPaletteEntry(1, 26, temp1)
+	SetTableValue(temp1, temp0, PlayerObject_MightySuperAltPal)
+	temp0++
+	GetPaletteEntry(1, 27, temp1)
+	SetTableValue(temp1, temp0, PlayerObject_MightySuperAltPal)
+	temp0++
+	GetPaletteEntry(1, 72, temp1)
+	SetTableValue(temp1, temp0, PlayerObject_MightySuperAltPal)
+	temp0++
+	GetPaletteEntry(1, 73, temp1)
+	SetTableValue(temp1, temp0, PlayerObject_MightySuperAltPal)
+	temp0++
+	
+	while temp0 < 32	
+		if temp0 < 20
+			temp1 = temp0
+			temp1 -= 4
+			GetTableValue(temp2, temp1, PlayerObject_MightySuperAltPal)
+			object.value9 = temp2
+			object.value9 &= 0xE00000
+			object.value10 = temp2
+			object.value10 &= 0x00E000
+			object.value11 = temp2
+			object.value11 &= 0x0000E0
+			object.value9 += 0x200000
+			object.value10 += 0x002000
+			object.value11 += 0x000020
+			if object.value9 > 0xE00000
+				object.value9 = 0xE00000
+			end if
+			if object.value10 > 0x00E000
+				object.value10 = 0x00E000
+			end if
+			if object.value11 > 0x0000E0
+				object.value11 = 0x0000E0
+			end if
+			temp2 = object.value9
+			temp2 += object.value10
+			temp2 += object.value11
+		else
+			temp1 = temp0
+			temp1 /= 4 //which line of the palette are we on now?
+			switch temp1
+				case 5
+					temp1 = temp0
+					temp1 -= 8
+					GetTableValue(temp2, temp1, PlayerObject_MightySuperAltPal)
+					break
+				case 6
+					temp1 = temp0
+					temp1 -= 16
+					GetTableValue(temp2, temp1, PlayerObject_MightySuperAltPal)
+					break
+				case 7
+					temp1 = temp0
+					temp1 -= 24
+					GetTableValue(temp2, temp1, PlayerObject_MightySuperAltPal)
+					break
+			end switch			
+		end if
+		SetTableValue(temp2, temp0, PlayerObject_MightySuperAltPal)
+		temp0++
+	loop
+end function
 
 function LZSetup_Function99
 	CheckEqual(object[25].type, TypeName[Music Event])
@@ -983,6 +1049,7 @@ event ObjectStartup
 	CallFunction(LZSetup_AmySuperPal)
 	CallFunction(LZSetup_EspioSuperPal)
 	CallFunction(LZSetup_VectorSuperPal)	
+	CallFunction(LZSetup_MightySuperPal)
 	LoadPalette("ElectricFlash.act", 2, 0, 0, 256)
 	LZSetup_value29 = 0
 	if options.attractMode == 1
