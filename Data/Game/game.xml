@@ -28,6 +28,8 @@
     <variable name="og.player" value="0" />
     <variable name="current.player1" value="0" />
     <variable name="is.Heavy" value="0" />
+    <variable name="object.dropForce" value="0" />
+    <variable name="object.groundVel" value="0" />
   </variables>
   <sounds>
     <soundfx name="Burst" path="Global/KC_5B.ogg" />

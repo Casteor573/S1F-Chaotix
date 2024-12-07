@@ -90,8 +90,8 @@ event ObjectMain
 			GHZSetup_value29 &= 15
 		end if
 	end if
-
-
+	
+	saveRAM[9000] = 1
 	object.value6++
 	if object.value6 == 96
 		object.value6 = 0

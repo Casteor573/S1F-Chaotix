@@ -126,6 +126,8 @@ reserve function PlayerObject_Vector_AirDashing
 reserve function PlayerObject_Charmy_Flight
 reserve function PlayerObject_Charmy_FlightEnd
 reserve function PlayerObject_HandleHeavyMoves
+reserve function PlayerObject_HandleMightyMoves
+reserve function PlayerObject_MightyHammerDrop
 
 reserve function PlayerObject_HeavyStompLand
 reserve function PlayerObject_HeavyAirDashStart
@@ -1318,17 +1320,25 @@ function PlayerObject_BadnikBreak
 		CreateTempObject(TypeName[Object Score], object[currentPlayer].value19, object.xpos, object.ypos)
 		object[tempObjectPos].drawOrder = 4
 		PlaySfx(SfxName[Destroy], 0)
-		if object[currentPlayer].yvel > 0
-			if object[currentPlayer].ypos >= object.ypos
-				object[currentPlayer].yvel -= 0x10000
+
+		CheckNotEqual(object[currentPlayer].state, PlayerObject_MightyHammerDrop)
+		temp5 = checkResult
+		CheckNotEqual(object[currentPlayer].state, PlayerObject_HeavyStompLand)
+		temp5 &= checkResult		
+		if temp5 == 1
+			if object[currentPlayer].yvel > 0
+				if object[currentPlayer].ypos >= object.ypos
+					object[currentPlayer].yvel -= 0x10000
+				else
+					object[currentPlayer].yvel += object[currentPlayer].value25
+					object[currentPlayer].yvel += object[currentPlayer].value25
+					FlipSign(object[currentPlayer].yvel)
+				end if
 			else
-				object[currentPlayer].yvel += object[currentPlayer].value25
-				object[currentPlayer].yvel += object[currentPlayer].value25
-				FlipSign(object[currentPlayer].yvel)
+				object[currentPlayer].yvel += 0x10000
 			end if
-		else
-			object[currentPlayer].yvel += 0x10000
 		end if
+		
 		if options.competition == 0
 			temp0 = currentPlayer
 			currentPlayer = 0
@@ -4730,6 +4740,44 @@ function PlayerObject_BombWallBlast
 	end if
 end function
 
+function PlayerObject_HandleMightyAbilities
+	if player.doubleJumpState == 1
+		if inputPress.buttonY == 1
+			CheckEqual(specialStage.emeralds, 127)
+			temp0 = checkResult
+			CheckGreater(player.rings, 49)
+			temp0 &= checkResult
+			CheckNotEqual(PlayerObject_SuperState, 1)
+			temp0 &= checkResult
+			CheckNotEqual(object[30].type, TypeName[Act Finish])
+			temp0 &= checkResult
+			CheckEqual(saved.superStates, 1)
+			temp0 &= checkResult
+			CheckEqual (player.invulnerable, 0)
+			temp0 &= checkResult
+			
+			if temp0 == 1
+				currentPlayer = object.entityPos
+				CallFunction(PlayerObject_SuperTransform)
+			end if
+		end if
+		CheckEqual(object.jumpPress, 1)
+		temp0 = checkResult
+	//	CheckEqual(object.down, 1)
+	//	temp0 &= checkResult
+		if temp0 == 1
+			object.state = PlayerObject_MightyHammerDrop
+			object.speed >>= 1
+			if player.gravityValue == 0x3800
+				object.yVel = 0xC0000
+			else
+				object.yVel = 0x80000
+			endif			
+		end if
+	end if
+end function
+
+
 function PlayerObject_AirCtrlLock
 	CallFunction(PlayerObject_HandleAirAcceleration)
 	if object.gravity == GRAVITY_AIR
@@ -6396,7 +6444,9 @@ function PlayerObject_Death
 		player.invulnerable = 0
 		object.visible = 1
 	end if
+
 	object.yvel += 0x3800
+	
 	if object.animation != ANI_BORED
 		if object.animation != 46
 			if stage.playerlistpos == 10
@@ -7201,7 +7251,86 @@ event ObjectMain
 	end if
 end event
 
+function PlayerObject_MightyHammerDrop
+
+    if object.gravity == GRAVITY_GROUND
+
+		//self, probably player./object.
+
+  		//    self->controlLock = 0;
+   		//x`    self->onGround    = false;
+
+
+		object.gravity = GRAVITY_AIR
+		player.doubleJumpState = 2
+		
+
+		temp1 = object.speed
+		temp1 >>= 2
+		temp0 = object.groundVel // groundVel
+		temp0 -= temp1
+
+
+
+		if player.gravityValue == 0x3800
+			object.dropforce = 0x20000	//dropforce	
+		else
+			object.dropforce = 0x10000
+		end if
+		object.dropforce += player.gravityValue
+
+		//bubble bounce is that yuo
+
+		//xvel
+		Cos256(object.xvel, object.angle)
+		object.xvel *= object.dropforce
+		Sin256(temp0, object.angle)
+		temp0 *= temp2
+		object.xvel += temp0
+		object.xvel >>= 8
+		
+		//yvel
+		Sin256(object.yvel, object.angle)
+		object.yvel *= temp2
+
+		Cos256(temp0, object.angle)
+		temp0 *= object.dropforce
+
+		object.yvel -= temp0
+		object.yvel >>= 8
+
+		object.scrollTracking = 1
+
+
+		object.animation = ANI_JUMPING
+		monitorbounce = 1
+
+
+        screen.shakeY = 2
+
+
+		CreateTempObject(TypeName[Dust Puff], 0, object.xpos, object.ypos)
+		object[tempObjectPos].iypos += object.collisionBottom
+		object[tempObjectPos].drawOrder = player.sortedDrawOrder
+
+		
+        object.angle           = 0
+    	object.collisionMode = CMODE_FLOOR
+        player.doubleJumpState = 2
+		object.state = PlayerObject_HandleAir
+
+    else 
+		CallFunction(PlayerObject_HandleAirMovement)
+		CallFunction(PlayerObject_HandleAirAcceleration)
+        if object.yvel <= 0x10000
+        	object.state = PlayerObject_HandleAir
+        	object.animation = ANI_JUMPING
+		end if
+    end if
+end function
+
 event ObjectDraw
+
 		if player.dropDashCharge >= 21
 			CheckEqual(object.animation,ANI_JUMPING)
 			temp0 = checkResult
@@ -7504,6 +7633,7 @@ function PlayerObject_ManiaRotate
 
 
 	end if
+
 	player.groundrotation &= 0x1FF
 	object.rotation = player.groundrotation
 	DrawObjectAnimation()
@@ -7713,7 +7843,7 @@ event ObjectStartup
 			CallFunction(PlayerObject_HandleSuperPalMighty)
 			object[0].propertyValue = 11
 			object[0].value30 = -5
-		//	object[0].value32 = PlayerObject_HandleShieldAbilities
+			object[0].value32 = PlayerObject_HandleMightyAbilities
 			break					
 		end switch
 
