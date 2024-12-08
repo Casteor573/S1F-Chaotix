@@ -1218,8 +1218,15 @@ function PlayerObject_CheckHit
 		FlipSign(object[currentPlayer].xvel)
 		object[currentPlayer].xvel >>= 1
 		object[currentPlayer].speed = object[currentPlayer].xvel
-		FlipSign(object[currentPlayer].yvel)
-		object[currentPlayer].yvel >>= 1
+
+		CheckNotEqual(object[currentPlayer].state, PlayerObject_MightyHammerDrop)
+		temp5 = checkResult
+		CheckNotEqual(object[currentPlayer].state, PlayerObject_HeavyStompLand)
+		temp5 &= checkResult		
+		if temp5 == 1		
+			FlipSign(object[currentPlayer].yvel)
+			object[currentPlayer].yvel >>= 1
+		end if
 		if object[currentPlayer].animation == ANI_GLIDING
 			object[currentPlayer].value1 = 0
 			object[currentPlayer].animation = ANI_GLIDING_DROP
@@ -1253,23 +1260,23 @@ function PlayerObject_BadnikBreak
 	CheckEqual(object[currentPlayer].animation, ANI_GLIDING_STOP)
 	temp0 |= checkResult
 
-	if object[0].propertyValue == 6
+	if object[currentPlayer].propertyValue == 6
 		CheckEqual(object[currentPlayer].animation, 56)
 		temp0 |= checkResult	
 		CheckEqual(object[currentPlayer].animation, 57)
 		temp0 |= checkResult	
 	end if		
-	if object[0].propertyValue == 7
+	if object[currentPlayer].propertyValue == 7
 		CheckEqual(object[currentPlayer].animation, 52)
 		temp0 |= checkResult	
 	end if
-	if object[0].propertyValue == 8
+	if object[currentPlayer].propertyValue == 8
 		CheckEqual(object[currentPlayer].animation, ANI_PEELOUT)
 		temp0 |= checkResult
 		CheckEqual(object[currentPlayer].animation, 53)
 		temp0 |= checkResult			
 	end if	
-	if object[0].propertyValue == 9
+	if object[currentPlayer].propertyValue == 9
 		CheckEqual(object[currentPlayer].animation, ANI_RUNNING)
 		temp0 |= checkResult	
 		CheckEqual(object[currentPlayer].animation, 52)
@@ -1277,12 +1284,16 @@ function PlayerObject_BadnikBreak
 		CheckEqual(object[currentPlayer].animation, 54)
 		temp0 |= checkResult			
 	end if
-	if object[0].propertyValue == 10
+	if object[currentPlayer].propertyValue == 10
 		CheckEqual(object[currentPlayer].animation, 43)
 		temp0 |= checkResult	
 		CheckEqual(object[currentPlayer].animation, 56)
 		temp0 |= checkResult				
 	end if	
+	if object[currentPlayer].propertyValue == 11
+		CheckEqual(object[currentPlayer].animation, 52)
+		temp0 |= checkResult	
+	end if
 
 	CheckNotEqual(object[currentPlayer].value7, 0)
 	temp0 |= checkResult
@@ -4766,6 +4777,7 @@ function PlayerObject_HandleMightyAbilities
 	//	CheckEqual(object.down, 1)
 	//	temp0 &= checkResult
 		if temp0 == 1
+			object.animation = 52
 			object.state = PlayerObject_MightyHammerDrop
 			object.speed >>= 1
 			if player.gravityValue == 0x3800
@@ -4773,6 +4785,8 @@ function PlayerObject_HandleMightyAbilities
 			else
 				object.yVel = 0x80000
 			endif			
+			PlaySfx(sfxName[MightyDrill], 0)
+			PlaySfx(SfxName[Release],0)		
 		end if
 	end if
 end function
@@ -7068,8 +7082,6 @@ end function
 
 event ObjectMain
 
-
-
 	if SuperTimeAttack == 2
 		SuperTimeAttack = 1
 		currentPlayer = 0
@@ -7273,9 +7285,9 @@ function PlayerObject_MightyHammerDrop
 
 
 		if player.gravityValue == 0x3800
-			object.dropforce = 0x20000	//dropforce	
+			object.dropforce = 0x30000	//dropforce	
 		else
-			object.dropforce = 0x10000
+			object.dropforce = 0x15000
 		end if
 		object.dropforce += player.gravityValue
 
@@ -7313,6 +7325,7 @@ function PlayerObject_MightyHammerDrop
 		object[tempObjectPos].iypos += object.collisionBottom
 		object[tempObjectPos].drawOrder = player.sortedDrawOrder
 
+		PlaySFX(sfxName[MightyLand], 0)	
 		
         object.angle           = 0
     	object.collisionMode = CMODE_FLOOR
@@ -7320,6 +7333,7 @@ function PlayerObject_MightyHammerDrop
 		object.state = PlayerObject_HandleAir
 
     else 
+		
 		CallFunction(PlayerObject_HandleAirMovement)
 		CallFunction(PlayerObject_HandleAirAcceleration)
         if object.yvel <= 0x10000
@@ -7330,7 +7344,7 @@ function PlayerObject_MightyHammerDrop
 end function
 
 event ObjectDraw
-
+	
 		if player.dropDashCharge >= 21
 			CheckEqual(object.animation,ANI_JUMPING)
 			temp0 = checkResult

@@ -43,6 +43,10 @@
     <soundfx name="Swap" path="Global/Swap.wav" />
     <soundfx name="Swap Fail" path="Global/SwapFail.wav" />
     <soundfx name="Blast" path="Global/Blast.ogg" />
+    <soundfx name="MightyDeflect" path="Global/MightyDeflect.wav" />
+    <soundfx name="MightyDrill" path="Global/MightyDrill.wav" />
+    <soundfx name="MightyLand" path="Global/MightyLand.wav" />
+    <soundfx name="MightyUnspin" path="Global/MightyUnspin.wav" />    
   </sounds>
   <players>
     <player name="ESPIO" />
