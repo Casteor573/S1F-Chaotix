@@ -74,6 +74,10 @@ if temp2 == 0	//you can hit him
 		CheckEqual(object[currentPlayer].animation, 43)
 		temp0 |= checkResult	
 	end if	
+	if object[currentPlayer].propertyValue == 11
+		CheckEqual(object[currentPlayer].animation, 52)
+		temp0 |= checkResult	
+	end if	
 end if	
 
 	if temp0 == 1

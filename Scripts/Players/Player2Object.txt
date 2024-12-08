@@ -439,8 +439,11 @@ function Player2Object_Function66
 			object.animation = ANI_SWIMMING
 		end if
 	else
-		object.animation = ANI_FANROTATE
+		object.animation = ANI_JUMPING
 	end if	
+	if object.scale > 512
+		object.scale -= 16
+	end if
 	temp0 = player.targetLeaderPos.x
 	temp0 -= object.xpos
 	temp1 = temp0
@@ -524,6 +527,15 @@ function Player2Object_Function67
 		end if
 		if player.jumpInTimer > 239
 			player.jumpInTimer = 0
+			if object.partner != 0
+				CheckNotEqual(object[0].state, PlayerObject_Death)
+				temp1 = checkResult
+				CheckNotEqual(object[0].state, PlayerObject_Drown)
+				temp1 &= checkResult		
+				if temp1 == 1	
+					object.scale = 4096
+				end if
+			end if	
 			object.state = Player2Object_Function66
 			object.xpos = object[0].xpos
 			object.ypos = screen.yoffset
@@ -549,6 +561,15 @@ function Player2Object_Function67
 		temp0 &= checkResult
 		if temp0 == 1
 			player.jumpInTimer = 0
+			if object.partner != 0
+				CheckNotEqual(object[0].state, PlayerObject_Death)
+				temp1 = checkResult
+				CheckNotEqual(object[0].state, PlayerObject_Drown)
+				temp1 &= checkResult		
+				if temp1 == 1	
+					object.scale = 4096
+				end if
+			end if
 			object.state = Player2Object_Function66
 			object.xvel = 0
 			object.yvel = 0
