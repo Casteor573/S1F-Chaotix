@@ -6458,7 +6458,7 @@ function PlayerObject_Death
 		player.invulnerable = 0
 		object.visible = 1
 	end if
-
+	object.scale += 12
 	object.yvel += 0x3800
 	
 	if object.animation != ANI_BORED
@@ -7106,6 +7106,7 @@ event ObjectMain
 			
 			object.type = TypeName[Debug Mode]
 			object.yvel = 0
+			object.scale = 512
 			object.state = PlayerObject_Blank
 			object.frame = 0
 			object.rotation = 0
@@ -7559,24 +7560,6 @@ function PlayerObject_ManiaRotate
 	else
 	
 	switch stage.playerListPos
-	default
-
-			if player.groundrotation < 256
-				if player.groundrotation > 3
-					player.groundrotation -= 4
-				else
-					player.groundrotation = 0
-				end if
-			else
-				if player.groundrotation < 509
-					player.groundrotation += 4
-				else
-					player.groundrotation = 0
-				end if
-			end if
-	
-
-	break
 	case 5
 		CheckEqual(object.animation, ANI_HAMMER_JUMP)
 		temp0 = checkResult
@@ -7643,6 +7626,21 @@ function PlayerObject_ManiaRotate
 
 
 	break
+	default
+			if player.groundrotation < 256
+				if player.groundrotation > 3
+					player.groundrotation -= 4
+				else
+					player.groundrotation = 0
+				end if
+			else
+				if player.groundrotation < 509
+					player.groundrotation += 4
+				else
+					player.groundrotation = 0
+				end if
+			end if
+	break	
 	end switch	
 
 
@@ -7878,19 +7876,19 @@ event ObjectStartup
 	next
 	goggleType = TypeName[Goggles]
 
-	CheckCurrentStageFolder("ZoneT")
-	temp0 = checkResult
-	CheckCurrentStageFolder("Hub")
-	temp0 |= checkResult	
-	if temp0 == 1
-		if saveRAM[4001] == 1 //act trans
-			object[0].xpos = prevPos
-		else	//block off the signpost there
-			temp0 = object.ixpos
-			temp0 += screen.xcenter
-			stage.newXBoundary1 = temp0
-		end if
-	end if	
+//	CheckCurrentStageFolder("ZoneT")
+///	temp0 = checkResult
+//	CheckCurrentStageFolder("Hub")
+//	temp0 |= checkResult	
+//	if temp0 == 1
+//		if saveRAM[4001] == 1 //act trans
+//			object[0].xpos = prevPos
+//		else	//block off the signpost there
+//			temp0 = object.ixpos
+//			temp0 += screen.xcenter
+//			stage.newXBoundary1 = temp0
+//		end if
+//	end if	
 		
 	LoadSpriteSheet("Players/Sonic4.gif")		
 	//DropDash Sprites
