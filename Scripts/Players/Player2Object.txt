@@ -442,7 +442,7 @@ function Player2Object_Function66
 		object.animation = ANI_JUMPING
 	end if	
 	if object.scale > 512
-		object.scale -= 16
+		object.scale -= 24
 	end if
 	temp0 = player.targetLeaderPos.x
 	temp0 -= object.xpos
