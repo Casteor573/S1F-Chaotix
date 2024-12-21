@@ -4408,11 +4408,7 @@ function PlayerObject_HeavyWallStick
 	if object.gravity == GRAVITY_AIR
 		object.animation = 55
 		
-	
-			object.yvel += 0x800
-				CreateTempObject(TypeName[Dust Puff], 0, object.xpos, object.ypos)
-				object[tempObjectPos].drawOrder = 3
-	
+		object.yvel += 0x800
 	
 		if object.jumpPress == 1
 			object.animation = ANI_JUMPING
@@ -4460,8 +4456,8 @@ function PlayerObject_HeavyWallStick
 				end if
 			end if
 			if temp0 == 0
-				
-					object.state = PlayerObject_HeavyWallStick
+					object.animation = ANI_JUMPING
+					object.state = PlayerObject_HandleAir
 			else
 				if temp1 == 0
 					object.animation = ANI_JUMPING
