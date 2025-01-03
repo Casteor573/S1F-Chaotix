@@ -780,10 +780,13 @@ event ObjectStartup
 	PlayerObject_StateJumpPress = 0
 	PlayerObject_StateJumpHold = 0
 	if stage.player2Enabled == 1
-	switch object.partner
-		case 0 //TAILS
+
 			ResetObjectEntity(1, TypeName[Player 2 Object], 1, object[0].xpos, object[0].ypos)
 			object[1].xpos -= 0x100000
+
+	switch object.partner
+		case 0 //TAILS
+
 			object[1].propertyValue = 1
 			
 			LoadSpriteSheet("Players/Tails1.gif")
@@ -818,16 +821,6 @@ event ObjectStartup
 
 		break
 		case 6	//ESPIO //lala
-			ResetObjectEntity(1, TypeName[Player 2 Object], 1, object[0].xpos, object[0].ypos)
-			if stage.activeList == BONUS_STAGE
-				if stage.listPos == 2
-					object[1].xpos -= 0x100000
-				else
-					object[1].xpos -= 0x400000
-				end if
-			else
-				object[1].xpos -= 0x100000		
-			end if
 			object[1].propertyValue = 6
 			object[1].partner = 6
 			LoadSpriteSheet("Players/Tails1.gif")
@@ -862,16 +855,6 @@ event ObjectStartup
 
 		break
 		case 7	//VECTOR
-			ResetObjectEntity(1, TypeName[Player 2 Object], 1, object[0].xpos, object[0].ypos)
-			if stage.activeList == BONUS_STAGE
-				if stage.listPos == 2
-					object[1].xpos -= 0x100000
-				else
-					object[1].xpos -= 0x400000
-				end if
-			else
-				object[1].xpos -= 0x100000		
-			end if		
 			object[1].propertyValue = 7
 			object[1].partner = 7
 			LoadSpriteSheet("Players/Tails1.gif")
@@ -906,16 +889,6 @@ event ObjectStartup
 
 		break		
 		case 8	//VECTOR
-			ResetObjectEntity(1, TypeName[Player 2 Object], 1, object[0].xpos, object[0].ypos)
-			if stage.activeList == BONUS_STAGE
-				if stage.listPos == 2
-					object[1].xpos -= 0x100000
-				else
-					object[1].xpos -= 0x400000
-				end if
-			else
-				object[1].xpos -= 0x100000		
-			end if
 			object[1].propertyValue = 8
 			object[1].partner = 8
 			LoadSpriteSheet("Players/Tails1.gif")
@@ -950,16 +923,6 @@ event ObjectStartup
 
 		break	
 		case 9	//VECTOR
-			ResetObjectEntity(1, TypeName[Player 2 Object], 1, object[0].xpos, object[0].ypos)
-			if stage.activeList == BONUS_STAGE
-				if stage.listPos == 2
-					object[1].xpos -= 0x100000
-				else
-					object[1].xpos -= 0x400000
-				end if
-			else
-				object[1].xpos -= 0x100000		
-			end if
 			object[1].propertyValue = 9
 			object[1].partner = 9
 			LoadSpriteSheet("Players/Tails1.gif")
@@ -986,16 +949,6 @@ event ObjectStartup
 
 		break	
 		case 10	//VECTOR
-			ResetObjectEntity(1, TypeName[Player 2 Object], 1, object[0].xpos, object[0].ypos)
-			if stage.activeList == BONUS_STAGE
-				if stage.listPos == 2
-					object[1].xpos -= 0x100000
-				else
-					object[1].xpos -= 0x400000
-				end if
-			else
-				object[1].xpos -= 0x100000		
-			end if
 			object[1].propertyValue = 10
 			object[1].partner = 10
 			LoadSpriteSheet("Players/Tails1.gif")

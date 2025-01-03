@@ -37,93 +37,95 @@ case 0
 	case 0
 		temp0 = object.ypos
 		temp0 += 0x400000
-		if object[0].ypos < temp0
-			stage.newXBoundary1 = object.xpos
-			stage.newXBoundary1 >>= 16
-			stage.newXBoundary1 -= screen.xcenter
-			stage.newXBoundary1 -= screen.xcenter
-			stage.newXBoundary2 = object.xpos
-			stage.newXBoundary2 >>= 16
-			stage.newXBoundary2 += screen.xcenter
-			if object[0].xpos > object.xpos
+		if object[0].value16 == 0
+			if object[0].ypos < temp0
 				stage.newXBoundary1 = object.xpos
 				stage.newXBoundary1 >>= 16
 				stage.newXBoundary1 -= screen.xcenter
-				if stage.debugMode == 0
-					if stage.listPos == 0
-						if stage.minutes == 0
-							if stage.seconds < 30
-								achievement.trigger = 1
-								//CallNativeFunction2(SetAchievement, 1, 100)
+				stage.newXBoundary1 -= screen.xcenter
+				stage.newXBoundary2 = object.xpos
+				stage.newXBoundary2 >>= 16
+				stage.newXBoundary2 += screen.xcenter
+				if object[0].xpos > object.xpos
+					stage.newXBoundary1 = object.xpos
+					stage.newXBoundary1 >>= 16
+					stage.newXBoundary1 -= screen.xcenter
+					if stage.debugMode == 0
+						if stage.listPos == 0
+							if stage.minutes == 0
+								if stage.seconds < 30
+									achievement.trigger = 1
+									//CallNativeFunction2(SetAchievement, 1, 100)
+								end if
+							end if
+						end if
+						if stage.listPos == 7
+							temp0 = 230
+							temp0 <<= 16
+							if object[0].ypos < temp0
+								achievement.trigger = 16
 							end if
 						end if
 					end if
-					if stage.listPos == 7
-						temp0 = 230
-						temp0 <<= 16
-						if object[0].ypos < temp0
-							achievement.trigger = 16
+					if stage.timeEnabled == 1
+						if options.gameMode == 2
+							timeAttack.result = stage.seconds
+							timeAttack.result *= 100
+							temp0 = stage.minutes
+							temp0 *= 0x1770
+							timeAttack.result += temp0
+							timeAttack.result += stage.milliSeconds
+								//stage.listPos--
+							switch stage.playerListPos	//time attack stuff
+								case 0
+									arrayPos0 = 500
+									break
+								case 1
+									arrayPos0 = 530
+									break
+								case 2
+									arrayPos0 = 560
+									break
+								case 5
+									arrayPos0 = 470
+									break		
+								case 6
+									arrayPos0 = 3700
+									break		
+								case 7
+									arrayPos0 = 3750
+									break	
+								case 8
+									arrayPos0 = 3790
+									break	
+								case 9
+									arrayPos0 = 3830
+									break	
+								case 10
+									arrayPos0 = 3880
+									break																		
+									end switch
+							if SuperTimeAttack == 1
+								arrayPos0 = 590
+							end if
+							arraypos0 += stage.listPos
+							if timeAttack.result < saveRAM[arrayPos0]
+								saveRAM[arrayPos0] = timeAttack.result
+								//object[9].value2 = timeAttack.result
+								PlaySfx(SfxName[Event], 0)
+							end if
+							WriteSaveRAM()
 						end if
 					end if
-				end if
-				if stage.timeEnabled == 1
-					if options.gameMode == 2
-						timeAttack.result = stage.seconds
-						timeAttack.result *= 100
-						temp0 = stage.minutes
-						temp0 *= 0x1770
-						timeAttack.result += temp0
-						timeAttack.result += stage.milliSeconds
-							//stage.listPos--
-						switch stage.playerListPos	//time attack stuff
-							case 0
-								arrayPos0 = 500
-								break
-							case 1
-								arrayPos0 = 530
-								break
-							case 2
-								arrayPos0 = 560
-								break
-							case 5
-								arrayPos0 = 470
-								break		
-							case 6
-								arrayPos0 = 3700
-								break		
-							case 7
-								arrayPos0 = 3750
-								break	
-							case 8
-								arrayPos0 = 3790
-								break	
-							case 9
-								arrayPos0 = 3830
-								break	
-							case 10
-								arrayPos0 = 3880
-								break																		
-								end switch
-						if SuperTimeAttack == 1
-							arrayPos0 = 590
-						end if
-						arraypos0 += stage.listPos
-						if timeAttack.result < saveRAM[arrayPos0]
-							saveRAM[arrayPos0] = timeAttack.result
-							//object[9].value2 = timeAttack.result
-							PlaySfx(SfxName[Event], 0)
-						end if
-						WriteSaveRAM()
+					stage.timeEnabled = 0
+					object.state = 1
+					PlaySfx(SfxName[Sign Post], 0)
+					if PlayerObject_SuperState == 1
+						PlayerObject_SuperState = 2
 					end if
-				end if
-				stage.timeEnabled = 0
-				object.state = 1
-				PlaySfx(SfxName[Sign Post], 0)
-				if PlayerObject_SuperState == 1
-					PlayerObject_SuperState = 2
 				end if
 			end if
-		end if
+		end if	
 		break
 	case 1
 		music.volume--

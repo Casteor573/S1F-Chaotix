@@ -109,8 +109,8 @@ if checkResult == 1
 	
 	//xpos
 
-		temp2 = 138	//screen xpos		line one
-		temp3 = -102	//line 2
+	temp2 = 138	//screen xpos		line one
+	temp3 = -102	//line 2
 
 	
 	
@@ -148,11 +148,11 @@ if checkResult == 1
 		
 			temp5 = screen.ycenter
 			if ArrayPos0 < 30
-			temp5 -= 0x58
-			DrawSpriteScreenFX(Object.Frame, FX_INK, temp2, temp5)
+				temp5 -= 0x58
+				DrawSpriteScreenFX(Object.Frame, FX_INK, temp2, temp5)
 			else
-			temp5 -= 0x49
-			DrawSpriteScreenFX(Object.Frame, FX_INK, temp3, temp5)
+				temp5 -= 0x49
+				DrawSpriteScreenFX(Object.Frame, FX_INK, temp3, temp5)
 			end if
 			// The the letter, but only if it's a valid one
 			

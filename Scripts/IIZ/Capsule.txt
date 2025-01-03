@@ -20,35 +20,43 @@ event ObjectMain
 		
 		BoxCollisionTest(C_TOUCH, object.entityPos, 10, -70, 65, 0, currentPlayer, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO)
 		if checkResult == 1
-				object.priority = PRIORITY_ACTIVE
-				temp0 = object[currentPlayer].xpos
-				temp0 -= object.xpos
-				temp1 = object[currentPlayer].ypos
-				temp1 -= object.ypos
-				ATan2(temp2, temp0, temp1)
-				Cos256(temp0, temp2)
-				Sin256(temp1, temp2)
-				temp0 *= -0x2000
-				temp1 *= 0x700
-				object[currentPlayer].xvel = temp0
-				object[currentPlayer].speed = object[currentPlayer].xvel
-				object[currentPlayer].value1 = 0
-				object[currentPlayer].gravity = GRAVITY_AIR
-				PlaySfx(SfxName[Boss Hit], 0)
-				object.state++
+			temp0 = object[currentPlayer].xpos
+			temp0 -= object.xpos
+			temp1 = object[currentPlayer].ypos
+			temp1 -= object.ypos
+			ATan2(temp2, temp0, temp1)
+			Cos256(temp0, temp2)
+			Sin256(temp1, temp2)
+			temp0 *= -0x2000
+			temp1 *= 0x700
+			object[currentPlayer].xvel = temp0
+			object[currentPlayer].speed = object[currentPlayer].xvel
+			object[currentPlayer].value1 = 0
+			object[currentPlayer].gravity = GRAVITY_AIR
+			PlaySfx(SfxName[Boss Hit], 0)
+			object.state++
 		else
-			object[1].state = Player2Object_Blank
-			object[1].animation = ANI_HURT
-			temp0 = object.xpos
-			temp0 += 0x280000
-			temp1 = object.ypos
-			temp1 -= 0x180000		
-			object[1].xpos = temp0
-			object[1].ypos = temp1
-			CreateTempObject(TypeName[Capsule Extras], 0, object.xpos, object.ypos)
+			if object.outOfBounds == 0
+				object[1].visible = 1
+				object[1].state = Player2Object_Blank
+				object[1].animation = ANI_HURT
+				temp0 = object.xpos
+				temp0 += 0x280000
+				temp1 = object.ypos
+				temp1 -= 0x180000		
+				object[1].scale = 512
+				object[1].xvel = 0
+				object[1].xpos = temp0
+				object[1].ypos = temp1
+				CreateTempObject(TypeName[Capsule Extras], 0, object.xpos, object.ypos)
+			else
+				object[1].state = Player2Object_Blank
+				object[1].visible = 0
+			end if
 		end if	
 	break
 	case 1
+		object[1].scale = 512
 		object.value0++
 		temp0 = object.value0
 		temp0 &= 7
@@ -71,6 +79,7 @@ event ObjectMain
 	break
 	case 2
 		object.value0++
+		object[1].scale = 512
 		object[1].tileCollisions = 1
 		object[1].state = PlayerObject_HandleGround
 		if object.value0 == 10
@@ -82,18 +91,19 @@ event ObjectMain
 		end if		
 	break
 	case 3
-			object.value0++
-			object[1].state = PlayerObject_Blank
-			object[1].animation = ANI_STOPPED	
-			object[1].controlMode = -1
-			object[1].up = 0
-			object[1].down = 0
-			object[1].left = 0
-			object[1].jumpPress = 0
-			object[1].jumpHold = 0
-			object[1].right = 0
-			object[1].speed = 0
-			object[1].xvel = 0
+		object[1].scale = 512
+		object.value0++
+		object[1].state = PlayerObject_Blank
+		object[1].animation = ANI_STOPPED	
+		object[1].controlMode = -1
+		object[1].up = 0
+		object[1].down = 0
+		object[1].left = 0
+		object[1].jumpPress = 0
+		object[1].jumpHold = 0
+		object[1].right = 0
+		object[1].speed = 0
+		object[1].xvel = 0
 		if object.value0 == 200
 			object[tempObjectPos].type = TypeName[blank object]
 			object[1].state = PlayerObject_HandleAir
@@ -104,7 +114,7 @@ event ObjectMain
 	end switch
 
 	
-
+	object[1].scale = 512
 end event
 
 event ObjectDraw
