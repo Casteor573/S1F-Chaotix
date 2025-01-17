@@ -569,8 +569,8 @@ public table PlayerObject_CharmyPhysicsTable
 end table
 
 public table PlayerObject_HeavyPhysicsTable
-	0x62000, 0xA00,  0x1800, 0x600,  0x2500,  0x600, 0x70000, -0x70000	// Normal
-	0x40000, 0x700,  0xC00,  0x300,  0x4000,  0x300, 0x60000, -0x40000	// Underwater
+	0x62000, 0xA00,  0x1800, 0x600,  0x2500,  0x600, 0x68000, -0x40000	// Normal
+	0x40000, 0x700,  0xC00,  0x300,  0x4000,  0x300, 0x38000, -0x30000	// Underwater
 	0xA0000, 0x3000, 0x6000, 0x1800, 0x10000, 0x600, 0x60000, -0x40000
 	0x50000, 0x1800, 0x3000, 0xC00,  0x8000,  0x300, 0x30000, -0x20000
 	0xC0000, 0x1800, 0x3000, 0x600,  0x2500,  0x600, 0x90000, -0x60000	// Speed Shoes
@@ -2311,7 +2311,13 @@ function PlayerObject_StartJump
 						object.value10 = ANI_FALL
 					end if
 				end if
-				
+				//its not all one animation now
+
+				if object.propertyValue == 9
+					object.animation = ANI_BOUNCING
+					object.value10 = 56
+				end if
+
 				if object.propertyValue == 10
 					object.animation = ANI_BOUNCING
 					object.value10 = 61
@@ -3382,6 +3388,18 @@ function PlayerObject_HandleAir
 					end if
 				end if	
 
+				if object.propertyValue == 9
+					CheckEqual(object.animation, ANI_BOUNCING)
+					temp0 = checkResult
+					CheckEqual(object.animation, 56)
+					temp0 |= checkResult
+					if temp0 == 1						
+						CallFunction(PlayerObject_HandleHeavyMoves)
+						player.doubleJumpState = 1
+					end if
+				end if	
+
+
 
 		else
 			if object.entityPos == 0
@@ -4223,7 +4241,12 @@ function PlayerObject_HandleHeavyMoves
 		if object.down == 1
 			object.state = PlayerObject_HeavyStompLand	
 			object.animation = 52
-			object.yvel += 0xF0000
+
+			if player.gravityValue == 0x1000
+				object.yvel += 0x90000
+			else
+				object.yvel += 0xF0000
+			end if
 		end if			
 	end if
 end function
