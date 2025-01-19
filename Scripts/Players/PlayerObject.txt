@@ -126,8 +126,9 @@ reserve function PlayerObject_Vector_AirDashing
 reserve function PlayerObject_Charmy_Flight
 reserve function PlayerObject_Charmy_FlightEnd
 reserve function PlayerObject_HandleHeavyMoves
-reserve function PlayerObject_HandleMightyMoves
+reserve function PlayerObject_HandleMightyAbilities
 reserve function PlayerObject_MightyHammerDrop
+
 
 reserve function PlayerObject_HeavyStompLand
 reserve function PlayerObject_HeavyAirDashStart
@@ -203,6 +204,7 @@ reserve function PlayerObject_BombExplodeAlt
 reserve function PlayerObject_BombWallBlast
 reserve function P1_PartnerSwitching
 reserve function PlayerList_Switching
+reserve function PlayerObject_MightyWallStick
 
 reserve function PlayerObject_StartHop
 reserve function PlayerObject_OuttaHere
@@ -4799,8 +4801,8 @@ function PlayerObject_HandleMightyAbilities
 		end if
 		CheckEqual(object.jumpPress, 1)
 		temp0 = checkResult
-	//	CheckEqual(object.down, 1)
-	//	temp0 &= checkResult
+		CheckEqual(object.down, 1)
+		temp0 &= checkResult
 		if temp0 == 1
 			object.animation = 52
 			object.state = PlayerObject_MightyHammerDrop
@@ -4811,11 +4813,141 @@ function PlayerObject_HandleMightyAbilities
 				object.yVel = 0x80000
 			endif			
 			PlaySfx(sfxName[MightyDrill], 0)
-			PlaySfx(SfxName[Release],0)		
+			PlaySfx(SfxName[Release],0)	
 		end if
 	end if
+
+	if object.jumpPress == 1
+		if object.gravity == GRAVITY_AIR
+			temp7 = object.xpos
+			object.xpos = temp7
+			object.xpos += object.xvel
+			object.ypos = object.ypos
+
+			if	object.direction == FACING_RIGHT
+				ObjectTileCollision(CSIDE_LWALL, 12, -2, object.collisionPlane)
+				temp0 = checkResult	// i guess this equals true
+				ObjectTileCollision(CSIDE_LWALL, 12, 11, object.collisionPlane)
+				temp1 = checkResult	
+			else
+				ObjectTileCollision(CSIDE_RWALL, -12, -2, object.collisionPlane)
+				temp0 = checkResult
+				ObjectTileCollision(CSIDE_RWALL, -12, 11, object.collisionPlane)
+				temp1 = checkResult
+			end if
+
+			temp2 = object.ypos
+			temp3 = object.ypos
+
+			Cos(object.xvel, object.value0)
+			object.xvel *= object.speed
+			object.xvel >>= 9
+
+
+			object.xpos = temp7
+			checkResult = temp0
+			checkResult &= temp1
+			if object.jumpPress == true	
+				if checkResult == false
+					if temp0 == true	//shouldnt even be this one it should be the one above, but at least it works
+						object.speed = 0
+						object.value0 = 0
+						object.xvel = 0
+						object.speed = 0	
+						object.animation = 52
+						object.yvel = 0
+						object.state = PlayerObject_MightyWallStick
+						PlaySfx(SfxName[Catch], false)
+					end if
+				end if
+			end if	
+		else
+			if object.collisionMode == CMODE_FLOOR
+				object.value0 = 0
+				//player.state = Player_State_GlideSlide
+				object.animation = 30
+				object.speed = object.xvel
+			else
+				object.state = PlayerObject_HandleGround
+				CallFunction(PlayerObject_ResetOnFloor)
+				player.skidding = 0
+			end if
+		end if
+	end if	
 end function
 
+function PlayerObject_MightyWallStick
+	if object.gravity == GRAVITY_AIR
+		object.animation = 53
+		
+		object.value1++
+		object.yvel += 0x500
+		
+		CheckEqual(obj	ect.jumpHold, 0)
+		temp0 = checkResult
+		CheckEqual(object.value1, 60)
+		temp0 |= checkResult		
+		if temp0 == 1
+			object.animation = ANI_JUMPING
+			player.doubleJumpState = 1
+			object.state = PlayerObject_HandleAir
+			object.value1 = 0
+			PlaySfx(SfxName[Jump], 0)
+			if object.direction == FLIP_X
+				object.xvel = 0x45000
+				object.speed = 0x45000
+				object.direction = FLIP_NONE
+			else
+				object.xvel = -0x45000
+				object.speed = -0x45000
+				object.direction = FLIP_X
+			end if
+			object.yvel = -0x45000
+			if player.gravityvalue != 0x3800
+				object.xvel >>= 1
+				object.speed >>= 1
+				object.yvel >>= 1
+			end if
+		else
+			if object.direction == FLIP_NONE
+				temp2 = object.xpos
+				ObjectTileGrip(CSIDE_LWALL, 10, -10, object.collisionPlane)
+				temp0 = checkResult
+				temp3 = object.xpos
+				object.xpos = temp2
+				ObjectTileGrip(CSIDE_LWALL, 10, 11, object.collisionPlane)
+				temp1 = checkResult
+				if object.xpos > temp3
+					object.xpos = temp3
+				end if
+			else
+				temp2 = object.xpos
+				ObjectTileGrip(CSIDE_RWALL, -10, -10, object.collisionPlane)
+				temp0 = checkResult
+				temp3 = object.xpos
+				object.xpos = temp2
+				ObjectTileGrip(CSIDE_RWALL, -10, 11, object.collisionPlane)
+				temp1 = checkResult
+				if object.xpos < temp3
+					object.xpos = temp3
+				end if
+			end if
+			if temp0 == 0
+				object.animation = ANI_JUMPING
+				object.state = PlayerObject_HandleAir
+			else
+				if temp1 == 0
+					object.animation = ANI_JUMPING
+					object.state = PlayerObject_HandleAir
+				end if
+			end if
+		end if
+	else
+		object.animation = ANI_WALKING
+		object.state = PlayerObject_HandleGround
+		CallFunction(PlayerObject_ResetOnFloor)
+	end if
+end function
 
 function PlayerObject_AirCtrlLock
 	CallFunction(PlayerObject_HandleAirAcceleration)
