@@ -120,6 +120,10 @@ event ObjectStartup
 	case 10
 		SpriteFrame(-12, -5, 22, 18, 37, 56)
 		SpriteFrame(-12, -5, 22, 18, 37, 56)
+		break		
+	case 11
+		SpriteFrame(-12, -5, 16, 24, 60, 56)
+		SpriteFrame(-12, -5, 16, 24, 77, 56)
 		break			
 	end switch
 	foreach (TypeName[Continue Screen], arrayPos0, ALL_ENTITIES)
