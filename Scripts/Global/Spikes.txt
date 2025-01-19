@@ -9,7 +9,6 @@
 private alias 35 : TYPE_SPIKES
 
 private alias object.value2 : object.spikedirection
-private alias object.value3 : player.absxVel
 
 private alias 0 : C_TOP
 private alias 1 : C_LEFT
@@ -102,8 +101,7 @@ end function
 
 event ObjectMain
 
-	player.absxVel = object[currentPlayer].xVel
-	abs(player.absxVel)
+
 
 	switch object.state
 	case 1
@@ -455,7 +453,11 @@ function Spikes_MightySpikes
 	end if
 
 	if temp0 == 1
-		 if player.absxVel < 0x20000	//works for both directions
+
+		temp2 = object[currentPlayer].xVel
+		abs(temp2)
+
+		 if temp2 < 0x20000	//works for both directions
 
 			//basically the direction of the spikes, sorted out between each propertyvalue
 			//spike propertyvalues that face up use C_TOP
