@@ -171,6 +171,10 @@ event ObjectMain
 		if stage.playerListPos == 7	
 			CheckEqual(object[currentPlayer].animation, 52)
 			temp0 |= checkResult	
+		end if		
+		if stage.playerListPos == 11
+			CheckEqual(object[currentPlayer].animation, 52)
+			temp0 |= checkResult	
 		end if			
 			
 			if temp0 == 1
@@ -180,9 +184,17 @@ event ObjectMain
 						object.state = 0
 						CreateTempObject(TypeName[Smoke Puff], 0, object.xpos, object.ypos)
 						object[tempObjectPos].drawOrder = 4
-						object[currentPlayer].yvel += object[currentPlayer].value25
-						object[currentPlayer].yvel += object[currentPlayer].value25
-						FlipSign(object[currentPlayer].yvel)
+						if stage.playerListPos == 11
+							if object[currentPlayer].animation != 52
+								object[currentPlayer].yvel += object[currentPlayer].value25
+								object[currentPlayer].yvel += object[currentPlayer].value25
+								FlipSign(object[currentPlayer].yvel)
+							end if
+						else
+							object[currentPlayer].yvel += object[currentPlayer].value25
+							object[currentPlayer].yvel += object[currentPlayer].value25
+							FlipSign(object[currentPlayer].yvel)							
+						end if	
 						object.type = TypeName[Broken Monitor]
 						if object.priority != PRIORITY_XBOUNDS_DESTROY
 							object.priority = PRIORITY_ACTIVE

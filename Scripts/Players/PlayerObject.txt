@@ -3076,6 +3076,12 @@ function PlayerObject_HandleGround
 				case 0
 				case 1
 				case 5
+				case 6
+				case 7
+				case 8
+				case 9
+				case 10
+				case 11
 					if object.floorSensorC == 0
 						if object.floorSensorR == 0
 							object.value1 = 0
@@ -3202,7 +3208,7 @@ function PlayerObject_HandleGround
 												object.animation = ANI_LOOKINGDOWN
 												CreateTempObject(TypeName[Dust Puff], 0, object.xpos, object.ypos)
 												object[tempObjectPos].iypos += object.collisionBottom
-												object[tempObjectPos].drawOrder = player.sortedDrawOrder
+												object[tempObjectPos].drawOrder = player.sortedDrawOrder	
 											else
 												object.animation = ANI_JUMPING
 											end if

@@ -114,8 +114,8 @@ event ObjectStartup
 	SpriteFrame(33, -65, 16, 16, 397, 357)	//bom 6
 	SpriteFrame(33, -65, 16, 16, 414, 357)	//who? 7
 
-	SpriteFrame(-11, -38, 24, 42, 460, 469)	//mighty? 8
-	SpriteFrame(-12, -38, 24, 42, 487, 469)	//mighty? 8
+	SpriteFrame(-11, -38, 24, 45, 459, 466)	//mighty? 8
+	SpriteFrame(-12, -38, 24, 45, 487, 466)	//mighty? 8
 	foreach (TypeName[Combi Catcher], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].priority = PRIORITY_ACTIVE
 	next
