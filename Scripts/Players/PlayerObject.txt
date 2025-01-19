@@ -1401,14 +1401,13 @@ function PlayerObject_BadnikBreak
 				if object[currentPlayer].value8 == 0
 					Player.CheckHammerDrop = 2
 					CallFunction(Player_CheckMightyUnspin)		
-					
-						object[currentPlayer].state = PlayerObject_Hurt
-						if object[currentPlayer].xpos > object.xpos
-							object[currentPlayer].speed = 0x20000
-						else
-							object[currentPlayer].speed = -0x20000
-						end if
 				
+					object[currentPlayer].state = PlayerObject_Hurt
+					if object[currentPlayer].xpos > object.xpos
+						object[currentPlayer].speed = 0x20000
+					else
+						object[currentPlayer].speed = -0x20000
+					end if
 				end if
 			end if
 		end if
@@ -4995,16 +4994,16 @@ function Player_CheckMightyUnspin
 				temp1 = object.ypos
 				temp1 -= object[currentPlayer].ypos
 
-				ATan2(temp2, temp0, temp1) // temp0 would be `angle`
+				ATan2(player.intAngle, temp0, temp1) // temp0 would be `angle`
 
 				if object[currentPlayer].animation != 54	//hammer spin	
-					Cos256(temp0, object.angle)
+					Cos256(temp0, player.intAngle)
 					temp0 *= player.bounceDistance
 					object[currentPlayer].xVel  = temp0
 					object[currentPlayer].speed = temp0				
 				end if
 
-				Sin256(temp0, object.Angle)
+				Sin256(temp0, player.intAngle)
 				temp0 *= player.BounceDistance
 				object[currentPlayer].yVel = temp0
 
@@ -5022,6 +5021,7 @@ function Player_CheckMightyUnspin
 								else
 									object[currentPlayer].state = PlayerObject_HandleAir
 								end if
+							end if
 						end if
 					end if
 			else 
@@ -5045,13 +5045,13 @@ function Player_CheckMightyUnspin
 				player[currentPlayer].doublejumpstate = 0
 				object[currentPlayer].state            = Player_State_MightyUnspin
 			end if
-					if player.uncurlTimer != 0
-						if object[currentPlayer].animation != 54
-							PlaySfx(sfxName[PimPom], 0)
-						end if
-						player.uncurlTimer = 8
+				if player.uncurlTimer != 0
+					if object[currentPlayer].animation != 54
+						PlaySfx(sfxName[PimPom], 0)
 					end if
-					checkResult = true
+					player.uncurlTimer = 8
+				end if
+				checkResult = true
 		end if
 
 			if player.checkHammerDrop == 2
@@ -5070,7 +5070,7 @@ function Player_CheckMightyUnspin
 				end if
 			end if
 		end if
-	end if
+	
 end if
 
 player.checkHammerDrop = 0
