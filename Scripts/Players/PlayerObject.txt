@@ -1400,13 +1400,15 @@ function PlayerObject_BadnikBreak
 			if object[currentPlayer].value7 == 0
 				if object[currentPlayer].value8 == 0
 					Player.CheckHammerDrop = 2
-					CallFunction(Player_CheckMightyUnspin)				
-					object[currentPlayer].state = PlayerObject_Hurt
-					if object[currentPlayer].xpos > object.xpos
-						object[currentPlayer].speed = 0x20000
-					else
-						object[currentPlayer].speed = -0x20000
-					end if
+					CallFunction(Player_CheckMightyUnspin)		
+					
+						object[currentPlayer].state = PlayerObject_Hurt
+						if object[currentPlayer].xpos > object.xpos
+							object[currentPlayer].speed = 0x20000
+						else
+							object[currentPlayer].speed = -0x20000
+						end if
+				
 				end if
 			end if
 		end if
@@ -4986,42 +4988,42 @@ function Player_CheckMightyUnspin
 			temp0 |= checkResult
 			if temp0 == true
 
-			//thanks composite
-			temp0 = object.xpos
-			temp0 -= object[currentPlayer].xpos
+				//thanks composite
+				temp0 = object.xpos
+				temp0 -= object[currentPlayer].xpos
 
-			temp1 = object.ypos
-			temp1 -= object[currentPlayer].ypos
+				temp1 = object.ypos
+				temp1 -= object[currentPlayer].ypos
 
-			ATan2(temp2, temp0, temp1) // temp0 would be `angle`
+				ATan2(temp2, temp0, temp1) // temp0 would be `angle`
 
-			if object[currentPlayer].animation != 54	//hammer spin	
-				Cos256(temp0, object.angle)
-				temp0 *= player.bounceDistance
-				object[currentPlayer].xVel  = temp0
-				object[currentPlayer].speed = temp0				
-			end if
-
-			Sin256(temp0, object.Angle)
-			temp0 *= player.BounceDistance
-			object[currentPlayer].yVel = temp0
-
-			if player.checkHammerDrop >= 1
-				if object[currentPlayer].state == PlayerObject_MightyHammerDrop
-					object[currentPlayer].state = PlayerObject_HandleAir
-					object[currentPlayer].animation = ANI_JUMPING
+				if object[currentPlayer].animation != 54	//hammer spin	
+					Cos256(temp0, object.angle)
+					temp0 *= player.bounceDistance
+					object[currentPlayer].xVel  = temp0
+					object[currentPlayer].speed = temp0				
 				end if
 
-				if object[currentPlayer].animation == ANI_SPINDASH
-					object[currentPlayer].animation = ANI_JUMPING
-					if object[currentPlayer].state == PlayerObject_StartSpindash
-						if object[currentPlayer].gravity == GRAVITY_GROUND
-							object[currentPlayer].state = PlayerObject_HandleRoll
-						else
+				Sin256(temp0, object.Angle)
+				temp0 *= player.BounceDistance
+				object[currentPlayer].yVel = temp0
+
+					if player.checkHammerDrop >= 1
+						if object[currentPlayer].state == PlayerObject_MightyHammerDrop
 							object[currentPlayer].state = PlayerObject_HandleAir
+							object[currentPlayer].animation = ANI_JUMPING
 						end if
-				end if
-			end if
+
+						if object[currentPlayer].animation == ANI_SPINDASH
+							object[currentPlayer].animation = ANI_JUMPING
+							if object[currentPlayer].state == PlayerObject_StartSpindash
+								if object[currentPlayer].gravity == GRAVITY_GROUND
+									object[currentPlayer].state = PlayerObject_HandleRoll
+								else
+									object[currentPlayer].state = PlayerObject_HandleAir
+								end if
+						end if
+					end if
 			else 
 				object[currentPlayer].yvel = -0x48000;
 
@@ -5043,13 +5045,13 @@ function Player_CheckMightyUnspin
 				player[currentPlayer].doublejumpstate = 0
 				object[currentPlayer].state            = Player_State_MightyUnspin
 			end if
-				if player.uncurlTimer != 0
-					if object[currentPlayer].animation != 54
-						PlaySfx(sfxName[PimPom], 0)
+					if player.uncurlTimer != 0
+						if object[currentPlayer].animation != 54
+							PlaySfx(sfxName[PimPom], 0)
+						end if
+						player.uncurlTimer = 8
 					end if
-					player.uncurlTimer = 8
-				end if
-				checkResult = true
+					checkResult = true
 		end if
 
 			if player.checkHammerDrop == 2
