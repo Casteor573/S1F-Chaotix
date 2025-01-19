@@ -506,7 +506,7 @@ function Spikes_MightySpikes
             object[currentPlayer].gravity         = GRAVITY_AIR
 			object[currentPlayer].visible = true
 			object[currentPlayer].value35 = 0
-            if object[currentPlayer].state == Player_BounceBack
+            if object[currentPlayer].state == Player_BounceBack	//basically different from hurt state, since it checks for that above
                 object[currentPlayer].animation = ANI_HURT
                 PlaySfx(SfxName[Spike], false)
             else 
@@ -525,7 +525,7 @@ function Spikes_MightySpikes
             end if
         
         else 
-			if object.propertyValue == C_TOP 
+			if object.propertyValue == C_TOP 	//manias
 				if object[currentPlayer].animation != 52
 					object[currentPlayer].yvel = -0x48000
 					if object[currentPlayer].direction != FLIP_X
@@ -575,6 +575,7 @@ function Spikes_MightySpikes
 	end if
 else
 CallFunction(PlayerObject_SpikeHit)	
+end if
 end if
 end function
 
