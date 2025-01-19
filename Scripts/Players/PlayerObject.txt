@@ -205,6 +205,8 @@ reserve function PlayerObject_BombWallBlast
 reserve function P1_PartnerSwitching
 reserve function PlayerList_Switching
 reserve function PlayerObject_MightyWallStick
+reserve function Player_CheckMightyUnspin
+reserve function Player_State_MightyUnspin
 
 reserve function PlayerObject_StartHop
 reserve function PlayerObject_OuttaHere
@@ -1397,6 +1399,8 @@ function PlayerObject_BadnikBreak
 		if object[currentPlayer].state != PlayerObject_Death
 			if object[currentPlayer].value7 == 0
 				if object[currentPlayer].value8 == 0
+					Player.CheckHammerDrop = 2
+					CallFunction(Player_CheckMightyUnspin)				
 					object[currentPlayer].state = PlayerObject_Hurt
 					if object[currentPlayer].xpos > object.xpos
 						object[currentPlayer].speed = 0x20000
@@ -4805,6 +4809,7 @@ function PlayerObject_HandleMightyAbilities
 		temp0 &= checkResult
 		if temp0 == 1
 			object.animation = 52
+			player.checkHammerDrop = 1
 			object.state = PlayerObject_MightyHammerDrop
 			object.speed >>= 1
 			if player.gravityValue == 0x3800
@@ -4856,6 +4861,7 @@ function PlayerObject_HandleMightyAbilities
 						object.speed = 0	
 						object.animation = 52
 						object.yvel = 0
+						player.checkHammerDrop = 1
 						object.state = PlayerObject_MightyWallStick
 						PlaySfx(SfxName[Catch], false)
 					end if
@@ -4944,9 +4950,143 @@ function PlayerObject_MightyWallStick
 		end if
 	else
 		object.animation = ANI_WALKING
+		player.checkHammerDrop = 0
 		object.state = PlayerObject_HandleGround
 		CallFunction(PlayerObject_ResetOnFloor)
 	end if
+end function
+
+
+function Player_CheckMightyUnspin	
+
+	//new values great
+	//(EntityPlayer *player, int32 bounceDistance, bool32 checkHammerDrop, int32 *uncurlTimer)
+
+	if stage.playerlistpos != 11
+		checkResult = false     
+	else	  
+		CheckEqual(object[currentPlayer].state, PlayerObject_Hurt)
+		temp0  = checkResult
+		CheckEqual(object[currentPlayer].state, PlayerObject_Death)
+		temp0 |= checkResult
+		CheckEqual(object[currentPlayer].state, PlayerObject_Drown)
+		temp0 |= checkResult
+		CheckNotEqual(player[currentPlayer].invincible, 0)
+		temp0 |= checkResult
+		CheckGreater(player[currentPlayer].invulnerable, 0)
+		temp0 |= checkResult			
+		if temp0 == true
+			checkResult = false
+		else		
+			CheckEqual(object[currentPlayer].animation, ANI_JUMPING)
+			temp0  = checkResult
+			CheckEqual(object[currentPlayer].animation, ANI_SPINDASH)
+			temp0 |= checkResult
+			CheckEqual(object[currentPlayer].animation, 52)
+			temp0 |= checkResult
+			if temp0 == true
+
+			//thanks composite
+			temp0 = object.xpos
+			temp0 -= object[currentPlayer].xpos
+
+			temp1 = object.ypos
+			temp1 -= object[currentPlayer].ypos
+
+			ATan2(temp2, temp0, temp1) // temp0 would be `angle`
+
+			if object[currentPlayer].animation != 54	//hammer spin	
+				Cos256(temp0, object.angle)
+				temp0 *= player.bounceDistance
+				object[currentPlayer].xVel  = temp0
+				object[currentPlayer].speed = temp0				
+			end if
+
+			Sin256(temp0, object.Angle)
+			temp0 *= player.BounceDistance
+			object[currentPlayer].yVel = temp0
+
+			if player.checkHammerDrop >= 1
+				if object[currentPlayer].state == PlayerObject_MightyHammerDrop
+					object[currentPlayer].state = PlayerObject_HandleAir
+					object[currentPlayer].animation = ANI_JUMPING
+				end if
+
+				if object[currentPlayer].animation == ANI_SPINDASH
+					object[currentPlayer].animation = ANI_JUMPING
+					if object[currentPlayer].state == PlayerObject_StartSpindash
+						if object[currentPlayer].gravity == GRAVITY_GROUND
+							object[currentPlayer].state = PlayerObject_HandleRoll
+						else
+							object[currentPlayer].state = PlayerObject_HandleAir
+						end if
+				end if
+			end if
+			else 
+				object[currentPlayer].yvel = -0x48000;
+
+				if object[currentPlayer].direction == 1
+					object[currentPlayer].xvel = -0x28000
+				else
+					object[currentPlayer].xvel = 0x28000
+
+				if player.gravityvalue == 0x1000
+					object[currentPlayer].xVel >>= 1
+					object[currentPlayer].yVel   = -0x24000
+				end if
+
+				player.invulnerable = 121
+				object.visible    = true
+				object[currentPlayer].animation = 54
+				PlaySfx(sfxName[MightyUnspin], 0)
+				object[currentPlayer].gravity         = 0
+				player[currentPlayer].doublejumpstate = 0
+				object[currentPlayer].state            = Player_State_MightyUnspin
+			end if
+				if player.uncurlTimer != 0
+					if object[currentPlayer].animation != 54
+						PlaySfx(sfxName[PimPom], 0)
+					end if
+					player.uncurlTimer = 8
+				end if
+				checkResult = true
+		end if
+
+			if player.checkHammerDrop == 2
+				if object[currentPlayer].animation == ANI_LOOKINGDOWN
+					if player.uncurlTimer == 0
+						PlaySfx(sfxName[PimPom], 0)
+						player.uncurlTimer = 30
+						if object.xpos > object[currentPlayer].xpos
+							object[currentPlayer].xVel = -0x10000
+						else
+							object[currentPlayer].xVel = 0x10000
+						end if
+						object[currentPlayer].speed = object[currentPlayer].xvel
+					end if
+					checkResult = true
+				end if
+			end if
+		end if
+	end if
+end if
+
+player.checkHammerDrop = 0
+player.bounceDistance = 0
+end function
+
+function Player_State_MightyUnspin
+
+    CallFunction(PlayerObject_HandleAirAcceleration)
+    if object.gravity == GRAVITY_GROUND
+        object.state = PlayerObject_HandleGround
+        player.doubleJumpState = 0
+        CallFunction(PlayerObject_ResetOnFloor)
+    else
+		player.invulnerable++
+		CallFunction(PlayerObject_HandleAirMovement)
+    endif	
+
 end function
 
 function PlayerObject_AirCtrlLock

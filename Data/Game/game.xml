@@ -30,6 +30,9 @@
     <variable name="is.Heavy" value="0" />
     <variable name="object.dropForce" value="0" />
     <variable name="object.groundVel" value="0" />
+    <variable name="player.bounceDistance" value="0" />
+    <variable name="player.checkHammerDrop" value="0" />
+    <variable name="player.uncurlTimer" value="0" />            
   </variables>
   <sounds>
     <soundfx name="Burst" path="Global/KC_5B.ogg" />
