@@ -40,6 +40,7 @@ event ObjectMain
 		case 0
 		case 3
 		case 6
+		case 11
 			temp1 = 0xAC0000
 			break
 		case 1
