@@ -207,6 +207,7 @@ reserve function PlayerList_Switching
 reserve function PlayerObject_MightyWallStick
 reserve function Player_CheckMightyUnspin
 reserve function Player_State_MightyUnspin
+reserve function Player_BounceBack
 
 reserve function PlayerObject_StartHop
 reserve function PlayerObject_OuttaHere
@@ -5089,6 +5090,21 @@ function Player_State_MightyUnspin
 		CallFunction(PlayerObject_HandleAirMovement)
     endif	
 
+end function
+
+function Player_BounceBack	//basicalyl from hurt state
+	object.visible = 1
+	object.state = PlayerObject_Knockback
+	object.animation = ANI_HURT
+	object.yvel = -0x40000
+	object.gravity = GRAVITY_AIR
+	object.scrollTracking = 1
+	object.tileCollisions = 1
+	player.invulnerable = 120
+	if player.gravityValue == 0x1000
+		object.speed >>= 1
+		object.yvel >>= 1
+	end if
 end function
 
 function PlayerObject_AirCtrlLock
