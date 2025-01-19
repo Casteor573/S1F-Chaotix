@@ -445,6 +445,10 @@ function LivesHud
 		case 10
 			temp0 = 80
 			temp1 = 79
+		break			
+		case 11
+			temp0 = 82	//icon
+			temp1 = 81	//name
 		break					
 		default
 			temp0 = stage.playerListPos
@@ -876,6 +880,9 @@ event ObjectStartup
 	SpriteFrame(0, 0, 26, 7, 317, 197)	//bomb name	79
 	SpriteFrame(0, 0, 16, 16, 368, 161)	//bomb icon	80	
 	
+	SpriteFrame(0, 0, 39, 7, 276, 197)	//migt name	81
+	SpriteFrame(0, 0, 16, 16, 333, 131)	//migt icon	82	
+
 	
 	foreach (TypeName[HUD], arrayPos0, ALL_ENTITIES)
 		switch options.gameMode
