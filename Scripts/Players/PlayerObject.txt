@@ -4865,7 +4865,7 @@ function PlayerObject_HandleMightyAbilities
 				if checkResult == false
 					if temp0 == true	//shouldnt even be this one it should be the one above, but at least it works
 						object.speed = 0
-						object.value0 = 0
+						object.value1 = 0
 						object.xvel = 0
 						object.speed = 0	
 						object.animation = 52
@@ -4898,7 +4898,7 @@ function PlayerObject_MightyWallStick
 		object.value1++
 		object.yvel += 0x500
 		
-		CheckEqual(obj	ect.jumpHold, 0)
+		CheckEqual(object.jumpHold, 0)
 		temp0 = checkResult
 		CheckEqual(object.value1, 60)
 		temp0 |= checkResult		
