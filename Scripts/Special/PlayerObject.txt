@@ -515,6 +515,10 @@ event ObjectStartup
 		case 10
 			LoadAnimation("Bomb.ani")
 			object[0].animationSpeed = 48
+			break				
+		case 11
+			LoadAnimation("Mighty.ani")
+			object[0].animationSpeed = 48
 			break								
 		end switch
 		object[0].state = PlayerObject_HandleMovement

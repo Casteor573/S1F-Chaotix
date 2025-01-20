@@ -716,15 +716,7 @@ event ObjectStartup
 
 	//	SpriteFrame(-104, -40, 217, 51, 452, 1) //38		
 
-	// Setup Player Palette Colours
-	temp0 = 208
-	temp1 = 0
-	while temp1 < 14
-		GetTableValue(temp2, temp1, Logo_playerPalette)
-		SetPaletteEntry(0, temp0, temp2)
-		temp0++
-		temp1++
-	loop
+
 end event
 
 

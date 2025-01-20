@@ -14,9 +14,9 @@
     <color bank="0" index="68" r="160" g="224" b="32" />
     <color bank="0" index="69" r="192" g="96" b="0" />
     <color bank="0" index="70" r="128" g="64" b="0" />
-    <color bank="0" index="71" r="32" g="32" b="32" />    
-    <color bank="0" index="72" r="224" g="64" b="64" />      
-    <color bank="0" index="73" r="224" g="128" b="96" />        
+    <color bank="0" index="71" r="32" g="32" b="32" />
+    <color bank="0" index="72" r="224" g="64" b="64" />
+    <color bank="0" index="73" r="224" g="128" b="96" />
   </palette>
   <objects />
   <variables>
@@ -32,8 +32,8 @@
     <variable name="object.groundVel" value="0" />
     <variable name="player.bounceDistance" value="0" />
     <variable name="player.checkHammerDrop" value="0" />
-    <variable name="player.uncurlTimer" value="0" />            
-    <variable name="player.intangle" value="0" />       
+    <variable name="player.uncurlTimer" value="0" />
+    <variable name="player.intangle" value="0" />
   </variables>
   <sounds>
     <soundfx name="Burst" path="Global/KC_5B.ogg" />
@@ -50,7 +50,7 @@
     <soundfx name="MightyDeflect" path="Global/MightyDeflect.wav" />
     <soundfx name="MightyDrill" path="Global/MightyDrill.wav" />
     <soundfx name="MightyLand" path="Global/MightyLand.wav" />
-    <soundfx name="MightyUnspin" path="Global/MightyUnspin.wav" />    
+    <soundfx name="MightyUnspin" path="Global/MightyUnspin.wav" />
   </sounds>
   <players>
     <player name="ESPIO" />
@@ -58,7 +58,7 @@
     <player name="CHARMY" />
     <player name="HEAVY" />
     <player name="BOMB" />
-    <player name="MIGHTY" />    
+    <player name="MIGHTY" />
   </players>
   <presentationStages>
     <stage name="CHAOTIXMENU" folder="ChaotixMenu" id="1" highlight="true" />
