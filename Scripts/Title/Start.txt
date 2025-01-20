@@ -43,7 +43,7 @@ reserve function Start_HandleTouchControls
 
 // Tables
 private table LSelect_CharacterLoad	//sonic, tails, knuckles, amy, S&T, K&T,
-	0, 1, 2, 5, 3, 4, 6, 7, 8, 9, 10
+	0, 1, 2, 5, 3, 4, 6, 7, 8, 9, 10, 11
 end table
 
 function Start_HandleTouchControls
@@ -139,7 +139,7 @@ event ObjectMain
 			end if
 		else
 			start.attractTimer++
-			if start.attractTimer == 720
+			if start.attractTimer == 1024
 				if object.xpos == screen.xcenter
 					if attract.stage == 3
 						object.state = START_SPECIALATTRAC 
@@ -201,12 +201,12 @@ event ObjectMain
 	case START_STARTATTRACT // we do demo stuff here!!
 		start.timer += 8
 		music.volume -= 2
-		if start.timer == 640
+		if start.timer == 1024
 			StopMusic()
 			stage.activeList = REGULAR_STAGE
 			stage.listPos = attract.stage
 			stage.listPos *= 3
-			Rand(stage.playerListPos, 4)
+			Rand(stage.playerListPos, 12)
 			if stage.playerListPos < 3
 					stage.player2Enabled = 0
 			end if
@@ -519,7 +519,10 @@ event ObjectMain
 							break
 						case 10
 							EditMenuEntry(MENU_1, "PLAYER             BOMB", 22, 1)
-							break																																			
+							break
+						case 11
+							EditMenuEntry(MENU_1, "PLAYER             MIGHTY", 22, 1)
+							break																																											
 					end switch
 				end if
 				break
