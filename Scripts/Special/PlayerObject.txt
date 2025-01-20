@@ -345,7 +345,11 @@ function PlayerObject_HandleMovement
 		object.value12 += temp0
 		object.value13 = 0
 		object.value13 -= temp1
-		PlaySfx(SfxName[Jump], 0)
+		if stage.playerlistpos == 9
+			PlaySfx(SfxName[Heavy Jump], 0)
+		else
+			PlaySfx(SfxName[Jump], 0)
+		end if
 	else
 		Sin(temp0, temp2)
 		temp0 *= object.value5
@@ -407,7 +411,7 @@ end function
 
 
 event ObjectMain
-	if stage.debugMode == 0	//CHANGE LATER
+	if stage.debugMode == 1	//CHANGE LATER
 		CallFunction(PlayerObject_ProcessPlayer)
 		if inputPress.buttonB == 1
 			object.type = TypeName[Debug Mode]

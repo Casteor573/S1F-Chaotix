@@ -574,11 +574,11 @@ public table PlayerObject_CharmyPhysicsTable
 end table
 
 public table PlayerObject_HeavyPhysicsTable
-	0x62000, 0xA00,  0x1800, 0x600,  0x2500,  0x600, 0x68000, -0x40000	// Normal
+	0x62000, 0x900,  0x1800, 0x600,  0x2500,  0x500, 0x68000, -0x40000	// Normal
 	0x40000, 0x700,  0xC00,  0x300,  0x4000,  0x300, 0x38000, -0x30000	// Underwater
 	0xA0000, 0x3000, 0x6000, 0x1800, 0x10000, 0x600, 0x60000, -0x40000
 	0x50000, 0x1800, 0x3000, 0xC00,  0x8000,  0x300, 0x30000, -0x20000
-	0xC0000, 0x1800, 0x3000, 0x600,  0x2500,  0x600, 0x90000, -0x60000	// Speed Shoes
+	0xA0000, 0x1800, 0x3000, 0x600,  0x2500,  0x600, 0x90000, -0x60000	// Speed Shoes
 	0x60000, 0xC00,  0x1800, 0x600,  0x4000,  0x300, 0x30000, -0x20000
 	0xC0000, 0x1800, 0x3000, 0xC00,  0x8000,  0x600, 0x60000, -0x40000
 	0x60000, 0xC00,  0x1800, 0x600,  0x8000,  0x300, 0x30000, -0x20000
@@ -1187,6 +1187,8 @@ function PlayerObject_CheckHit
 		CheckEqual(object[currentPlayer].animation, 52)
 		temp0 |= checkResult		
 		CheckEqual(object[currentPlayer].animation, 54)
+		temp0 |= checkResult		
+		CheckEqual(object[currentPlayer].animation, 56)
 		temp0 |= checkResult			
 	end if
 	if object[0].propertyValue == 10
@@ -1287,6 +1289,8 @@ function PlayerObject_BadnikBreak
 		CheckEqual(object[currentPlayer].animation, 52)
 		temp0 |= checkResult		
 		CheckEqual(object[currentPlayer].animation, 54)
+		temp0 |= checkResult		
+		CheckEqual(object[currentPlayer].animation, 56)
 		temp0 |= checkResult			
 	end if
 	if object[currentPlayer].propertyValue == 10
@@ -4376,11 +4380,19 @@ function PlayerObject_HeavyAirDashStart
 	PlaySfx(SfxName[Drop Dash Release],0)
 	object.animation = 54
 	GetBit(temp0, object.direction, 0)
-	if temp0 == 0
-		object.xvel = 0x80000
+	if player.gravityValue == 1000
+		if temp0 == 0
+			object.xvel = 0x60000
+		else
+			object.xvel = -0x60000
+		end if
 	else
-		object.xvel = -0x80000
-	end if
+		if temp0 == 0
+			object.xvel = 0x80000
+		else
+			object.xvel = -0x80000
+		end if	
+	end if	
 	object.speed = object.xvel
 	object.yvel = 0
 	player.doubleJumpState = 2
@@ -7593,7 +7605,7 @@ end event
 function PlayerObject_MightyHammerDrop
 
     if object.gravity == GRAVITY_GROUND
-
+		
 		//self, probably player./object.
 
   		//    self->controlLock = 0;
@@ -7660,7 +7672,6 @@ function PlayerObject_MightyHammerDrop
 		object.state = PlayerObject_HandleAir
 
     else 
-		
 		CallFunction(PlayerObject_HandleAirMovement)
 		CallFunction(PlayerObject_HandleAirAcceleration)
         if object.yvel <= 0x10000

@@ -937,7 +937,10 @@ event ObjectStartup
 		break	
 	case 10
 		SpriteFrame(-132, 0, 260, 16, 624, 208)	//heavy gotem all
-		break					
+		break		
+	case 11
+		SpriteFrame(-127, 0, 270, 16, 632, 191)	//heavy gotem all
+		break						
 	end switch
 	SpriteFrame(0, 0, 44, 16, 35, 458) //Score
 	SpriteFrame(0, 0, 86, 16, 35, 475)
@@ -980,6 +983,10 @@ event ObjectStartup
 		SpriteFrame(-12, -5, 22, 18, 601, 206)
 		SpriteFrame(-12, -5, 22, 18, 601, 206)
 		break		
+	case 11
+		SpriteFrame(-12, -5, 16, 24, 598, 181)
+		SpriteFrame(-12, -5, 16, 24, 615, 181)
+		break			
 	end switch
 	SpriteFrame(0, 0, 8, 11, 120, 418)
 	SpriteFrame(0, 0, 8, 11, 129, 418)
@@ -1126,7 +1133,14 @@ event ObjectStartup
 			SpriteFrame(-55, 0, 99, 16, 501, 208)	//cool
 			SpriteFrame(0, 0, 0, 0, 0, 0)	
 			SpriteFrame(0, 0, 0, 0, 0, 0)	
-			break								
+			break	
+		case 11
+			SpriteFrame(-123, -12, 53, 16, 411, 435)	//NOW
+			SpriteFrame(-64, -12, 88, 16, 632, 191)	//MIGHTY	
+			SpriteFrame(35, -12, 85, 16, 411, 452)	//CAN BE
+			SpriteFrame(-83, 12, 76, 16, 411, 469)	//SUPER OMG	YES YES YES LETS GOOOOOO YAYAYAYYAY YES DGBJSNDJSL
+			SpriteFrame(4, 12, 88, 16, 632, 191)	//MIGHTY
+			break										
 		end switch
 	end if
 	SpriteFrame(0, 0, 200, 29, 501, 1) // 31 Achievement

@@ -162,7 +162,9 @@ event ObjectMain
 			CheckEqual(object[currentPlayer].animation, 52)
 			temp0 |= checkResult			
 			CheckEqual(object[currentPlayer].animation, 54)
-			temp0 |= checkResult					
+			temp0 |= checkResult		
+			CheckEqual(object[currentPlayer].animation, 56)
+			temp0 |= checkResult							
 		end if				
 			CheckEqual(object[currentPlayer].animation, ANI_GLIDING_STOP)
 			temp0 |= checkResult
