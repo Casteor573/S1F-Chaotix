@@ -424,6 +424,16 @@ event ObjectStartup
 		SpriteFrame(-4, -16, 8, 32, 189, 131) //signpost side
 		SpriteFrame(-16, -16, 32, 32, 83, 356)	//heav
 		break			
+	case 11
+		SpriteFrame(-24, -16, 48, 32, 34, 182)	//eggman
+		SpriteFrame(-16, -16, 32, 32, 165, 356)	//tilt right
+		SpriteFrame(-4, -16, 8, 32, 189, 131)	//signpost side
+		SpriteFrame(-16, -16, 32, 32, 197, 356)	//tile left
+		SpriteFrame(-24, -16, 48, 32, 116, 356)	//the player
+		SpriteFrame(-16, -16, 32, 32, 165, 356)	//tilt right
+		SpriteFrame(-4, -16, 8, 32, 189, 131) //signpost side
+		SpriteFrame(-16, -16, 32, 32, 197, 356)	//tile left
+		break			
 	end switch
 	foreach (TypeName[Sign Post], arrayPos0, ALL_ENTITIES)
 		object[arrayPos0].frame = 1

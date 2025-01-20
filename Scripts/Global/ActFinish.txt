@@ -620,7 +620,10 @@ event ObjectDraw
 		break	
 		case 10
 			DrawSpriteScreenXY(34, temp0, 60)
-		break					
+		break	
+		case 11
+			DrawSpriteScreenXY(35, temp0, 60)
+		break						
 		default
 			DrawSpriteScreenXY(stage.playerListPos, temp0, 60)
 		break
@@ -812,6 +815,7 @@ event ObjectStartup
 	SpriteFrame(-90, 0, 97, 16, 256, 239)//32 Charmy!		
 	SpriteFrame(-70, 0, 78, 16, 256, 222)//33 Heavy!		
 	SpriteFrame(-70, 0, 65, 16, 266, 205)//34 Bomb!	
+	SpriteFrame(-80, 0, 89, 16, 1, 273)//35 Mighty!		
 end event
 
 event RSDKDraw
