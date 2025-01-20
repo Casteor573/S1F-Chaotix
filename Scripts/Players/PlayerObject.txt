@@ -1492,6 +1492,10 @@ function PlayerObject_ProjectileHit
 	temp1 = checkResult
 	CheckEqual(object[currentPlayer].propertyValue, 9)
 	temp1 |= checkResult	
+	if object[currentPlayer].propertyvalue == 11
+		CheckEqual(object[currentPlayer].animation, ANI_LOOKINGDOWN)
+		temp1 |= checkResult	
+	end if
 	CheckEqual(object[currentPlayer].animation, ANI_FLYINGTIRED)
 	temp1 |= checkResult
 	CheckEqual(object[currentPlayer].animation, ANI_FLY_LIFT_UP)
@@ -1505,9 +1509,12 @@ function PlayerObject_ProjectileHit
 	CheckEqual(object[currentPlayer].animation, ANI_HAMMER_JUMP)
 	temp1 |= checkResult
 	if temp1 == 1
-		if object.propertyValue == 9
+		if object[currentPlayer].propertyValue == 9
 			PlaySfx(SfxName[Bonus Points], 0)
 		end if
+		if object[currentPlayer].propertyValue == 11
+			PlaySfx(SfxName[Bonus Points], 0)
+		end if		
 		CheckGreater(object[currentPlayer].ypos, object.ypos)
 		temp2 |= checkResult
 	end if
