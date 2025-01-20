@@ -201,7 +201,7 @@ event ObjectMain
 	case START_STARTATTRACT // we do demo stuff here!!
 		start.timer += 8
 		music.volume -= 2
-		if start.timer == 320
+		if start.timer == 640
 			StopMusic()
 			stage.activeList = REGULAR_STAGE
 			stage.listPos = attract.stage

@@ -481,7 +481,7 @@ event ObjectDraw
 			break
 
 		case LOGO_FADEIN_SONIC
-			screen.yoffset += 40
+			screen.yoffset += 42
 
 			if object.timer > 0
 				object.timer -= 8
@@ -500,7 +500,7 @@ event ObjectDraw
 			break
 
 		case LOGO_RISEDELAY_SONIC
-			screen.yoffset += 40
+			screen.yoffset += 42
 
 			object.timer++
 			if object.timer == 38
@@ -512,12 +512,14 @@ event ObjectDraw
 			break
 
 		case LOGO_RISE_SONIC
-			screen.yoffset += 40
+			screen.yoffset += 42
 
 			object.playerPos.y -= 8
 			if object.playerPos.y < 144
 				object.frame = 1
 			end if
+
+			
 
 			if object.playerPos.y <= 112
 				object.playerPos.y = 112
@@ -528,8 +530,8 @@ event ObjectDraw
 			break
 
 		case LOGO_ANIMATE_SONIC
-			screen.yoffset += 40
-
+			screen.yoffset += 42
+			
 			object.timer++
 			if object.timer == 8
 				object.frame++
@@ -546,7 +548,7 @@ event ObjectDraw
 
 		case LOGO_FINGERWIGGLE_SONIC
 			screen.yoffset += 0
-
+			
 			object.timer++
 			if object.timer == 8
 				object.frame++
@@ -568,7 +570,7 @@ event ObjectDraw
 
 		case LOGO_SHOWLOGO_TAILS
 			screen.yoffset += 0
-
+			object.alpha += 8
 			object.yvel += 0x2000
 			object.speedPercent += object.yvel
 			temp0 = object.speedPercent
@@ -647,8 +649,9 @@ event ObjectDraw
 	CallFunction(AnimatedForever)
 	temp0 = screen.xsize
 	temp0 -= 96
-	DrawSpriteScreenXY(11, temp0, 216)
-	DrawSpriteScreenXY(12, 25, 225)
+	object.inkeffect = INK_ALPHA
+	DrawSpriteScreenFX(11, FX_INK, temp0, 216)
+	DrawSpriteScreenFX(12, FX_INK, 25, 225)
 
 
 end event
@@ -656,7 +659,7 @@ end event
 
 event ObjectStartup
 	LoadSpriteSheet("Title/Title.gif")
-	SetMusicTrack("ChaotixTitle.ogg", 0, 167086)
+	SetMusicTrack("ChaotixTitle.ogg", 0, 154898)
 	SetMusicTrack("A.ogg", 1, false)
 
 	SpriteFrame(-33, -74, 65, 64, 1, 1) //0 Sonic
