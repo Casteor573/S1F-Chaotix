@@ -460,15 +460,15 @@ public table PlayerObject_CharmySuperPal
 end table
 
 public table PlayerObject_MightySuperPal
-	0x600020, 0xC00020, 0xe04040, 0xe08060
-	0x802020, 0xe04040, 0xe06060, 0xe0a080	//1
-	0xA04040, 0xe06060, 0xE080C0, 0xe0c0a0	//2
-	0xC06060, 0xe08080, 0xe08080, 0xe0e0c0	//3
-	0xe08080, 0xe0a0a0, 0xe0c0c0, 0xe0e0e0	//4
-	0xe0a0a0, 0xe0c0c0, 0xE0E0E0, 0xe0e0e0	//5
-	0xe08080, 0xe0a0a0, 0xe0c0c0, 0xe0e0e0	//4
-	0xC06060, 0xe08080, 0xe08080, 0xe0e0c0	//3
-	0xA04040, 0xe06060, 0xE080C0, 0xe0c0a0	//2
+	0x600000, 0xa02000, 0xc04020, 0xe06040
+	0x802000, 0xe04020, 0xe06040, 0xe0a080	//1
+	0xA04020, 0xe06040, 0xe08060, 0xe0c0a0	//2
+	0xC06040, 0xe08060, 0xe08080, 0xe0e0c0	//3
+	0xe08060, 0xe0a080, 0xe0c0c0, 0xe0e0e0	//4
+	0xe0a080, 0xe0c0a0, 0xE0E0E0, 0xe0e0e0	//5
+	0xe08060, 0xe0a080, 0xe0c0c0, 0xe0e0e0	//4
+	0xC06040, 0xe08060, 0xe08080, 0xe0e0c0	//3
+	0xA04020, 0xe06040, 0xe08060, 0xe0c0a0	//2
 end table
 
 public table PlayerObject_MightySuperAltPal
@@ -971,14 +971,14 @@ function PlayerObject_HandleSuperPalMighty
 	end if
 	temp1 = PlayerObject_value2
 	GetTableValue(temp0, temp1, PlayerObject_MightySuperPal)
-	SetPaletteEntry(0, 26, temp0)
+	SetPaletteEntry(0, 78, temp0)
 	GetTableValue(temp0, temp1, PlayerObject_MightySuperAltPal)
-	SetPaletteEntry(1, 26, temp0)
+	SetPaletteEntry(1, 78, temp0)
 	temp1++
 	GetTableValue(temp0, temp1, PlayerObject_MightySuperPal)
-	SetPaletteEntry(0, 27, temp0)
+	SetPaletteEntry(0, 71, temp0)
 	GetTableValue(temp0, temp1, PlayerObject_MightySuperAltPal)
-	SetPaletteEntry(1, 27, temp0)
+	SetPaletteEntry(1, 71, temp0)
 	temp1++
 	GetTableValue(temp0, temp1, PlayerObject_MightySuperPal)
 	SetPaletteEntry(0, 72, temp0)
