@@ -51,6 +51,7 @@
     <soundfx name="MightyDrill" path="Global/MightyDrill.wav" />
     <soundfx name="MightyLand" path="Global/MightyLand.wav" />
     <soundfx name="MightyUnspin" path="Global/MightyUnspin.wav" />
+    <soundfx name="PimPom" path="Global/PimPom.wav" />    
   </sounds>
   <players>
     <player name="ESPIO" />

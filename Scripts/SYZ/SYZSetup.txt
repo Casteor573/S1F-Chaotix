@@ -140,6 +140,7 @@ event ObjectStartup
 		case 8			
 		case 9	
 		case 10
+		case 11
 			if credits.screen == 0
 				PlayerObject_ReplayTable = SYZSetup_table0
 				PlayerObject_ReplaySize = 178

@@ -43,6 +43,10 @@ event ObjectMain
 				checkEqual(object[currentPlayer].animation, 53)
 				temp0 |= checkResult
 			end if
+			if stage.playerlistpos == 11
+				checkEqual(object[currentPlayer].animation, 52)
+				temp0 |= checkResult
+			end if			
 			checkEqual(currentPlayer, 0)
 			temp0 &= checkResult
 			if temp0 == 1
