@@ -9,6 +9,7 @@
 private alias 35 : TYPE_SPIKES
 
 private alias object.value2 : object.spikedirection
+private alias object.value3 : object.AbsXvel
 
 private alias 0 : C_TOP
 private alias 1 : C_LEFT
@@ -454,10 +455,116 @@ function Spikes_MightySpikes
 
 	if temp0 == 1
 
-		temp2 = object[currentPlayer].xVel
-		abs(temp2)
+			//basically the direction of the spikes, sorted out between each propertyvalue
+			//spike propertyvalues that face up use C_TOP
 
-		 if temp2 < 0x20000	//works for both directions
+            switch object.spikedirection
+                case C_TOP
+                	if object[currentPlayer].animation != 54 	//hammer drop
+						object[currentPlayer].yvel = -0x48000
+                        if object[currentPlayer].direction != FLIP_X
+                            object[currentPlayer].xvel = 0x48000
+                        else
+                            object[currentPlayer].xvel = -0x48000
+						end if
+                        object[currentPlayer].state = Player_State_MightyUnspin
+                    else 	//since you went smack down on the spikes your invunerable for a bit so like you dont die
+                        object[currentPlayer].yvel = -0x48000
+                        if object[currentPlayer].direction != FLIP_X
+                            object[currentPlayer].xvel = -0x28000
+                        else
+                            object[currentPlayer].xvel = 0x28000
+						end if
+                        object[currentPlayer].value8 = 60
+                        object[currentPlayer].state  = Player_BounceBack
+                    end if
+					temp2 = object[currentPlayer].xvel
+					temp2 >>= 2
+					object[currentPlayer].xvel -= temp2 
+                    break
+
+                case C_LEFT
+                    object[currentPlayer].yvel = -0x40000
+                    object[currentPlayer].xvel = -0x28000
+                    object[currentPlayer].state = Player_State_MightyUnspin
+                    break
+
+                case C_RIGHT
+                    object[currentPlayer].yvel = -0x40000
+                    object[currentPlayer].xvel = 0x28000
+                    object[currentPlayer].state = Player_State_MightyUnspin
+                    break
+
+                case C_BOTTOM
+                    object[currentPlayer].yvel = 0x20000
+                    object[currentPlayer].state = Player_State_MightyUnspin
+                    break
+            end switch
+
+            object[currentPlayer].gravity         = GRAVITY_AIR
+			object[currentPlayer].visible = true
+			object[currentPlayer].value35 = 0
+            if object[currentPlayer].state == Player_BounceBack	//basically different from hurt state, since it checks for that above
+                object[currentPlayer].animation = ANI_HURT
+                PlaySfx(SfxName[Spike], false)
+            else 
+                object[currentPlayer].animation = 54
+                PlaySfx(SfxName[MightyUnspin], false)
+            end if
+
+
+            if object[currentPlayer].animation != 54
+                PlaySfx(SfxName[PimPom], false)
+			end if
+
+            if object[currentPlayer].value25 == 0x1000
+                object[currentPlayer].xvel >>= 1
+                object[currentPlayer].yvel >>= 1
+            end if
+        
+      
+	else
+		CallFunction(PlayerObject_SpikeHit)		
+	end if
+else
+CallFunction(PlayerObject_SpikeHit)	
+end if
+
+end function
+
+function Spikes_MightySpikesOldDontUse
+
+ if stage.playerlistpos == 11
+
+	//animations that activate boucnce
+	CheckEqual(object[currentPlayer].animation, ANI_JUMPING)
+	temp0 = checkresult
+	CheckEqual(object[currentPlayer].animation, ANI_SPINDASH)
+	temp0 |= checkResult
+	CheckEqual(object[currentPlayer].animation, 52)
+	temp0 |= checkresult
+
+	//things that will kill you
+	CheckGreater(object[currentPlayer].value7, 0)
+	temp1 = checkresult
+	CheckGreater(object[currentPlayer].value8, 0)
+	temp1 |= checkresult
+	CheckEqual(object[currentPlayer].state, PlayerObject_Hurt)
+	temp1 |= checkresult
+	CheckEqual(object[currentPlayer].state, PlayerObject_Death)
+	temp1 |= checkResult
+	CheckEqual(object[currentPlayer].state, PlayerObject_Drown)
+	temp1 |= checkResult
+	if temp1 == 1
+		temp0 = 0
+	end if
+
+	if temp0 == 1
+
+		object.AbsXvel = object[currentPlayer].xVel
+		abs(object.AbsXvel)
+
+		if object.AbsXvel > 0x20000	//works for both directions
 
 			//basically the direction of the spikes, sorted out between each propertyvalue
 			//spike propertyvalues that face up use C_TOP
