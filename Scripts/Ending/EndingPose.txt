@@ -77,6 +77,9 @@ event ObjectMain
 			case 10
 				object.frame = 100
 				break
+			case 11
+				object.frame = 110
+				break				
 			end switch
 			object.state++
 			object.value2 = 0
@@ -134,7 +137,12 @@ event ObjectMain
 				object.frame = 98
 				object.ixpos = screen.cameraX
 				object.iypos = screen.cameraY
-				break					
+				break		
+			case 11
+				object.frame = 108
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break								
 			end switch
 			object.state++
 		end if
@@ -188,7 +196,12 @@ event ObjectMain
 				object.frame = 99
 				object.ixpos = screen.cameraX
 				object.iypos = screen.cameraY
-				break																
+				break		
+			case 11
+				object.frame = 109
+				object.ixpos = screen.cameraX
+				object.iypos = screen.cameraY
+				break																			
 			end switch
 			object.state++
 		end if
@@ -247,6 +260,9 @@ event ObjectMain
 			case 10
 				object.frame = 92
 				break				
+			case 11
+				object.frame = 102
+				break						
 			end switch
 			currentPlayer = 1
 			while currentPlayer < playerCount
@@ -289,7 +305,10 @@ event ObjectMain
 		break			
 		case 10
 			object.frame += 92
-		break					
+		break		
+		case 11
+			object.frame += 102
+		break						
 		end switch
 		object.value0++
 		if object.value0 == 80
@@ -322,7 +341,10 @@ event ObjectMain
 				break	
 			case 10
 				object.frame = 94
-				break				
+				break			
+			case 11
+				object.frame = 104
+				break						
 			end switch
 			currentPlayer = 1
 			while currentPlayer < playerCount
@@ -395,7 +417,10 @@ event ObjectMain
 				break
 			case 10
 				object.frame = 95
-				break							
+				break			
+			case 11
+				object.frame = 105
+				break									
 			end switch
 			object.state++
 			currentPlayer = 1
@@ -471,7 +496,13 @@ event ObjectMain
 			object.frame /= 6
 			object.frame &= 1
 			object.frame += 95
-			break												
+			break	
+		case 11
+			object.frame = object.value0
+			object.frame /= 6
+			object.frame &= 1
+			object.frame += 105
+			break														
 		end switch
 		object.value0++
 		if object.value0 == 42
@@ -511,7 +542,10 @@ event ObjectMain
 				break	
 			case 10
 				object.frame = 97
-				break					
+				break				
+			case 11
+				object.frame = 107
+				break						
 			end switch
 			object.state = 2
 		end if
@@ -715,6 +749,21 @@ event ObjectStartup
 	SpriteFrame(-76, -74, 142, 169, 551, 438) //99	biggest one
 
 	SpriteFrame(-13, -10, 28, 26, 507, 568)	//100 BRO YOU SUCK HOW DID YOU NOT GET ALL EMERALDS 
+
+	//my tee
+
+	SpriteFrame(-11, -21, 24, 42, 147, 229)	//101 nothing??
+
+	SpriteFrame(-15, -27, 23, 45, 543, 392)	//102 emerald in hand 1
+	SpriteFrame(-18, -27, 26, 45, 567, 392)	//103 emerald in hand 2
+	SpriteFrame(-18, -27, 30, 45, 595, 392)	//104 guh??
+	SpriteFrame(-17, -27, 28, 45, 626, 392)	//105 looking around
+	SpriteFrame(-19, -27, 28, 45, 655, 392)	//106 looking around 2
+	SpriteFrame(-22, -21, 40, 38, 684, 399)	//107 prep jump
+	SpriteFrame(-30, -25, 72, 75, 656, 316)	//108 pre big
+	SpriteFrame(-60, -62, 143, 149, 512, 242) //109	biggest one
+
+	SpriteFrame(-15, -27, 30, 45, 512, 392)	//100 BRO YOU SUCK HOW DID YOU NOT GET ALL EMERALDS 	
 
 
 end event

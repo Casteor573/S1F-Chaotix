@@ -131,7 +131,10 @@ event ObjectMain
 								case 10
 									object[currentPlayer].frame = 100
 									break										
-								end switch
+								case 11
+									object[currentPlayer].frame = 110
+									break		
+								end switch								
 							else
 								switch stage.playerListPos
 								case 0
