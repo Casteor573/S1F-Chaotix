@@ -46,6 +46,7 @@ reserve function VectorIdle
 reserve function CharmyIdle
 reserve function HeavyIdle
 reserve function BombIdle
+reserve function MightyIdle
 
 
 reserve function PartnerTailsIdle
@@ -61,6 +62,7 @@ reserve function VectorPop
 reserve function CharmyPop
 reserve function HeavyPop
 reserve function BombPop
+reserve function MightyPop
 
 reserve function PartnerTailsPop
 
@@ -186,7 +188,10 @@ function Draw_Name
 			break			
 		case 10
 			temp2 = 220
-			break								
+			break	
+		case 11
+			temp2 = 234
+			break	
 	end switch
 	DrawSpriteXY(temp2, temp0, temp1)
 end function
@@ -225,6 +230,9 @@ function Draw_Portrait
 			break
 		case 10
 			CallFunction(BombIdle)
+			break	
+		case 11
+			CallFunction(MightyIdle)
 			break											
 	end switch	
 end function
@@ -621,11 +629,14 @@ function Draw_NewCharacter
 			break	
 		case 8
 			CallFunction(BombPop)
-			break														
+			break		
 		case 9
+			CallFunction(MightyPop)				
+		break										
+		case 10
 			CallFunction(SonicTailsPop)
 			break
-		case 10
+		case 11
 			CallFunction(KnuxTailsPop)
 			break
 	end switch	
@@ -669,10 +680,13 @@ function Draw_NewCharacter
 		case 8	//bomb
 			temp2 = 220
 			break									
-		case 9	//sonic and tails
+		case 9	//kmighty
+			temp2 = 234
+			break
+		case 10	//sonic and tails
 			temp2 = 58
 			break
-		case 10
+		case 11
 			temp2 = 59
 			break
 	end switch
@@ -993,7 +1007,43 @@ function BombIdle
 
 end function
 
-
+function MightyIdle
+	temp0 = object.xpos
+	temp1 = object.ypos
+	temp1 -= 0x120000
+	DrawSpriteXY(226, temp0, temp1)
+	DrawSpriteXY(227, temp0, temp1)
+	
+	if save.highlight == object.propertyValue
+		if slot.blinkframe == 0
+			rand(slot.blinkframe, 480)
+			slot.blinkframe += 120
+		else
+			slot.blinkframe--
+		end if
+		
+		temp2 = slot.blinkframe
+		temp2 >>= 2
+		switch temp2
+			case 1
+			case 3
+				DrawSpriteXY(230, temp0, temp1)
+				break
+			case 2
+				DrawSpriteXY(231, temp0, temp1)
+				break			
+		end switch
+		
+		slot.handframe++
+		slot.handframe%= 20
+	end if
+		
+	if slot.handframe < 10
+		DrawSpriteXY(158, temp0, temp1)
+	else
+		DrawSpriteXY(159, temp0, temp1)
+	end if
+end function
 
 
 function SonicTailsIdle	
@@ -1291,6 +1341,25 @@ function BombPop
 	else
 		temp2 = pop.frame
 		temp2 += 221
+		DrawSpriteXY(temp2, temp0, temp1)
+		pop.timer++
+		if pop.timer > 3
+			pop.frame++
+			pop.timer = 0
+		end if
+	end if
+end function
+
+function MightyPop
+	temp0 = object.xpos
+	temp1 = object.ypos
+	temp1 -= 0x120000
+	DrawSpriteXY(156, temp0, temp1)
+	if pop.frame > 4
+		CallFunction(MightyIdle)
+	else
+		temp2 = pop.frame
+		temp2 += 165
 		DrawSpriteXY(temp2, temp0, temp1)
 		pop.timer++
 		if pop.timer > 3
@@ -1779,6 +1848,27 @@ event ObjectStartup
 	SpriteFrame(-20, -23, 36, 23, 512, 484) //223 Bomb Base
 	SpriteFrame(-22, -25, 45, 25, 549, 482) //224 Bomb Base	
 	SpriteFrame(-22, -24, 45, 24, 512, 436) //225 Bomb Base		
+
+	//Mighty
+
+	SpriteFrame(-34, -30, 68, 30, 655, 124) //226 Mighty Frame
+	SpriteFrame(-14, -29, 34, 28, 577, 205) //227 Mighty Base
+	SpriteFrame(-23, -11, 15, 11, 350, 140) //228 Mighty Hand 1
+	SpriteFrame(-29, -10, 22, 14, 327, 140) //229 Mighty Hand 2
+	SpriteFrame(-2, -13, 16, 11, 612, 217) //230 Mighty Blink 1
+	SpriteFrame(-2, -13, 16, 11, 612, 205) //231 Mighty Blink 2
+
+	SpriteFrame(-16, -2, 16, 14, 578, 39) //232 Mighty Life
+	SpriteFrame(-17, -2, 16, 24, 568, 38) //233 Mighty Continue
+	SpriteFrame(0, 0, 36, 6, 524, 38) //234 Mighty Name
+
+	//popup i hate this
+
+	SpriteFrame(-14, -29, 26, 8, 577, 308) //235 Mighty Base
+	SpriteFrame(-14, -29, 37, 29, 368, 182) //236 Mighty Base
+	SpriteFrame(-14, -29, 37, 29, 365, 212) //237 Mighty Base
+	SpriteFrame(-24, -29, 47, 29, 350, 242) //238 Mighty Base	
+	SpriteFrame(-24, -29, 47, 29, 350, 242) //239 Mighty Base
 
 
 

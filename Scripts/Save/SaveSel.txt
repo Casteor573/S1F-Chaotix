@@ -366,7 +366,7 @@ end function
 function save_charaselect	//ADD MORE CHARS LETS GOO
 
 	CallFunction(SlotTouch)
-	temp3 = 10
+	temp3 = 11
 	temp3 += saveRAM[412]
 	
 	if inputPress.buttonB == 1
@@ -554,10 +554,13 @@ function save_loadnew
 			case 8 //Bomb
 				saveRAM[arrayPos1] = 10
 				break														
-			case 9 //Sonic and Tails
-				saveRAM[arrayPos1] = 3
+			case 9 //Mighty
+				saveRAM[arrayPos1] = 11
 				break
-			case 10 //Knuckles and Tails
+			case 10 //S and Tails
+				saveRAM[arrayPos1] = 3
+				break	
+			case 11 //Knuckles and Tails
 				saveRAM[arrayPos1] = 4
 				break				
 		end switch
@@ -703,11 +706,14 @@ function nosave_load
 				stage.playerListPos = 10
 				break												
 			case 9 //Sonic and Tails
+				stage.playerListPos = 11
+				break
+			case 10 //Sonic and Tails
 				stage.playerListPos = 3
 				break
-			case 10 //Knuckles and Tails
+			case 11 //Knuckles and Tails
 				stage.playerListPos = 4
-				break				
+				break			
 		end switch
 		
 		player.lives = 3
