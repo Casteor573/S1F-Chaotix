@@ -532,7 +532,7 @@ end if
 
 end function
 
-function Spikes_MightySpikesOldDontUse
+function Spikes_DontMightySpikesOldDontUse
 
  if stage.playerlistpos == 11
 

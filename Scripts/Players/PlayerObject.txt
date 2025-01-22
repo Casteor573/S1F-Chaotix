@@ -5064,7 +5064,7 @@ function Player_CheckMightyUnspin
 				player.invulnerable = 121
 				object.visible    = true
 				object[currentPlayer].animation = 54
-				PlaySfx(sfxName[MightyUnspin], 0)
+		//		PlaySfx(sfxName[MightyUnspin], 0)
 				object[currentPlayer].gravity         = 0
 				player[currentPlayer].doublejumpstate = 0
 				object[currentPlayer].state            = Player_State_MightyUnspin
