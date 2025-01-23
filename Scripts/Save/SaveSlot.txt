@@ -299,7 +299,10 @@ function Draw_Lives
 				break		
 			case 10
 				temp2 =	218
-				break												
+				break		
+			case 11
+				temp2 =	232
+				break															
 		end switch
 		DrawSpriteXY(temp2, temp0, temp1)
 		
@@ -346,7 +349,10 @@ function Draw_Lives
 				break
 			case 10
 				temp2 = 219
-				break												
+				break		
+			case 11
+				temp2 = 233
+				break															
 		end switch
 		DrawSpriteXY(temp2, temp0, temp1)
 	end if
@@ -1037,12 +1043,7 @@ function MightyIdle
 		slot.handframe++
 		slot.handframe%= 20
 	end if
-		
-	if slot.handframe < 10
-		DrawSpriteXY(158, temp0, temp1)
-	else
-		DrawSpriteXY(159, temp0, temp1)
-	end if
+
 end function
 
 
@@ -1354,12 +1355,12 @@ function MightyPop
 	temp0 = object.xpos
 	temp1 = object.ypos
 	temp1 -= 0x120000
-	DrawSpriteXY(156, temp0, temp1)
+	DrawSpriteXY(226, temp0, temp1)
 	if pop.frame > 4
 		CallFunction(MightyIdle)
 	else
 		temp2 = pop.frame
-		temp2 += 165
+		temp2 += 235
 		DrawSpriteXY(temp2, temp0, temp1)
 		pop.timer++
 		if pop.timer > 3
@@ -1852,23 +1853,23 @@ event ObjectStartup
 	//Mighty
 
 	SpriteFrame(-34, -30, 68, 30, 655, 124) //226 Mighty Frame
-	SpriteFrame(-14, -29, 34, 28, 577, 205) //227 Mighty Base
+	SpriteFrame(-18, -28, 34, 28, 577, 205) //227 Mighty Base
 	SpriteFrame(-23, -11, 15, 11, 350, 140) //228 Mighty Hand 1
 	SpriteFrame(-29, -10, 22, 14, 327, 140) //229 Mighty Hand 2
 	SpriteFrame(-2, -13, 16, 11, 612, 217) //230 Mighty Blink 1
 	SpriteFrame(-2, -13, 16, 11, 612, 205) //231 Mighty Blink 2
 
 	SpriteFrame(-16, -2, 16, 14, 578, 39) //232 Mighty Life
-	SpriteFrame(-17, -2, 16, 24, 568, 38) //233 Mighty Continue
+	SpriteFrame(-17, -2, 16, 24, 561, 38) //233 Mighty Continue
 	SpriteFrame(0, 0, 36, 6, 524, 38) //234 Mighty Name
 
 	//popup i hate this
 
-	SpriteFrame(-14, -29, 26, 8, 577, 308) //235 Mighty Base
-	SpriteFrame(-14, -29, 37, 29, 368, 182) //236 Mighty Base
-	SpriteFrame(-14, -29, 37, 29, 365, 212) //237 Mighty Base
-	SpriteFrame(-24, -29, 47, 29, 350, 242) //238 Mighty Base	
-	SpriteFrame(-24, -29, 47, 29, 350, 242) //239 Mighty Base
+	SpriteFrame(-16, -4, 26, 4, 577, 308) //235 Mighty Base
+	SpriteFrame(-16, -8, 26, 8, 577, 308) //235 Mighty Base
+	SpriteFrame(-16, -19, 33, 19, 577, 288) //236 Mighty Base 
+	SpriteFrame(-18, -25, 36, 25, 577, 262) //237 Mighty Base
+	SpriteFrame(-18, -27, 34, 27, 577, 234) //238 Mighty Base	
 
 
 
