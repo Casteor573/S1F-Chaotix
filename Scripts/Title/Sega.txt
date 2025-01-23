@@ -437,7 +437,7 @@ event ObjectMain
 		WriteSaveRAM()
 		reset.done = 1
 	end if
-	
+
 	if inputPress.start == 1
 		if object.state < 5
 			//object.state = 5
@@ -462,6 +462,10 @@ event ObjectMain
 
 	switch object.state
 	case 0
+		object.value10++
+		if object.value10 == 15
+			PlaySfx(SfxName[Chaotix Sega], 0)
+		end if			
 		object.zpos -= 8000
 		if object.zpos <= 24000
 			object.state = SEGA_JIGGLE
@@ -568,6 +572,7 @@ event ObjectMain
 	case 3
 		object.timer++
 		if object.timer > 40
+			object.timer = 0
 			object.state++
 		end if
 		break

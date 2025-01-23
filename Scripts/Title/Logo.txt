@@ -28,6 +28,8 @@ private alias object.value15 : object.debugModeCheatPos
 private alias object.value16 : object.regionSwitchCheatPos
 private alias object.value17 : object.character
 
+private alias object.value18 : object.palette2
+
 // Alias for the character workaround
 private alias temp1 : temp.titleCharacter
 
@@ -431,6 +433,15 @@ event ObjectMain
 			RotatePalette(0, 192, 195, 1)
 		end if
 	end if
+
+
+	object.value18++
+	if object.value18 == 8
+		object.value18 = 0
+		RotatePalette(0, 211, 222, 1)
+	end if
+
+
 	if options.gameMode == 0
 		//if object.state > 3
 		if object[+1].value10 == 0
@@ -571,7 +582,7 @@ event ObjectDraw
 		case LOGO_SHOWLOGO_TAILS
 			screen.yoffset += 0
 			object.alpha += 8
-			object.yvel += 0x2000
+			object.yvel += 0x1500
 			object.speedPercent += object.yvel
 			temp0 = object.speedPercent
 			temp0 >>= 16
@@ -595,7 +606,7 @@ event ObjectDraw
 				end if
 			end if
 
-			object.scale += 14
+			object.scale += 11
 
 			object.speedPercent += object.yvel
 			temp0 = object.speedPercent
