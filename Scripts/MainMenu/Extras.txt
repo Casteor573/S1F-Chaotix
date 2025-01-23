@@ -430,12 +430,12 @@ function chara.sel
 	if inputPress.left == 1
 		char.highlight--
 		while char.highlight < 0
-			char.highlight += 9
+			char.highlight += 10
 		loop
 	else
 		if inputPress.right == 1
 			char.highlight++
-			char.highlight %= 9
+			char.highlight %= 10
 		else
 			temp0 = inputPress.buttonA
 			temp0 |= inputPress.start
@@ -483,6 +483,7 @@ function load.level
 			if extras.fade >= 384
 				StopMusic()
 				options.gameMode = 2
+				//im sure you can make this a switch somehow
 				if char.highlight == 3
 					stage.playerListPos = 5
 				end if
@@ -500,7 +501,10 @@ function load.level
 				end if			
 				if char.highlight == 8
 					stage.playerListPos = 10
-				end if													
+				end if			
+				if char.highlight == 9
+					stage.playerListPos = 11
+				end if															
 				if char.highlight <= 2		
 					stage.playerListPos = char.highlight
 				end if
@@ -643,6 +647,7 @@ event ObjectDraw
 						case 6
 						case 7
 						case 8
+						case 9
 							temp4 += 256
 						break
 						default
@@ -1077,4 +1082,5 @@ event ObjectStartup
 	SpriteFrame(27, 0, 14, 14, 343, 319) //257 Chara Select Charmy	
 	SpriteFrame(26, 0, 16, 14, 358, 320) //258 Chara Select Heavy		
 	SpriteFrame(27, 0, 16, 14, 443, 291) //259 Chara Select Bomb	
+	SpriteFrame(27, 0, 16, 14, 443, 276) //260 Chara Select Bomb		
 end event
