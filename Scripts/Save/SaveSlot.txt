@@ -934,11 +934,11 @@ function VectorIdle
 		slot.handframe%= 20
 	end if
 		
-	//if slot.handframe < 10
-	//	DrawSpriteXY(158, temp0, temp1)
-	//else
-	//	DrawSpriteXY(159, temp0, temp1)
-	//end if
+	if slot.handframe < 10
+		DrawSpriteXY(172, temp0, temp1)
+	else
+		DrawSpriteXY(173, temp0, temp1)
+	end if
 end function
 
 function CharmyIdle
@@ -1766,9 +1766,9 @@ event ObjectStartup
 	//VECTOR
 
 	SpriteFrame(-34, -30, 68, 30, 577, 62) //170 Vector Color BG
-	SpriteFrame(-24, -29, 47, 29, 350, 272) //171 Vector Base
-	SpriteFrame(-23, -11, 15, 11, 350, 140) //172 Vector Hand 1
-	SpriteFrame(-29, -10, 22, 14, 327, 140) //173 Vector Hand 2
+	SpriteFrame(-24, -29, 47, 29, 577, 317) //171 Vector Base
+	SpriteFrame(-17, -28, 11, 19, 625, 317) //172 Vector Hand 1
+	SpriteFrame(-17, -28, 11, 19, 637, 317) //173 Vector Hand 1
 	SpriteFrame(-7, -20, 15, 9, 334, 272) //174 Vector Blink 1
 	SpriteFrame(-7, -20, 15, 9, 334, 282) //175 Vector Blink 2
 
@@ -1781,7 +1781,7 @@ event ObjectStartup
 	SpriteFrame(-24, -15, 36, 15, 408, 297) //179 Vector Base
 	SpriteFrame(-24, -20, 45, 20, 444, 320) //180 Vector Base
 	SpriteFrame(-24, -25, 43, 25, 289, 290) //181 Vector Base
-	SpriteFrame(-24, -29, 47, 29, 350, 272) //182 Vector Base	
+	SpriteFrame(-24, -30, 47, 30, 478, 362) //182 Vector Base	
 	SpriteFrame(-24, -29, 47, 29, 350, 272) //183 Vector Base	
 
 
@@ -1803,7 +1803,7 @@ event ObjectStartup
 	SpriteFrame(-16, -14, 34, 14, 331, 106) //193 Charmy Base
 	SpriteFrame(-14, -23, 32, 23, 298, 106) //194 Charmy Base
 	SpriteFrame(-14, -27, 31, 27, 206, 234) //195 Charmy Base
-	SpriteFrame(-22, -28, 44, 28, 255, 149) //196 Charmy Base	
+	SpriteFrame(-15, -28, 29, 28, 371, 303) //196 Charmy Base	
 	SpriteFrame(-22, -28, 44, 28, 255, 149) //197 Charmy Base	
 
 
