@@ -139,7 +139,7 @@ event ObjectMain
 			end if
 		else
 			start.attractTimer++
-			if start.attractTimer == 1024
+			if start.attractTimer == 1424
 				if object.xpos == screen.xcenter
 					if attract.stage == 3
 						object.state = START_SPECIALATTRAC 

@@ -177,7 +177,7 @@ function Sega_MoveVertices
 	object.row2Timer %= 256
 	object.row3Timer %= 256
 	
-	temp2 = 12
+	temp2 = 10
 	
 	temp0 = object.column2Timer
 	Sin256(temp1, temp0)
@@ -203,7 +203,7 @@ function Sega_MoveVertices
 	temp3 <<= 8
 	column4.x += temp3
 	
-	temp2 -= 6
+	temp2 -= 4
 	
 	temp0 = object.row2Timer
 	Sin256(temp1, temp0)
@@ -461,41 +461,43 @@ event ObjectMain
 	end if
 
 	switch object.state
-	case 0
+	case SEGA_POPUP
+		SetClassicFade(0, 0, 0, object.timer)
+		object.timer -= 8
 		object.value10++
 		if object.value10 == 15
 			PlaySfx(SfxName[Chaotix Sega], 0)
-		end if			
-		object.zpos -= 8000
-		if object.zpos <= 24000
-			object.state = SEGA_JIGGLE
+		end if
+		if object.timer < 128
+			object.zpos -= 8000
+			if object.zpos <= 24000
+				object.state = SEGA_JIGGLE
+			end if
 		end if
 		break
 		
-	case 1
+	case SEGA_JIGGLE
 		CallFunction(Sega_MoveVertices)
 		
-		if object.timer > 80
+		if object.timer > 40
 			temp2 = 6	// column 2 and 4
 			temp3 = 7	// column 3
 			temp4 = 6	// row 2
-			temp5 = 6	// row 3
+			temp5 = 8	// row 3
 		else
-			temp2 = 7	// column 2 and 4
-			temp3 = 9	// column 3
-			temp4 = 6	// row 2
-			temp5 = 6	// row 3
+			temp2 = 14	// column 2 and 4
+			temp3 = 13	// column 3
+			temp4 = 10	// row 2
+			temp5 = 12	// row 3
 		end if
 		
 		object.timer++
 		object.column2Timer += temp2
-		if object.timer > 7
-			object.column3Timer += temp3
-		end if
+		object.column3Timer += temp3
 		object.column4Timer = object.column2Timer
 		object.column4Timer += 128
 		
-		if object.timer > 3
+		if object.timer > 6
 			object.row2Timer += temp4
 		end if
 		object.row3Timer += temp5
@@ -508,7 +510,7 @@ event ObjectMain
 		end if
 		break
 		
-	case 2
+	case SEGA_STOPJIGGLE
 		CallFunction(Sega_MoveVertices)
 		
 		checkResult = true
@@ -569,15 +571,24 @@ event ObjectMain
 		end if
 		break
 		
-	case 3
+	case SEGA_PALETTECYCLE
 		object.timer++
-		if object.timer > 40
+		if object.timer <= 65
+			temp0 = object.timer
+			temp0 %= 4
+			if temp0 == 0
+				RotatePalette(0, 225, 240, false)
+				GetPaletteEntry(0, 240, temp0)
+				SetPaletteEntry(0, 241, temp0)
+			end if
+		end if
+		if object.timer > 128
 			object.timer = 0
 			object.state++
 		end if
 		break
 		
-	case 4
+	case SEGA_POPUP2
 		object.timer += 4
 		if object.timer < 240
 			if object.zpos > 2000
@@ -601,10 +612,10 @@ event ObjectDraw
 	DrawSpriteScreenXY(1, screen.xcenter, screen.ycenter)	
 	
 	switch object.state
-	case 0
-	case 1
-	case 2
-	case 4
+	case SEGA_POPUP
+	case SEGA_JIGGLE
+	case SEGA_STOPJIGGLE
+	case SEGA_POPUP2
 		temp7 = 0
 		while temp7 < 4
 			GetTableValue(currentVertex, temp7, Column1Vertices)
@@ -668,7 +679,7 @@ event ObjectDraw
 		Draw3DScene()
 		break
 	
-	case 3
+	case SEGA_PALETTECYCLE
 		object.alpha = 0x100
 		object.direction = FLIP_Y
 		DrawSpriteScreenFX(0, FX_FLIP, screen.xcenter, screen.ycenter)
@@ -698,7 +709,7 @@ event ObjectStartup
 	options.touchControls = 0
 	
 	foreach(TypeName[Sega], arrayPos0, ALL_ENTITIES)
-		object[arrayPos0].timer = 47
+		object[arrayPos0].timer = 255
 		object[arrayPos0].zpos = 400000
 		object[arrayPos0].xpos3D = -168
 		object[arrayPos0].xpos3D <<= 8
@@ -933,6 +944,8 @@ event ObjectStartup
 	SetTableValue(FaceBuffer[FACEC2].a, 2, Row4Vertices)
 	SetTableValue(FaceBuffer[FACEC3].a, 3, Row4Vertices)
 	SetTableValue(FaceBuffer[FACEC3].a, 4, Row4Vertices)
+	
+	LoadPalette("SEGA.act", 0, 223, 223, 256)
 end event
 
 event RSDKDraw
