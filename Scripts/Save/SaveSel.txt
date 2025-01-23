@@ -638,7 +638,7 @@ end function
 
 function nosave_charaselect
 	CallFunction(SlotTouch)
-	temp3 = 10
+	temp3 = 11
 	temp3 += saveRAM[412]
 	
 	if inputPress.buttonB == 1
@@ -907,11 +907,14 @@ event ObjectDraw
 			end if	
 			if new.character == 8	//charmy
 				temp1 = 23
-			end if			
-			if new.character == 9	//sonic & tails lol
+			end if	
+			if new.character == 9	//charmy
+				temp1 = 24
+			end if					
+			if new.character == 10	//sonic & tails lol
 				temp1 = 10
 			end if			
-			if new.character == 10	//knuckles and tails lmao???
+			if new.character == 11	//knuckles and tails lmao???
 				temp1 = 11
 			end if
 							
@@ -1050,7 +1053,8 @@ event ObjectStartup
 	SpriteFrame(13, -44, 38, 26, 274, 343) //20 Vector		
 	SpriteFrame(13, -44, 38, 26, 313, 343) //21 Charmy	
 	SpriteFrame(13, -44, 38, 26, 352, 343) //22 Heavy	
-	SpriteFrame(13, -44, 38, 26, 391, 343) //23 Bomb				
+	SpriteFrame(13, -44, 38, 26, 391, 343) //23 Bomb			
+	SpriteFrame(13, -44, 38, 26, 430, 343) //23 Bomb				
 
 	stage.debugMode = 0
 	SetMusicTrack("StartingTheShow.ogg", 1, 92561)
