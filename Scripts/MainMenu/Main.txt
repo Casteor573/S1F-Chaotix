@@ -352,7 +352,7 @@ function touch.controls
 					options.maxSel = 13
 					break
 				case 5
-					options.maxSel = 4
+					options.maxSel = 5
 					break
 				case 6
 					options.maxSel = 8
@@ -381,25 +381,33 @@ function touch.controls
 						end if
 					else
 						if options.curMenu != 6
-							touch.X2Pos = screen.xsize
-							touch.X1Pos = screen.xsize
-							touch.X1Pos -= 122
+							touch.X1Pos  = screen.xsize
+							touch.X1Pos -= 32
+							touch.X2Pos  = touch.X1Pos
+							touch.X2Pos += 32
 							CheckTouchRect(touch.X1Pos, touch.Y1Pos, touch.X2Pos, touch.Y2Pos)
 							if checkResult > -1
 								touch.inputReset = true
 								inputPress.right = true
 							end if
-						else
-							touch.X1Pos  = screen.xsize
-							touch.X1Pos -= 122
-							touch.X2Pos  = screen.xsize
+							touch.X1Pos -= 80
+							touch.X2Pos  = touch.X1Pos
+							touch.X2Pos += 32
 							CheckTouchRect(touch.X1Pos, touch.Y1Pos, touch.X2Pos, touch.Y2Pos)
 							if checkResult > -1
-								if delete.check == 0
-									PlaySfx(SfxName[Warn], 0)
-									delete.check = 1
-								end if
+								touch.inputReset = true
+								inputPress.left = true
+							end if
+						else
+							touch.X1Pos  = screen.xsize
+							touch.X1Pos -= 128
+							touch.X2Pos  = touch.X1Pos
+							touch.X2Pos += 128
+							CheckTouchRect(touch.X1Pos, touch.Y1Pos, touch.X2Pos, touch.Y2Pos)
+							if checkResult > -1
+								delete.check = true
 								inputDown.buttonA = true
+								delete.ticker++
 							end if
 						end if
 					end if
@@ -445,6 +453,25 @@ function touch.controls
 			end if
 
 			if object[30].type == TypeName[Game Modes Menu]
+				touch.X1Pos = 15
+				touch.X2Pos = 50
+				touch.Y1Pos = 50
+				touch.Y2Pos = 70
+				CheckTouchRect(touch.X1Pos, touch.Y1Pos, touch.X2Pos, touch.Y2Pos)
+				if checkResult > -1
+					touch.inputReset = true
+					inputPress.up = true
+				end if
+
+				touch.Y1Pos = 190
+				touch.Y2Pos = 210
+				CheckTouchRect(touch.X1Pos, touch.Y1Pos, touch.X2Pos, touch.Y2Pos)
+				if checkResult > -1
+					touch.inputReset = true
+					inputPress.down = true
+				end if
+
+			if modes.highlight != 3	//normal
 				touch.x1Pos = 50
 				touch.x2Pos = screen.xsize
 				CheckTouchRect(Touch.X1Pos, 0, screen.xsize, 110)
@@ -469,6 +496,7 @@ function touch.controls
 						inputPress[0].start = true
 					end if
 				end if
+			
 				CheckTouchRect(Touch.X1Pos, 170, screen.xsize, 330)
 				if CheckResult > -1
 					touch.inputReset = true
@@ -480,12 +508,49 @@ function touch.controls
 						inputPress[0].start = true
 					end if
 				end if
+			else
+				CheckTouchRect(Touch.X1Pos, 0, screen.xsize, 110)
+				if CheckResult > -1
+					touch.inputReset = true
+
+					if modes.highlight != 1
+						modes.highlight = 1
+						PlaySfx(SfxName[Score Add], 0)
+					else
+						inputPress[0].start = true
+					end if
+				end if
+			
+				CheckTouchRect(Touch.X1Pos, 110, screen.xsize, 170)
+				if CheckResult > -1
+					touch.inputReset = true
+
+					if modes.highlight != 2
+						modes.highlight = 2
+						PlaySfx(SfxName[Score Add], 0)
+					else
+						inputPress[0].start = true
+					end if
+				end if
+			
+				CheckTouchRect(Touch.X1Pos, 170, screen.xsize, 330)
+				if CheckResult > -1
+					touch.inputReset = true
+
+					if modes.highlight != 3
+						modes.highlight = 3
+						PlaySfx(SfxName[Score Add], 0)
+					else
+						inputPress[0].start = true
+					end if
+				end if				
+		
 			end if
 
 			if object[30].type == TypeName[Extras Menu]
 				if menu.curSub == 0
 					if menu.charSelBool == false
-						CheckTouchRect(80, 50, 200, 80)
+						CheckTouchRect(80, 50, 200, 80)	//emerald gaunlets?
 						if checkResult > -1
 							CheckEqual(row.highlight, 0)
 							temp0  = checkResult
@@ -507,7 +572,7 @@ function touch.controls
 						touch.X1Pos -= 150
 						touch.X2Pos  = touch.X1Pos
 						touch.X2Pos += 120
-						CheckTouchRect(touch.X1Pos, 50, touch.X2Pos, 80)
+						CheckTouchRect(touch.X1Pos, 50, touch.X2Pos, 80)	//special maker?
 						if checkResult > -1
 							CheckEqual(row.highlight, 0)
 							temp0  = checkResult
@@ -525,7 +590,7 @@ function touch.controls
 							end if
 						end if
 						
-						CheckTouchRect(80, 100, 200, 130)
+						CheckTouchRect(80, 100, 200, 130)	//boss rush?
 						if checkResult > -1
 							CheckEqual(row.highlight, 1)
 							temp0  = checkResult
@@ -542,9 +607,27 @@ function touch.controls
 								inputPress[0].start = true
 							end if
 						end if
+
+						CheckTouchRect(270, 100, 400, 130)	//Isolated Hill
+						if checkResult > -1
+							CheckEqual(row.highlight, 1)
+							temp0  = checkResult
+							CheckEqual(column.highlight, 1)
+							temp0 &= checkResult
+
+							if temp0 == false
+								touch.inputReset = true
+								row.highlight = 1
+								column.highlight = 1
+								PlaySfx(SfxName[Score Add], 0)
+							else
+								touch.inputReset = true
+								inputPress[0].start = true
+							end if
+						end if						
 						Touch.X1Pos  = Screen.xsize
 						Touch.X1Pos -= 240
-						CheckTouchRect(Touch.X1Pos, 200, screen.xsize, 240)
+						CheckTouchRect(Touch.X1Pos, 200, screen.xsize, 240)	//achievements?
 						if checkResult > -1
 							PlaySfx(SfxName[Score Add], 0)
 							row.highlight = 2
@@ -635,6 +718,7 @@ function touch.controls
 			inputPress.buttonB = 1
 		end if
 	end if
+end if	
 end function
 
 function main.exit

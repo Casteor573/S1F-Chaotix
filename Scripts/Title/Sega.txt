@@ -43,17 +43,185 @@ public alias saveRAM[284] : saved.timeLimit
 public alias saveRAM[285] : saved.GHZwater
 public alias saveRAM[286] : saved.language
 public alias saveRAM[287] : saved.elemental
-
-
 public alias saveRAM[290] : saved.randomMonitor
-
-
-
 public alias saveRAM[294] : saved.graphics
+
+// Object aliases
+private alias arrayPos0 : currentVertex
+private alias arrayPos1 : currentFace
+private alias object.value0 : object.timer
+private alias object.value1 : object.zpos
+private alias object.value2 : object.xpos3D
+private alias object.value8 : object.ypos3D
+private alias object.value3 : object.column2Timer
+private alias object.value4 : object.column3Timer
+private alias object.value5 : object.column4Timer
+private alias object.value6 : object.row2Timer
+private alias object.value7 : object.row3Timer
+
+// Face Aliases
+private alias 0 : FACE_TEXTURED_3D
+private alias 1 : FACE_TEXTURED_2D
+private alias 2 : FACE_COLOURED_3D
+private alias 3 : FACE_COLOURED_2D
+private alias 4 : FACE_FADED
+private alias 5 : FACE_TEXTURED_C
+private alias 6 : FACE_TEXTURED_D
+private alias 7 : FACE_SPRITE3D
+
+private alias 0 : FACEA1
+private alias 1 : FACEA2
+private alias 2 : FACEA3
+private alias 3 : FACEA4
+private alias 4 : FACEB1
+private alias 5 : FACEB2
+private alias 6 : FACEB3
+private alias 7 : FACEB4
+private alias 8 : FACEC1
+private alias 9 : FACEC2
+private alias 10 : FACEC3
+private alias 11 : FACEC4
+
+// States
+private alias 0 : SEGA_POPUP
+private alias 1 : SEGA_JIGGLE
+private alias 2 : SEGA_STOPJIGGLE
+private alias 3 : SEGA_PALETTECYCLE
+private alias 4 : SEGA_POPUP2
+
+private value FaceCount = 12
+
+private value SpriteX = 3
+private value SpriteY = 2
+
+private value column1.x
+private value column2.x
+private value column3.x
+private value column4.x
+private value column5.x
+
+private value row1.y
+private value row2.y
+private value row3.y
+private value row4.y
+
+// ========================
+// Tables
+// ========================
+
+private table XOffsets
+	0, 42, 79, 115, 170
+end table
+
+private table YOffsets
+	0, 17, 36, 53
+end table
+
+private table XSizes
+	42, 37, 36, 55
+end table
+
+private table YSizes
+	17, 19, 17
+end table
+
+private table Column1Vertices
+	0, 0, 0, 0
+end table
+
+private table Column2Vertices
+	0, 0, 0, 0
+end table
+
+private table Column3Vertices
+	0, 0, 0, 0
+end table
+
+private table Column4Vertices
+	0, 0, 0, 0
+end table
+
+private table Column5Vertices
+	0, 0, 0, 0
+end table
+
+private table Row1Vertices
+	0, 0, 0, 0, 0
+end table
+
+private table Row2Vertices
+	0, 0, 0, 0, 0
+end table
+
+private table Row3Vertices
+	0, 0, 0, 0, 0
+end table
+
+private table Row4Vertices
+	0, 0, 0, 0, 0
+end table
+
+private table Row5Vertices
+	0, 0, 0, 0, 0
+end table
 
 // Function declarations
 reserve function Sega_Function0
 reserve function Save_Transfer
+reserve function Sega_MoveVertices
+
+function Sega_MoveVertices
+	object.column2Timer %= 256
+	object.column3Timer %= 256
+	object.column4Timer %= 256
+	object.row2Timer %= 256
+	object.row3Timer %= 256
+	
+	temp2 = 12
+	
+	temp0 = object.column2Timer
+	Sin256(temp1, temp0)
+	temp1 *= temp2
+	column2.x = temp1
+	GetTableValue(temp3, 1, XOffsets)
+	temp3 <<= 8
+	column2.x += temp3
+	
+	temp0 = object.column3Timer
+	Sin256(temp1, temp0)
+	temp1 *= temp2
+	column3.x = temp1
+	GetTableValue(temp3, 2, XOffsets)
+	temp3 <<= 8
+	column3.x += temp3
+	
+	temp0 = object.column4Timer
+	Sin256(temp1, temp0)
+	temp1 *= temp2
+	column4.x = temp1
+	GetTableValue(temp3, 3, XOffsets)
+	temp3 <<= 8
+	column4.x += temp3
+	
+	temp2 -= 6
+	
+	temp0 = object.row2Timer
+	Sin256(temp1, temp0)
+	temp1 *= temp2
+	row2.y = temp1
+	GetTableValue(temp3, 1, YOffsets)
+	temp3 <<= 8
+	row2.y += temp3
+	
+	temp0 = object.row3Timer
+	Sin256(temp1, temp0)
+	temp1 *= temp2
+	row3.y = temp1
+	GetTableValue(temp3, 2, YOffsets)
+	temp3 <<= 8
+	row3.y += temp3
+end function
+
 
 function Save_Transfer
 	ReadSaveRAM()
@@ -236,7 +404,7 @@ function Sega_Function0
 		CheckTouchRect(0, 0, screen.xsize, screen.ysize)
 		if checkResult > -1
 			if object.state < 5
-				object.state = 5
+				//object.state = 5
 				//object.value0 = 0
 			end if
 		end if
@@ -272,7 +440,7 @@ event ObjectMain
 	
 	if inputPress.start == 1
 		if object.state < 5
-			object.state = 5
+			//object.state = 5
 			//object.value0 = 0
 		end if
 	end if
@@ -291,148 +459,475 @@ event ObjectMain
 			CallFunction(Save_Transfer)
 		end if
 	end if
-		
+
 	switch object.state
 	case 0
-		object.scale = 0 
-		object.alpha = 0
-		object.inkEffect = INK_ALPHA
-		object.value0 = 320
-		SetClassicFade(0, 0, 0, object.value0)
-		object.state++
+		object.zpos -= 8000
+		if object.zpos <= 24000
+			object.state = SEGA_JIGGLE
+		end if
 		break
+		
 	case 1
-		if object.value0 > 0
-			object.value0 -= 8
+		CallFunction(Sega_MoveVertices)
+		
+		if object.timer > 80
+			temp2 = 6	// column 2 and 4
+			temp3 = 7	// column 3
+			temp4 = 6	// row 2
+			temp5 = 6	// row 3
 		else
-			object.value2 = screen.xcenter
-			object.value2 -= 104
-			object.alpha = 0
-			object.scale += 8
-			object.state++
+			temp2 = 7	// column 2 and 4
+			temp3 = 9	// column 3
+			temp4 = 6	// row 2
+			temp5 = 6	// row 3
 		end if
-		SetClassicFade(0, 0, 0, object.value0)
+		
+		object.timer++
+		object.column2Timer += temp2
+		if object.timer > 7
+			object.column3Timer += temp3
+		end if
+		object.column4Timer = object.column2Timer
+		object.column4Timer += 128
+		
+		if object.timer > 3
+			object.row2Timer += temp4
+		end if
+		object.row3Timer += temp5
+		
+		object.zpos += 150
+		if object.zpos >= 50160
+			object.state++
+			object.timer = 0
+			object.zpos = 50160
+		end if
 		break
+		
 	case 2
-		temp0 = screen.xcenter
-		temp0 += 112
-		if object.value2 < temp0
-			object.value2 += 4
+		CallFunction(Sega_MoveVertices)
+		
+		checkResult = true
+		temp2 = 6
+		if object.column2Timer > 0
+			checkResult = false
+			if object.column2Timer > 128
+				object.column2Timer += temp2
+			else
+				object.column2Timer -= temp2
+			end if
 		else
-			object.alpha = 0
+			object.column2Timer = 0
+		end if
+		if object.column3Timer > 0
+			checkResult = false
+			if object.column3Timer > 128
+				object.column3Timer += temp2
+			else
+				object.column3Timer -= temp2
+			end if
+		else
+			object.column3Timer = 0
+		end if
+		if object.column4Timer > 0
+			checkResult = false
+			if object.column4Timer > 128
+				object.column4Timer += temp2
+			else
+				object.column4Timer -= temp2
+			end if
+		else
+			object.column4Timer = 0
+		end if
+		if object.row2Timer > 0
+			checkResult = false
+			if object.row2Timer > 128
+				object.row2Timer += temp2
+			else
+				object.row2Timer -= temp2
+			end if
+		else
+			object.row2Timer = 0
+		end if
+		if object.row3Timer > 0
+			checkResult = false
+			if object.row3Timer > 128
+				object.row3Timer += temp2
+			else
+				object.row3Timer -= temp2
+			end if
+		else
+			object.row3Timer = 0
+		end if
+		if checkResult == true
+			object.timer = 0
 			object.state++
 		end if
 		break
+		
 	case 3
-		if object.alpha < 208
-			object.alpha += 8
-			object.scale += 20
-		else
-			object.alpha = 255
+		object.timer++
+		if object.timer > 40
 			object.state++
 		end if
-		CallFunction(Sega_Function0)
 		break
+		
 	case 4
-		object.value0++
-		if object.value0 >= 180
-			object.value0 = 0
-			object.state = 5
-		end if
-		if object.value0 == 2
-			PlaySfx(SfxName[Chaotix Sega], 0)
-		end if
-		if options.gameMode == 0
-			CallFunction(Sega_Function0)
-		end if
-		break
-	case 5
-		if object.value0 < 256
-			object.value0 += 3
-			SetClassicFade(0, 0, 0, object.value0)
+		object.timer += 4
+		if object.timer < 240
+			if object.zpos > 2000
+				object.zpos -= 1200
+			end if
+			SetClassicFade(0, 0, 0, object.timer)
 		else
 			ResetObjectEntity(object.entityPos, TypeName[Sonic Team], 0, object.xpos, object.ypos)
 			SetClassicFade(0, 0, 0, 255)
+			object.state++
 		end if
 		break
+		
 	end switch
-	
-	temp1 = inputDown.buttonX
-	temp1 &= inputDown.buttonZ
-	if temp1 == 1
-		object.value17++
-		if object.value17 == 100
-			ResetObjectEntity(object.entityPos, TypeName[Test], 0, 0, 0)
-		end if	
-	else
-		object.value17 = 0
-	end if
 end event
 
 
 event ObjectDraw
 	DrawRect(0, 0, screen.xsize, screen.ysize, 0, 0, 0, 255)
 
-	DrawSpriteScreenXY(10, screen.xcenter, screen.ycenter)	
+	DrawSpriteScreenXY(1, screen.xcenter, screen.ycenter)	
 	
-
-		DrawSpriteScreenFX(0, FX_SCALE, screen.xcenter, screen.ycenter)
-
-
-	if object.state == 5
-		object.scale += 50
+	switch object.state
+	case 0
+	case 1
+	case 2
+	case 4
+		temp7 = 0
+		while temp7 < 4
+			GetTableValue(currentVertex, temp7, Column1Vertices)
+			VertexBuffer[currentVertex].x = column1.x
+			temp7++
+		loop
+		temp7 = 0
+		while temp7 < 4
+			GetTableValue(currentVertex, temp7, Column2Vertices)
+			VertexBuffer[currentVertex].x = column2.x
+			temp7++
+		loop
+		temp7 = 0
+		while temp7 < 4
+			GetTableValue(currentVertex, temp7, Column3Vertices)
+			VertexBuffer[currentVertex].x = column3.x
+			temp7++
+		loop
+		temp7 = 0
+		while temp7 < 4
+			GetTableValue(currentVertex, temp7, Column4Vertices)
+			VertexBuffer[currentVertex].x = column4.x
+			temp7++
+		loop
+		temp7 = 0
+		while temp7 < 4
+			GetTableValue(currentVertex, temp7, Column5Vertices)
+			VertexBuffer[currentVertex].x = column5.x
+			temp7++
+		loop
+		
+		temp7 = 0
+		while temp7 < 5
+			GetTableValue(currentVertex, temp7, row1Vertices)
+			VertexBuffer[currentVertex].y = row1.y
+			temp7++
+		loop
+		temp7 = 0
+		while temp7 < 5
+			GetTableValue(currentVertex, temp7, row2Vertices)
+			VertexBuffer[currentVertex].y = row2.y
+			temp7++
+		loop
+		temp7 = 0
+		while temp7 < 5
+			GetTableValue(currentVertex, temp7, row3Vertices)
+			VertexBuffer[currentVertex].y = row3.y
+			temp7++
+		loop
+		temp7 = 0
+		while temp7 < 5
+			GetTableValue(currentVertex, temp7, row4Vertices)
+			VertexBuffer[currentVertex].y = row4.y
+			temp7++
+		loop
+		
+		temp0 = object.zpos
+		Abs(temp0)
+		MatrixTranslateXYZ(MAT_WORLD, object.xpos3D, object.ypos3D, object.zpos)
+		object.drawOrder = 6
+		Draw3DScene()
+		break
+	
+	case 3
+		object.alpha = 0x100
+		object.direction = FLIP_Y
+		DrawSpriteScreenFX(0, FX_FLIP, screen.xcenter, screen.ycenter)
+		break
+	
+	end switch
+	
+	if inputPress.left == true
+		object.timer = 0
+		object.row2Timer = 0
+		object.row3Timer = 0
+		object.column2Timer = 0
+		object.column3Timer = 0
+		object.column4Timer = 0
+		object.zpos = 400000
+		object.state = SEGA_POPUP
 	end if
-
-	
 end event
 
-function backup
-
-	DrawRect(0, 0, screen.xsize, screen.ysize, 0, 0, 0, 255)
-	if object.alpha > 8
-		DrawSpriteScreenFX(0, FX_INK, screen.xcenter, screen.ycenter)
-	end if
-	if object.state == 2
-		temp0 = object.value2
-		temp0 -= 10
-		temp0 -= screen.xsize
-		DrawRect(temp0, 91, screen.xsize, 58, color7, color7, color7, 255)
-		temp0 = object.value2
-		temp0 -= 10
-		DrawRect(temp0, 91, 4, 58, color7, color7, color7, 192)
-		temp0 += 4
-		DrawRect(temp0, 91, 4, 58, color7, color7, color7, 160)
-		temp0 += 8
-		DrawRect(temp0, 91, 4, 58, color7, color7, color7, 160)
-		temp0 += 4
-		DrawRect(temp0, 91, 4, 58, color7, color7, color7, 192)
-		temp0 += 4
-		DrawRect(temp0, 91, screen.xsize, 58, color7, color7, color7, 255)
-	
-		DrawSpriteScreenXY(1, screen.xcenter, screen.ycenter)
-	end if
-
-
-end function
 
 event ObjectStartup
 	ReadSaveRAM()
-	LoadSpriteSheet("Title/Title.gif")
-	SpriteFrame(-93, -29, 188, 58, 323, 242)
-	SpriteFrame(-125, -29, 252, 58, 259, 301)
-
-	SpriteFrame(-93, -29, 314, 225, 1, 513)	//space bg	//3
-	SpriteFrame(-93, -29, 314, 225, 1, 513)	//space bg		
-	SpriteFrame(-93, -29, 314, 225, 1, 513)	//space bg	
-	SpriteFrame(-93, -29, 314, 225, 1, 513)	//space bg	
-	SpriteFrame(-93, -29, 314, 225, 1, 513)	//space bg	
-	SpriteFrame(-93, -29, 314, 225, 1, 513)	//space bg	
-	SpriteFrame(-93, -29, 314, 225, 1, 513)	//space bg	
-	SpriteFrame(-93, -29, 314, 225, 1, 513)	//space bg	
-	SpriteFrame(-155, -110, 314, 225, 1, 513)	//space bg	
+	LoadSpriteSheet("Title/SEGA.gif")
+	SpriteFrame(-82, -26, 168, 53, 2, 2)
+	SpriteFrame(-155, -110, 314, 225, 1, 286)	//space bg	
 							
-					
 	options.touchControls = 0
+	
+	foreach(TypeName[Sega], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].timer = 47
+		object[arrayPos0].zpos = 400000
+		object[arrayPos0].xpos3D = -168
+		object[arrayPos0].xpos3D <<= 8
+		object[arrayPos0].xpos3D /= 2
+		object[arrayPos0].ypos3D = -55
+		object[arrayPos0].ypos3D <<= 8
+		object[arrayPos0].ypos3D /= 2
+	next
+
+	scene3D.vertexCount = 0
+	scene3D.faceCount   = 0
+
+	scene3D.projectionX  = 200
+	scene3D.projectionY  = 200
+	
+	// reset matrix
+	MatrixTranslateXYZ(MAT_WORLD, 0, 0, 0)
+	MatrixTranslateXYZ(MAT_VIEW, 0, 0, 0)
+	
+	currentVertex = scene3D.vertexCount
+	currentFace = scene3D.faceCount
+	
+	temp7 = 0
+	while temp7 < FaceCount
+		currentVertex = scene3D.vertexCount
+		currentFace = scene3D.faceCount
+		
+		FaceBuffer[currentFace].flag  = FACE_TEXTURED_3D
+		FaceBuffer[currentFace].color  = 0xFF808080
+		
+		temp6 = temp7
+		temp6 %= 4
+		GetTableValue(temp0, temp6, XOffsets)
+		GetTableValue(temp2, temp6, XSizes)
+		
+		temp6 = temp7
+		temp6 /= 4
+		GetTableValue(temp1, temp6, YOffsets)
+		GetTableValue(temp3, temp6, YSizes)
+		
+		temp0 += temp2
+		temp1 += temp3
+		
+		// Top Left
+		FaceBuffer[currentFace].a  = currentVertex
+		VertexBuffer[currentVertex].x = temp0
+		VertexBuffer[currentVertex].y = temp1
+		VertexBuffer[currentVertex].x <<= 8
+		VertexBuffer[currentVertex].y <<= 8
+		
+		VertexBuffer[currentVertex].u = temp0
+		VertexBuffer[currentVertex].v = temp1
+		//VertexBuffer[currentVertex].u += SpriteX
+		//VertexBuffer[currentVertex].v += SpriteY
+		
+		// Top Right
+		temp1 -= temp3
+		currentVertex++
+		FaceBuffer[currentFace].b  = currentVertex
+		VertexBuffer[currentVertex].x = temp0
+		VertexBuffer[currentVertex].y = temp1
+		VertexBuffer[currentVertex].x <<= 8
+		VertexBuffer[currentVertex].y <<= 8
+		
+		VertexBuffer[currentVertex].u = temp0
+		VertexBuffer[currentVertex].v = temp1
+		//VertexBuffer[currentVertex].u += SpriteX
+		//VertexBuffer[currentVertex].v += SpriteY
+		
+		// Bottom Left
+		temp0 -= temp2
+		currentVertex++
+		FaceBuffer[currentFace].c  = currentVertex
+		VertexBuffer[currentVertex].x = temp0
+		VertexBuffer[currentVertex].y = temp1
+		VertexBuffer[currentVertex].x <<= 8
+		VertexBuffer[currentVertex].y <<= 8
+		
+		VertexBuffer[currentVertex].u = temp0
+		VertexBuffer[currentVertex].v = temp1
+		//VertexBuffer[currentVertex].u += SpriteX
+		//VertexBuffer[currentVertex].v += SpriteY
+		
+		// Bottom Right
+		temp1 += temp3
+		currentVertex++
+		FaceBuffer[currentFace].d  = currentVertex
+		VertexBuffer[currentVertex].x = temp0
+		VertexBuffer[currentVertex].y = temp1
+		VertexBuffer[currentVertex].x <<= 8
+		VertexBuffer[currentVertex].y <<= 8
+		
+		VertexBuffer[currentVertex].u = temp0
+		VertexBuffer[currentVertex].v = temp1
+		//VertexBuffer[currentVertex].u += SpriteX
+		//VertexBuffer[currentVertex].v += SpriteY
+		
+		scene3D.vertexCount += 4
+		scene3D.faceCount += 1
+		temp7++
+	loop
+	
+	// Connect the vertices
+	FaceBuffer[FACEA2].c = FaceBuffer[FACEA1].b
+	
+	FaceBuffer[FACEA3].c = FaceBuffer[FACEA2].b
+	
+	FaceBuffer[FACEA4].c = FaceBuffer[FACEA3].b
+	
+	
+	FaceBuffer[FACEB1].c = FaceBuffer[FACEA1].d
+	
+	FaceBuffer[FACEA2].d = FaceBuffer[FACEA1].a
+	FaceBuffer[FACEB1].b = FaceBuffer[FACEA1].a
+	FaceBuffer[FACEB2].c = FaceBuffer[FACEA1].a
+	
+	FaceBuffer[FACEA3].d = FaceBuffer[FACEA2].a
+	FaceBuffer[FACEB2].b = FaceBuffer[FACEA2].a
+	FaceBuffer[FACEB3].c = FaceBuffer[FACEA2].a
+	
+	FaceBuffer[FACEA4].d = FaceBuffer[FACEA3].a
+	FaceBuffer[FACEB3].b = FaceBuffer[FACEA3].a
+	FaceBuffer[FACEB4].c = FaceBuffer[FACEA3].a
+	
+	FaceBuffer[FACEB4].b = FaceBuffer[FACEA4].a
+	
+	
+	FaceBuffer[FACEC1].c = FaceBuffer[FACEB1].d
+	
+	FaceBuffer[FACEB2].d = FaceBuffer[FACEB1].a
+	FaceBuffer[FACEC1].b = FaceBuffer[FACEB1].a
+	FaceBuffer[FACEC2].c = FaceBuffer[FACEB1].a
+	
+	FaceBuffer[FACEB3].d = FaceBuffer[FACEB2].a
+	FaceBuffer[FACEC2].b = FaceBuffer[FACEB2].a
+	FaceBuffer[FACEC3].c = FaceBuffer[FACEB2].a
+	
+	FaceBuffer[FACEB4].d = FaceBuffer[FACEB3].a
+	FaceBuffer[FACEC3].b = FaceBuffer[FACEB3].a
+	FaceBuffer[FACEC4].c = FaceBuffer[FACEB3].a
+	
+	FaceBuffer[FACEC4].b = FaceBuffer[FACEB4].a
+	
+	
+	FaceBuffer[FACEC1].c = FaceBuffer[FACEB1].d
+	
+	FaceBuffer[FACEB2].d = FaceBuffer[FACEB1].a
+	FaceBuffer[FACEC1].b = FaceBuffer[FACEB1].a
+	FaceBuffer[FACEC2].c = FaceBuffer[FACEB1].a
+	
+	FaceBuffer[FACEB3].d = FaceBuffer[FACEB2].a
+	FaceBuffer[FACEC2].b = FaceBuffer[FACEB2].a
+	FaceBuffer[FACEC3].c = FaceBuffer[FACEB2].a
+	
+	FaceBuffer[FACEB4].d = FaceBuffer[FACEB3].a
+	FaceBuffer[FACEC3].b = FaceBuffer[FACEB3].a
+	FaceBuffer[FACEC4].c = FaceBuffer[FACEB3].a
+	
+	FaceBuffer[FACEC4].b = FaceBuffer[FACEB4].a
+	
+	
+	FaceBuffer[FACEC2].d = FaceBuffer[FACEC1].a
+	
+	FaceBuffer[FACEC3].d = FaceBuffer[FACEC2].a
+	
+	FaceBuffer[FACEC4].d = FaceBuffer[FACEC3].a
+	
+	currentVertex = FaceBuffer[FACEC1].d
+	column1.x = VertexBuffer[currentVertex].x
+	SetTableValue(FaceBuffer[FACEC1].d, 0, Column1Vertices)
+	SetTableValue(FaceBuffer[FACEB1].d, 1, Column1Vertices)
+	SetTableValue(FaceBuffer[FACEA1].d, 2, Column1Vertices)
+	SetTableValue(FaceBuffer[FACEA1].c, 3, Column1Vertices)
+	
+	currentVertex = FaceBuffer[FACEC1].a
+	column2.x = VertexBuffer[currentVertex].x
+	SetTableValue(FaceBuffer[FACEC1].a, 0, Column2Vertices)
+	SetTableValue(FaceBuffer[FACEB1].a, 1, Column2Vertices)
+	SetTableValue(FaceBuffer[FACEA1].a, 2, Column2Vertices)
+	SetTableValue(FaceBuffer[FACEA1].b, 3, Column2Vertices)
+	
+	currentVertex = FaceBuffer[FACEC2].a
+	column3.x = VertexBuffer[currentVertex].x
+	SetTableValue(FaceBuffer[FACEC2].a, 0, Column3Vertices)
+	SetTableValue(FaceBuffer[FACEB2].a, 1, Column3Vertices)
+	SetTableValue(FaceBuffer[FACEA2].a, 2, Column3Vertices)
+	SetTableValue(FaceBuffer[FACEA2].b, 3, Column3Vertices)
+	
+	currentVertex = FaceBuffer[FACEC3].a
+	column4.x = VertexBuffer[currentVertex].x
+	SetTableValue(FaceBuffer[FACEC3].a, 0, Column4Vertices)
+	SetTableValue(FaceBuffer[FACEB3].a, 1, Column4Vertices)
+	SetTableValue(FaceBuffer[FACEA3].a, 2, Column4Vertices)
+	SetTableValue(FaceBuffer[FACEA3].b, 3, Column4Vertices)
+	
+	currentVertex = FaceBuffer[FACEC4].a
+	column5.x = VertexBuffer[currentVertex].x
+	SetTableValue(FaceBuffer[FACEC4].a, 0, Column5Vertices)
+	SetTableValue(FaceBuffer[FACEB4].a, 1, Column5Vertices)
+	SetTableValue(FaceBuffer[FACEA4].a, 2, Column5Vertices)
+	SetTableValue(FaceBuffer[FACEA4].b, 3, Column5Vertices)
+	
+	
+	currentVertex = FaceBuffer[FACEA1].c
+	row1.y = VertexBuffer[currentVertex].y
+	SetTableValue(FaceBuffer[FACEA1].c, 0, Row1Vertices)
+	SetTableValue(FaceBuffer[FACEA1].b, 1, Row1Vertices)
+	SetTableValue(FaceBuffer[FACEA2].b, 2, Row1Vertices)
+	SetTableValue(FaceBuffer[FACEA3].b, 3, Row1Vertices)
+	SetTableValue(FaceBuffer[FACEA3].b, 4, Row1Vertices)
+	
+	currentVertex = FaceBuffer[FACEA1].a
+	row2.y = VertexBuffer[currentVertex].y
+	SetTableValue(FaceBuffer[FACEA1].d, 0, Row2Vertices)
+	SetTableValue(FaceBuffer[FACEA1].a, 1, Row2Vertices)
+	SetTableValue(FaceBuffer[FACEA2].a, 2, Row2Vertices)
+	SetTableValue(FaceBuffer[FACEA3].a, 3, Row2Vertices)
+	SetTableValue(FaceBuffer[FACEA3].a, 4, Row2Vertices)
+	
+	currentVertex = FaceBuffer[FACEB1].a
+	row3.y = VertexBuffer[currentVertex].y
+	SetTableValue(FaceBuffer[FACEB1].d, 0, Row3Vertices)
+	SetTableValue(FaceBuffer[FACEB1].a, 1, Row3Vertices)
+	SetTableValue(FaceBuffer[FACEB2].a, 2, Row3Vertices)
+	SetTableValue(FaceBuffer[FACEB3].a, 3, Row3Vertices)
+	SetTableValue(FaceBuffer[FACEB3].a, 4, Row3Vertices)
+	
+	currentVertex = FaceBuffer[FACEC1].a
+	row4.y = VertexBuffer[currentVertex].y
+	SetTableValue(FaceBuffer[FACEC1].d, 0, Row4Vertices)
+	SetTableValue(FaceBuffer[FACEC1].a, 1, Row4Vertices)
+	SetTableValue(FaceBuffer[FACEC2].a, 2, Row4Vertices)
+	SetTableValue(FaceBuffer[FACEC3].a, 3, Row4Vertices)
+	SetTableValue(FaceBuffer[FACEC3].a, 4, Row4Vertices)
 end event
 
 event RSDKDraw
