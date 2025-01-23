@@ -1,0 +1,205 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: GHZ Setup Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 39 : TYPE_GHZSETUP
+
+// Function declarations
+reserve function GHZSetup_Function93
+reserve function GHZSetup_Function94
+reserve function Freakyness
+
+// Static Values
+public value GHZSetup_value29 = 0;
+public value GHZSetup_value30 = 0;
+public value GHZSetup_value31 = 0;
+
+// Tables
+
+public table IIZSetup_FreakyEffect
+	1, 2, 1, 3, 1, 2, 2, 1, 2, 3, 1, 2, 1, 2, 0, 0
+	2, 0, 3, 2, 2, 3, 2, 2, 1, 3, 0, 0, 1, 0, 1, 3
+	1, 2, 1, 3, 1, 2, 2, 1, 2, 3, 1, 2, 1, 2, 0, 0
+	2, 0, 3, 2, 2, 3, 2, 2, 1, 3, 0, 0, 1, 0, 1, 3
+end table
+
+private table IIZwaterforever
+	240, 104, 88, 224
+	240, 120, 88, 224
+	240, 136, 24, 224
+	240, 168, 40, 224
+end table
+
+
+function Freakyness
+	arrayPos0 = 0
+	while arrayPos0 < 576
+		temp0 = arrayPos0
+		temp0 &= 63
+		GetTableValue(stage[arrayPos0].deformationData2, temp0, IIZSetup_FreakyEffect)
+		arrayPos0++
+	loop
+
+	SetLayerDeformation(0, 256, 8, 0, 0, 0)
+end function
+
+event ObjectMain
+	object.value1++
+	if object.value1 > 2
+		tileLayer[2].deformationOffset++
+		tileLayer[1].deformationOffset++
+		tileLayer[0].deformationOffset++
+		object.value1 = 0
+	end if
+	
+
+	if GHZSetup_value30 != 0
+		GHZSetup_value30 = 0
+		object.value4--
+		if object.value4 <= 0
+			object.value4 = 31
+			if object.value5 == 0
+				if credits.screen == 0
+					PlaySfx(SfxName[Waterfall], 0)
+					StopSfx(SfxName[Waterfall Loop])
+				end if
+				object.value5 = 1
+			else
+				if credits.screen == 0
+					StopSfx(SfxName[Waterfall])
+					PlaySfx(SfxName[Waterfall Loop], 0)
+				end if
+			end if
+		end if
+		SetSfxAttributes(SfxName[Waterfall], -1, GHZSetup_value31)
+		SetSfxAttributes(SfxName[Waterfall Loop], -1, GHZSetup_value31)
+	else
+		object.value5 = 0
+		object.value4 = 0
+	end if
+	if object.state < 5
+		object.value3++
+		if object.value3 == 6
+			object.value3 = 0
+			RotatePalette(0, 168, 171, 1)
+			GHZSetup_value29++
+			GHZSetup_value29 &= 15
+		end if
+	end if
+
+//	object.value6++
+//	if object.value6 == 36
+//		object.value6 = 0
+//		SetPaletteFade(0, 0, 1, 64, 128, 256)
+//	end if	
+
+	
+end event
+
+//CopyPalette(int srcPal, int srcPalStart, int dstPal, intdstPalStart, int count)
+
+//SetPaletteFade(int dstPal, int srcPalA, int srcPalB, int blendAmount, int startIndex, int endIndex)
+//LoadPalette(string filePath, int palID, int startPalIndex, int startIndex, intendIndex)
+
+event ObjectStartup
+
+	//GAMEMODE LIST
+	//options.gameMode = 0 //No Save?
+	//options.gameMode = 1 //Loading a Save
+	//options.gameMode = 2 //Time Attack
+	//options.gameMode = 3 //Arcade
+	//options.gameMode = 4 //Emerald Gaunlet
+	//options.gameMode = 5 //Golf
+
+
+	//SetLayerDeformation(int deformID, int deformA, int deformB, int type, int offset, int count)
+	
+	//deform a should be greater then 8 or else 
+	
+	
+	//CallFunction(Freakyness)
+
+
+	//rand(checkResult, 2)
+	//if checkResult == 1
+
+	
+
+	//LoadPalette("IsoIsland_Morning.act", 0, 128, 128, 256)
+	//LoadPalette("IsoIsland_Day.act", 1, 128, 128, 256)
+	//LoadPalette("IsoIsland_Sunset.act", 2, 128, 128, 256)
+	//LoadPalette("IsoIsland_Night.act", 3, 128, 128, 256)
+
+
+	//	LoadPalette("IsoIsland_Morning.act", 0, 128, 128, 256)
+	//	else	
+	//	LoadPalette("IsoIsland_Day.act", 0, 128, 128, 256)
+	//end if
+
+	
+	SetMusicTrack("Combination.ogg", 0, 51488) //51488
+	animalType1 = TypeName[Pocky]
+	animalType2 = TypeName[Flicky]
+	Abs(tileLayer[1].parallaxFactor)
+	FlipSign(tileLayer[1].parallaxFactor)
+	Abs(tileLayer[2].parallaxFactor)
+	FlipSign(tileLayer[2].parallaxFactor)	
+	tileLayer[1].scrollPos = 0x180000
+	tileLayer[2].scrollPos = 0x80000
+
+						/////0x900000
+
+
+// 	tileLayer[2].scrollPos = 0x900000	
+
+	object[10].type = TypeName[GHZ Setup]
+	object[10].priority = PRIORITY_ACTIVE
+	GHZSetup_value29 = 0
+
+	if stage.actNum == 1
+		if lamppostID <= 31	//only do this if you didnt touch a checkpoint which is the start of the level
+			//walk in
+			object[0].speed = 0x40000
+			while currentPlayer < playerCount
+				object[currentPlayer].xpos = 0x1E 0000
+				currentPlayer++
+			loop
+			screen.cameraX = object[0].ixpos
+			screen.cameraY = object[0].iypos
+		end if
+	end if
+
+	temp5 = IIZwaterforever
+
+	
+	temp0 = 0
+	while temp0 < 20
+		GetTableValue(temp1, temp0, temp5)
+		temp0++
+		GetTableValue(temp2, temp0, temp5)
+		temp0++
+		GetTableValue(temp3, temp0, temp5)
+		temp0++
+		GetTableValue(temp4, temp0, temp5)
+		temp0++
+		
+		temp2 <<= 8
+		temp2 += temp3
+		temp2 <<= 8
+		temp2 += temp4				
+		SetPaletteEntry(0, temp1, temp2)
+	loop
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 143)
+end event

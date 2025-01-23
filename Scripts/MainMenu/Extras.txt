@@ -26,7 +26,7 @@ private alias 94 : achieve.name
 private alias 109 : achieve.desc
 
 private alias 2 : columnsize_left
-private alias 1 : columnsize_right
+private alias 2 : columnsize_right
 
 private alias 5 : achieve_rowlen
 private alias 4 : achieve_collen
@@ -65,7 +65,7 @@ private table ExtrasUnlock	//if you have to unlock it or not
 end table
 
 private table ExtrasNames
-	84, 86, 85, 176
+	84, 86, 85, 185
 end table
 
 private table ExtrasTimes
@@ -73,7 +73,7 @@ private table ExtrasTimes
 end table
 
 private table ExtrasComp
-	996, 995, 0, 996
+	996, 995, 0, 0
 end table
 
 private table AchieveEarned
@@ -345,12 +345,15 @@ function control.extras
 			temp6 |= checkResult
 			if temp6 == 1
 				CallFunction(main.soundconf)
-				if menu.highlight == 1
+				switch menu.highlight
+				case 1
 					object.state = chara.sel
 					menu.charSelBool = true
-				else
+				break
+				default
 					object.state = load.level
-				end if
+				break
+				end switch
 			else
 				PlaySfx(SfxName[Bonus Points], 0)
 			end if
@@ -548,7 +551,7 @@ function load.level
 				stage.playerListPos = 6
 				
 				stage.activeList = BONUS_STAGE
-				stage.listPos = 2
+				stage.listPos = 9
 				stage.debugMode = 0
 				LoadStage()
 			end if

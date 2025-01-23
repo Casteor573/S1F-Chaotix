@@ -17,7 +17,7 @@
     <color bank="0" index="71" r="160" g="32" b="0" />
     <color bank="0" index="72" r="192" g="64" b="32" />
     <color bank="0" index="73" r="224" g="96" b="64" />
-    <color bank="0" index="78" r="96" g="0" b="0" />    
+    <color bank="0" index="78" r="96" g="0" b="0" />
   </palette>
   <objects />
   <variables>
@@ -52,7 +52,7 @@
     <soundfx name="MightyDrill" path="Global/MightyDrill.wav" />
     <soundfx name="MightyLand" path="Global/MightyLand.wav" />
     <soundfx name="MightyUnspin" path="Global/MightyUnspin.wav" />
-    <soundfx name="PimPom" path="Global/PimPom.wav" />    
+    <soundfx name="PimPom" path="Global/PimPom.wav" />
   </sounds>
   <players>
     <player name="ESPIO" />
@@ -76,5 +76,6 @@
     <stage name="EGG GAUNLET 1" folder="ZoneM" id="1" highlight="true" />
     <stage name="3D TEST" folder="SS1" id="1" highlight="true" />
     <stage name="SPECIAL TEST" folder="SpecialTest" id="1" highlight="true" />
+    <stage name="ISOLATED HILL CLASSIC" folder="ZoneT - Classic" id="1" highlight="true" />
   </bonusStages>
 </game>
