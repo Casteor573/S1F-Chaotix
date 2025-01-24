@@ -96,7 +96,7 @@ event ObjectStartup
 	temp5 = 0
 	
 	// Make 10 Cloud columns
-	while temp3 < 20
+	while temp3 < 24
 		
 		temp0 = 0
 		temp1 = -0x2000

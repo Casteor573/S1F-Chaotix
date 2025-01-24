@@ -115,9 +115,9 @@ event ObjectMain
 				end if
 			end if
 			while char.select < 0
-				char.select += 9
+				char.select += 10
 			loop
-			char.select %= 9
+			char.select %= 10
 			
 			CheckEqual(inputPress.start, 1)
 			temp0 = checkResult
@@ -264,7 +264,9 @@ event ObjectDraw
 			break
 		case 5 //Fade out to Green Hill
 			if fade.control < 320
-				fade.control += 16
+				object.scale += 32
+				object.rotation += 16
+				fade.control += 4
 				music.volume -= 2
 			else
 				StopMusic()
@@ -305,7 +307,7 @@ event ObjectDraw
 					break			
 					case 9
 						stage.playerListPos = 11
-					break																							
+					break			
 					default
 						stage.playerListPos = char.select
 					break
@@ -503,7 +505,10 @@ event ObjectDraw
 			end if		
 			if char.select == 8	//h	//
 				temp0 += 72
-			end if							
+			end if				
+			if char.select == 9	//h	//
+				temp0 += 74
+			end if								
 			if char.select <= 2
 				temp0 += 23
 			end if
@@ -515,7 +520,7 @@ event ObjectDraw
 		end if
 
 			
-			//character heads?
+			//portraits
 
 			if char.select == 3
 				temp0 += 2
@@ -534,7 +539,10 @@ event ObjectDraw
 			end if	
 			if char.select == 8
 				temp0 += 2
-			end if									
+			end if			
+			if char.select == 9
+				temp0 += 2
+			end if										
 			if char.select <= 2
 				temp0 += 3
 			end if
@@ -545,11 +553,11 @@ event ObjectDraw
 		if screen.xsize == 320
 			temp1 += 84
 			temp1 += arcade.offset
-			DrawSpriteScreenXY(temp0, temp1, 130)
+			DrawSpriteScreenFX(temp0, FX_ROTOZOOM, temp1, 130)
 		else
 			temp1 += 94
 			temp1 += arcade.offset
-			DrawSpriteScreenXY(temp0, temp1, 140)
+			DrawSpriteScreenFX(temp0, FX_ROTOZOOM, temp1, 140)
 		end if
 		if object.state == 2
 			if arrow.flash < 30
@@ -839,6 +847,10 @@ event ObjectStartup
 	SpriteFrame(-52, 0, 18, 16, 627, 428) //80 Bomb Highlighted	
 	SpriteFrame(0, -1, 16, 14, 628, 446) //81 Bomb 			
 	SpriteFrame(-55, -45, 124, 106, 502, 428) //82  Bomb Portrait	
+
+	SpriteFrame(-52, 0, 18, 16, 1, 512) //83 Bomb Highlighted	
+	SpriteFrame(0, -1, 16, 14, 20, 513) //84 Bomb 			
+	SpriteFrame(-55, -100, 112, 176, 37, 512) //85  Bomb Portrait		
 
 	SetMusicTrack("Arcade.ogg", 0, 1)
 	

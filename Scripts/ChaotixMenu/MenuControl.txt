@@ -113,6 +113,11 @@ end function
 
 event ObjectMain
 
+	object.value18++
+	if object.value18 == 8
+		object.value18 = 0
+		RotatePalette(0, 240, 251, 1)
+	end if
 
 CallFunction(TitleScreen)
 end event
@@ -262,7 +267,7 @@ event ObjectStartup
 	SpriteFrame(0, 0, 158, 16, 1, 256)	//SECRETS RUN 1	
 	//new here
 	SpriteFrame(0, 0, 280, 136, 265, 1)	//NEWTROGIC HIGH 2	
-	SpriteFrame(-142, -20, 292, 203, 265, 138)	//CHAOTIX 3
+	SpriteFrame(-143, -20, 292, 203, 265, 138)	//CHAOTIX 3
 	SpriteFrame(0, 0, 64, 64, 179, 216)	//MOBILE BACK BUTTON 4
 	SpriteFrame(0, 0, 360, 64, 316, 342)	//DATA LOAD 5
 	SpriteFrame(0, 0, 217, 57, 316, 407)	//SAVE SELECT ON 6
