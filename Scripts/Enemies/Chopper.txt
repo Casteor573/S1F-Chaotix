@@ -98,6 +98,9 @@ event ObjectStartup
 		SpriteFrame(-14, -15, 30, 32, 137, 81)
 	end if
 	CheckCurrentStageFolder("ZoneT")
+	temp0 = checkresult
+	CheckCurrentStageFolder("ZoneT - Classic")
+	temp0 |= checkresult	
 	if checkResult == 1
 		LoadSpriteSheet("GHZ/Objects.gif")
 		SpriteFrame(-14, -15, 30, 32, 98, 94)
