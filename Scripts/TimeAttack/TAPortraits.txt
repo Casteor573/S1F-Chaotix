@@ -36,9 +36,9 @@ event ObjectDraw
 	temp0 -= TA.xoffset	
 	
 	temp0 -= 3
-	character.select += 10
+	character.select += 11
 	DrawSpriteScreenXY(character.select, temp0, 95)
-	character.select -= 10
+	character.select -= 11
 	temp0 += 3
 	DrawSpriteScreenXY(character.select, temp0, 90)
 end event
@@ -54,6 +54,7 @@ event ObjectStartup
 	SpriteFrame(-62, -66, 134, 132, 486, 12) //10 Charmy	
 	SpriteFrame(-73, -57, 172, 129, 259, 444) //10 Heavy		
 	SpriteFrame(-52, -42, 124, 106, 621, 1) //10 Bomb			
+	SpriteFrame(-52, -89, 112, 176, 259, 574) //10 Mighty		
 	SpriteFrame(-44, -62, 91, 122, 388, 1) //4 Super
 	
 
@@ -66,7 +67,8 @@ event ObjectStartup
 	SpriteFrame(-52, -84, 106, 164, 594, 279) //11 Vector Shadow	
 	SpriteFrame(-62, -66, 134, 132, 486, 146) //10 Charmy	
 	SpriteFrame(-73, -57, 172, 129, 432, 444) //10 Heavy		
-	SpriteFrame(-52, -42, 124, 106, 621, 108) //10 Bomb					
+	SpriteFrame(-52, -42, 124, 106, 621, 108) //10 Bomb		
+	SpriteFrame(-52, -89, 112, 176, 372, 574) //10 Mighty					
 	SpriteFrame(-44, -62, 91, 122, 388, 150) //9 Super
 	
 

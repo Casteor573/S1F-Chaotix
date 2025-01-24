@@ -124,7 +124,10 @@ event ObjectMain
 						break	
 					case 10	//bomb
 						arrayPos1 = 3900
-						break																																
+						break	
+					case 11
+						arrayPos1 = 3930
+						break																																							
 				end switch
 				arraypos1 += stage.listPos
 				object.value2 = saveRAM[arrayPos1]

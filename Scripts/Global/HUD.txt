@@ -920,7 +920,10 @@ event ObjectStartup
 						break	
 					case 10
 						arrayPos1 = 3880
-						break												
+						break		
+					case 11
+						arraypos1 = 3910
+						break																	
 				end switch
 				if SuperTimeAttack == 1
 					arrayPos1 = 590

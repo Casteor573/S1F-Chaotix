@@ -101,7 +101,10 @@ if object.propertyValue != 1 //normal below
 								break	
 							case 10
 								arrayPos0 = 3880
-								break																		
+								break	
+							case 11
+								arrayPos0 = 3910
+								break																										
 								end switch
 						if SuperTimeAttack == 1
 							arrayPos0 = 590

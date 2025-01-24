@@ -123,7 +123,10 @@ event ObjectMain
 								break	
 							case 10	//bomb
 								arrayPos0 = 3900
-								break					
+								break	
+							case 11
+								arrayPos0 = 3930
+								break														
 						end switch
 						arraypos0 += stage.listPos
 						if timeAttack.result < saveRAM[arrayPos0]

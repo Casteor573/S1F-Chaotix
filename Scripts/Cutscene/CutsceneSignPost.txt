@@ -103,7 +103,10 @@ case 0
 									break	
 								case 10
 									arrayPos0 = 3880
-									break																		
+									break	
+								case 11
+									arraypos0 = 3910
+									break																											
 									end switch
 							if SuperTimeAttack == 1
 								arrayPos0 = 590

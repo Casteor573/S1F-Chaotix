@@ -40,7 +40,7 @@ private alias object.value30 : VectorTime
 private alias object.value31 : CharmyTime
 private alias object.value32 : HeavyTime
 private alias object.value33 : BombTime
-
+private alias object.value34 : MightyTime
 
 private alias 15 : TA.xspeed
 private alias 5 : TA.yspeed
@@ -89,7 +89,7 @@ private value time.achievement = 0
 
 // Tables
 private table TimeAttack_CharacterSelect
-	0, 1, 2, 5, 6, 7, 8, 9, 10, 100
+	0, 1, 2, 5, 6, 7, 8, 9, 10, 11, 100
 end table
 
 function LoadTimeLevel
@@ -204,7 +204,7 @@ event ObjectMain
 					if temp0 == 1
 						stage.activeList = SPECIAL_STAGE
 						stage.listPos = specialstage.selected
-						character.select %= 9
+						character.select %= 10
 						object.state++
 						PlaySfx(SfxName[Lamp Post], 0)
 					end if
@@ -220,7 +220,7 @@ event ObjectMain
 						stage.listPos = 18
 						object.state++
 						PlaySfx(SfxName[Lamp Post], 0)
-						character.select %= 9
+						character.select %= 10
 					end if
 					
 					if object[9].value26 != FirstMenu43
@@ -280,7 +280,7 @@ event ObjectMain
 							CheckGreater(saveRAM[413], 0)
 							temp0 &= checkResult
 							if temp0 == 0
-								character.select %= 9
+								character.select %= 10
 							end if
 					end if
 					break
@@ -301,9 +301,9 @@ event ObjectMain
 				CheckGreater(saveRAM[413], 0)
 				temp0 &= checkResult
 				if temp0 == 0
-					character.select %= 9
-				else
 					character.select %= 10
+				else
+					character.select %= 11
 				end if
 				PlaySfx(SfxName[Score Add], 0)
 			end if
@@ -316,9 +316,9 @@ event ObjectMain
 					CheckGreater(saveRAM[413], 0)
 					temp0 &= checkResult
 					if temp0 == 0
-						character.select += 9
-					else
 						character.select += 10
+					else
+						character.select += 11
 					end if
 				loop
 				PlaySfx(SfxName[Score Add], 0)
@@ -869,6 +869,11 @@ event ObjectStartup
 	SpriteFrame(-55, 0, 122, 29, 637, 143) //135 Bomb English	
 	SpriteFrame(-40, 0, 91, 14, 637, 173) //136 Bomb Japanese	
 
+	SpriteFrame(8, 0, 18, 16, 413, 30) //137 Mighty Icon	
+	SpriteFrame(-45, 0, 105, 29, 655, 96) //138 Mighty English	
+	SpriteFrame(-47, 0, 109, 14, 655, 126) //139 Mighty Japanese	
+
+
 	SetMusicTrack("TimeAttack.ogg", 1, 17556)
 	//SetMusicTrack("StartingTheShow.ogg", 1, 92561)
 	stage.debugMode = 0	
@@ -1261,8 +1266,11 @@ function SecondMenu
 			break
 		case 8//bomb lol
 			arrayPos1 = 3880
-			break								
-		case 9 //super
+			break			
+		case 9
+			arrayPos1 = 3910
+			break						
+		case 10 //super
 			arrayPos1 = 590
 			break
 	end switch
@@ -1300,8 +1308,11 @@ function SecondMenu
 			break
 		case 8
 			temp5 = BombTime
-			break									
+			break							
 		case 9
+			temp5 = MightyTime
+			break			
+		case 10
 			temp5 = SuperTimes
 			break			
 	end switch
@@ -1426,8 +1437,13 @@ function SecondMenu
 		temp2 = 134
 		temp3 = 135	//english name
 		temp4 = 136
+		break		
+	case 9	//Bomb
+		temp2 = 137
+		temp3 = 138	//english name
+		temp4 = 139
 		break							
-	case 9	//SUPER
+	case 10	//SUPER
 		temp2 = 94	//life icon
 		temp3 = 95
 		temp4 = 96
@@ -1742,6 +1758,32 @@ function TimesSetUp		//500 to 526
 		BombTime += saveRAM[arrayPos1]		
 		arrayPos1++
 	loop	
+
+	MightyTime = 0	// + 18
+	arrayPos1 = 3910
+	while arrayPos1 <= 3928
+		if saveRAM[arrayPos1] < 100
+			saveRAM[arrayPos1] = 59999
+		end if
+		if saveRAM[arrayPos1] > 59999
+			saveRAM[arrayPos1] = 59999
+		end if
+		MightyTime += saveRAM[arrayPos1]		
+		arrayPos1++
+	loop
+	
+	arrayPos1 = 3930		// + 6
+	while arrayPos1 <= 3936
+		if saveRAM[arrayPos1] < 100
+			saveRAM[arrayPos1] = 59999
+		end if
+		if saveRAM[arrayPos1] > 59999
+			saveRAM[arrayPos1] = 59999
+		end if
+		MightyTime += saveRAM[arrayPos1]		
+		arrayPos1++
+	loop	
+	
 
 
 	SuperTimes = 0
