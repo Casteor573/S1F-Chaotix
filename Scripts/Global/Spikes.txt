@@ -428,7 +428,7 @@ end event
 
 function Spikes_MightySpikes
 
- if stage.playerlistpos == 11
+ if object[currentPlayer].propertyValue == 11
 
 	//animations that activate boucnce
 	CheckEqual(object[currentPlayer].animation, ANI_JUMPING)
@@ -527,7 +527,7 @@ function Spikes_MightySpikes
 		CallFunction(PlayerObject_SpikeHit)		
 	end if
 else
-CallFunction(PlayerObject_SpikeHit)	
+	CallFunction(PlayerObject_SpikeHit)	
 end if
 
 end function

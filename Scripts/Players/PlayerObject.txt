@@ -1404,8 +1404,10 @@ function PlayerObject_BadnikBreak
 		if object[currentPlayer].state != PlayerObject_Death
 			if object[currentPlayer].value7 == 0
 				if object[currentPlayer].value8 == 0
-					Player.CheckHammerDrop = 2
-					CallFunction(Player_CheckMightyUnspin)		
+					if object[currentPlayer].propertyValue == 11
+						Player.CheckHammerDrop = 2
+						CallFunction(Player_CheckMightyUnspin)		
+					end if
 				
 					object[currentPlayer].state = PlayerObject_Hurt
 					if object[currentPlayer].xpos > object.xpos
@@ -1427,9 +1429,10 @@ function PlayerObject_Hit
 		if object[currentPlayer].value7 == 0
 			if object[currentPlayer].value8 == 0
 
-					Player.CheckHammerDrop = 2
-					CallFunction(Player_CheckMightyUnspin)
-
+					if object[currentPlayer].propertyValue == 11
+						Player.CheckHammerDrop = 2
+						CallFunction(Player_CheckMightyUnspin)		
+					end if
 				object[currentPlayer].state = PlayerObject_Hurt
 				if object[currentPlayer].xpos > object.xpos
 					object[currentPlayer].speed = 0x20000
