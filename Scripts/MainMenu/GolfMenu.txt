@@ -214,7 +214,10 @@ event ObjectDraw
 					end if				
 					if char.select == 8
 						stage.playerListPos = 10
-					end if										
+					end if		
+					if char.select == 9
+						stage.playerListPos = 11
+					end if															
 					if char.select <= 2				
 						stage.playerListPos = char.select
 					end if
