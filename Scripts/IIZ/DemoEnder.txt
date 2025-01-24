@@ -1,0 +1,85 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Motobug Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 58 : TYPE_MOTOBUG
+
+// Function declarations
+
+
+// Static Values
+
+// Tables
+
+
+
+
+event ObjectMain
+	switch object.state
+	case 0
+
+		currentPlayer = 0
+		BoxCollisionTest(C_TOUCH, object.entityPos, -0, -160, 0, 160, currentPlayer, object[currentPlayer].value40, object[currentPlayer].value38, object[currentPlayer].value41, object[currentPlayer].value39)
+		if checkResult == 1
+			
+			object[0].controlMode = -1
+			object[0].speed = 0
+			object[0].xvel = 0
+			object[0].animation = 0
+			object[0].state = PlayerObject_Blank	
+			screen.cameraStyle = 2
+			object.state++
+
+
+		end if	
+
+	break
+	case 1
+
+		music.volume -= 2
+
+		object[0].controlMode = -1
+		object[0].speed = 0
+		object[0].xvel = 0
+		object[0].animation = 3
+		object[0].state = PlayerObject_Blank	
+		screen.cameraStyle = 2
+
+		if music.volume == 0
+			object.state++
+		end if
+
+	break
+	case 2
+
+	break
+	end switch
+
+end event
+
+
+event ObjectDraw
+
+end event
+
+
+event ObjectStartup
+
+	foreach (TypeName[Demo Ender], arrayPos0, ALL_ENTITIES)
+		object[arrayPos0].priority = PRIORITY_ACTIVE
+	next
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("IIZ/Objects1.gif")
+	SpriteFrame(0, 0, 128, 128, 383, 1)
+end event
