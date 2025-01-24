@@ -8216,20 +8216,6 @@ event ObjectStartup
 	next
 	goggleType = TypeName[Goggles]
 
-//	CheckCurrentStageFolder("ZoneT")
-///	temp0 = checkResult
-//	CheckCurrentStageFolder("Hub")
-//	temp0 |= checkResult	
-//	if temp0 == 1
-//		if saveRAM[4001] == 1 //act trans
-//			object[0].xpos = prevPos
-//		else	//block off the signpost there
-//			temp0 = object.ixpos
-//			temp0 += screen.xcenter
-//			stage.newXBoundary1 = temp0
-//		end if
-//	end if	
-		
 	LoadSpriteSheet("Players/Sonic4.gif")		
 	//DropDash Sprites
 	SpriteFrame(-16, -16, 32, 32, 1, 180) //0

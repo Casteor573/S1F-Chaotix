@@ -533,7 +533,7 @@ function Player2Object_Function67
 				CheckNotEqual(object[0].state, PlayerObject_Drown)
 				temp1 &= checkResult		
 				if temp1 == 1	
-					object.scale = 4096
+					object.scale = 2048
 				end if
 			end if	
 			object.state = Player2Object_Function66
@@ -638,7 +638,9 @@ event ObjectMain
 	CallFunction(P2_PartnerSwitch)
 
 	
-
+	if object.scale > 512
+		object.scale -= 24
+	end if
 
 
 

@@ -433,9 +433,12 @@ case 1
 break
 case 2
 		if SaveRAM[4001] == 1	
-			SaveRAM[4001] = 0 //dont use no fade in version
-			WriteSaveRAM()	
-		end if
+
+
+		object[0].state = PlayerObject_HandleAir	
+		object[1].state = PlayerObject_HandleAir	
+		object[0].xpos = prevPos
+		object[1].xpos = prevPos2
 
 		temp0 = object.ixpos
 		temp0 += screen.xcenter
@@ -446,6 +449,14 @@ case 2
 				
 		object.frame = 5	//victory pose
 		object.priority = PRIORITY_XBOUNDS //as long as your in x pos range		
+
+		temp0 = tileLayer[0].xsize
+		temp0 <<= 7
+		stage.newXBoundary2 = temp0
+		SaveRAM[4001] = 0
+		WriteSaveRAM()	
+	end if
+
 break
 end switch
 end event

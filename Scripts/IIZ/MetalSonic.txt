@@ -137,24 +137,40 @@ function MetalIntro
 				object.animation = 2
 
 				currentPlayer = 0
-				BoxCollisionTest(C_TOUCH, object.entityPos, -0, -160, 0, 160, currentPlayer, object[currentPlayer].value40, object[currentPlayer].value38, object[currentPlayer].value41, object[currentPlayer].value39)
-				if checkResult == 1
 
-					music.volume -= 1
-					object[0].controlMode = -1
-					object[1].controlMode = -1
-					object[0].yvel += 100000
-					object[1].yvel += 100000
-					object[0].value34 = 1
-					object[1].value34 = 1
-					object[0].state = PlayerObject_HandleAir
-					object[0].animation = ANI_STOPPED
-					object[1].state = PlayerObject_HandleAir
-					object[1].animation = ANI_STOPPED	
-					object[1].xvel = 0
-					object[1].speed = 0					
-					object[0].xvel = 0
-					object[0].speed = 0	
+				temp0 = 4245	//sonlvl positions work
+				temp0 <<= 16
+				Abs(temp0)
+
+				
+
+
+				//BoxCollisionTest(C_TOUCH, object.entityPos, -0, -160, 0, 160, currentPlayer, object[currentPlayer].value40, object[currentPlayer].value38, object[currentPlayer].value41, object[currentPlayer].value39)
+				if object[0].xpos >= temp0
+				
+
+					object[0].xpos = temp0
+
+					music.volume -= 1	
+
+					currentPlayer = 0
+					while currentPlayer < 2
+						object[currentPlayer].speed = 0
+						object[currentPlayer].xvel = 0
+					
+						if object[currentPlayer].gravity == GRAVITY_AIR
+							object[currentPlayer].animation = ANI_JUMPING		
+							object[currentPlayer].state = PlayerObject_HandleAir
+						else
+							object[currentPlayer].animation = ANI_STOPPED		
+							object[currentPlayer].state = PlayerObject_Blank
+						end if			
+						object[currentPlayer].controlMode = -1
+						
+						currentPlayer++
+					loop
+
+			
 					
 
 					if music.volume == 0
@@ -168,26 +184,24 @@ function MetalIntro
 			case 1
 				object.value0++
 				if object.value0 == 1
+					PlaySfx(SfxName[Bomb Dash], 0)
 					SetMusicTrack("Suprise.ogg", 0, 1)
 					PlayMusic(0)
 				end if
 
-				object[0].state = PlayerObject_HandleAir
-				object[0].animation = ANI_LOOKINGUP
-				object[0].xvel = 0
-				object[0].speed = 0
-				object[0].value34 = 1
-				object[1].value34 = 1					
-				object[0].yvel += 100000
-				object[1].yvel += 100000
-				object[1].state = PlayerObject_HandleAir
-				object[1].animation = ANI_LOOKINGUP
-				object[1].xvel = 0
-				object[1].speed = 0					
+				currentPlayer = 0
+				while currentPlayer < 2
+					object[currentPlayer].speed = 0
+					object[currentPlayer].xvel = 0
+					object[currentPlayer].animation = ANI_LOOKINGUP					
+					object[currentPlayer].controlMode = -1
+					object[currentPlayer].state = PlayerObject_Blank
+					currentPlayer++
+				loop		
 
 				
-				object.scale += 8
-				object.yvel -= 0x400
+				object.scale += 12
+				object.yvel -= 0x500
 
 				object.animation = 2
 
@@ -199,18 +213,15 @@ function MetalIntro
 
 			break			
 			case 2
-				object[0].state = PlayerObject_HandleAir
-				object[0].animation = ANI_LOOKINGUP
-				object[0].xvel = 0
-				object[0].speed = 0	
-				object[0].value34 = 1
-				object[1].value34 = 1				
-				object[0].yvel += 100000
-				object[1].yvel += 100000
-				object[1].state = PlayerObject_HandleAir
-				object[1].animation = ANI_LOOKINGUP
-				object[1].xvel = 0
-				object[1].speed = 0	
+				currentPlayer = 0
+				while currentPlayer < 2
+					object[currentPlayer].speed = 0
+					object[currentPlayer].xvel = 0
+					object[currentPlayer].animation = ANI_LOOKINGUP					
+					object[currentPlayer].controlMode = -1
+					object[currentPlayer].state = PlayerObject_Blank
+					currentPlayer++
+				loop
 
 				object.scale = 512
 
@@ -220,7 +231,7 @@ function MetalIntro
 				object.value0++
 
 
-				object.yvel += 0x600
+				object.yvel += 0x800
 
 				object.animation = 4
 
@@ -233,18 +244,15 @@ function MetalIntro
 				
 			break
 			case 3
-				object[0].state = PlayerObject_HandleAir
-				object[0].animation = ANI_LOOKINGUP
-				object[0].xvel = 0
-				object[0].speed = 0	
-				object[0].value34 = 1
-				object[1].value34 = 1				
-				object[0].yvel += 100000
-				object[1].yvel += 100000
-				object[1].state = PlayerObject_HandleAir
-				object[1].animation = ANI_LOOKINGUP
-				object[1].xvel = 0
-				object[1].speed = 0	
+				currentPlayer = 0
+				while currentPlayer < 2
+					object[currentPlayer].speed = 0
+					object[currentPlayer].xvel = 0
+					object[currentPlayer].animation = ANI_LOOKINGUP					
+					object[currentPlayer].controlMode = -1
+					object[currentPlayer].state = PlayerObject_Blank
+					currentPlayer++
+				loop
 
 	
 				
@@ -276,6 +284,8 @@ function MetalIntro
 				
 
 				if object.value0 == 50
+					object[0].state = PlayerObject_HandleAir
+					object[1].state = PlayerObject_HandleAir
 					object[0].controlMode = 0
 					object[1].controlMode = 0	
 
@@ -334,19 +344,24 @@ function MetalIntro
 					object.yvel = 0
 					
 					if object.value0 == 90
-						PlaySfx(SfxName[Peelout Release],0)
 						Object.AccessoryAnimation = 0
 						object.value0 = 0
 						object.state++
 					end if	
 			break		
 			case 8	//dash right
+				object.value0++
+				if object.value0 == 1
+				PlaySfx(SfxName[Peelout Release],0)
+				end if
+
 			
 				object.xvel += 0x4800
 			
 				object.animation = 6
 				if object.outOfBounds == 1
 					object.xvel = 0
+					object.value0 = 0
 					object.animation = 8
 					object.direction = FLIP_X
 					Object.AccessoryAnimation = 3
@@ -416,11 +431,17 @@ function MetalIntro
 			break		
 			case 13
 			
+				object.value0++
+				if object.value0 == 1
+				PlaySfx(SfxName[Peelout Release],0)
+				end if
+
 				object.xvel -= 0x4800
 			
 				object.animation = 6
 				if object.outOfBounds == 1
 					object.xvel = 0
+					object.value0 = 0
 					object.animation = 8
 					object.direction = 0
 					Object.AccessoryAnimation = 3
@@ -538,7 +559,11 @@ function MetalIntro
 		CheckGreater(object.state, 3)
 		temp2 = checkResult
 		CheckLower(object.state, 14)
-		temp2 &= checkResult		
+		temp2 &= checkResult	
+		CheckNotEqual(object.state, 9)
+		temp2 &= checkResult	
+		CheckNotEqual(object.state, 13)
+		temp2 &= checkResult					
 		if temp2 == 1
 			BoxCollisionTest(C_TOUCH, object.entityPos, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO, HITBOX_AUTO, currentPlayer, object[currentPlayer].value40, object[currentPlayer].value38, object[currentPlayer].value41, object[currentPlayer].value39)
 			CheckEqual(checkResult, 1)

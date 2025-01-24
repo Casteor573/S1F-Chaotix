@@ -143,6 +143,8 @@ if checkResult == 1
 				Object.Frame -= 96
 			end if
 		end if
+
+			//wcda code but I TECHINALLY MADE THIS so its fair
 		
 			//ASCII Table required!
 			switch object.letter
