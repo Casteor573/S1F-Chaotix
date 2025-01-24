@@ -31,7 +31,6 @@ event ObjectMain
 			object[0].xvel = 0
 			object[0].animation = 0
 			object[0].state = PlayerObject_Blank	
-			screen.cameraStyle = 2
 			object.state++
 
 
@@ -49,12 +48,39 @@ event ObjectMain
 		object[0].state = PlayerObject_Blank	
 		screen.cameraStyle = 2
 
-		if music.volume == 0
+		object.value0++
+		if object.value0 == 200
+			object.value0 = 0
 			object.state++
 		end if
 
 	break
 	case 2
+		object[0].controlMode = -1
+		screen.cameraStyle = 4
+		object[0].state = PlayerObject_HandleAir	
+		object[0].Right = 1
+		object[0].animation = ANI_WALKING
+
+
+
+		object.value0++
+		if object.value0 == 150
+			object.value0 = 0
+			object.state++
+		end if
+
+	break
+	case 3
+		object.value1 += 8
+
+		SetClassicFade(0, 0, 0, object.value1)
+		if object.value1 >= 255
+			StopMusic()
+			stage.activeList = PRESENTATION_STAGE
+			stage.listPos = 14
+			LoadStage()
+		end if
 
 	break
 	end switch

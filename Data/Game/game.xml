@@ -65,6 +65,7 @@
   <presentationStages>
     <stage name="CHAOTIXMENU" folder="ChaotixMenu" id="1" highlight="true" />
     <stage name="CHAOTIXSAVES" folder="ChaotixSaveSelect" id="1" highlight="true" />
+    <stage name="DEMO END" folder="DemoEnd" id="1" highlight="true" />
   </presentationStages>
   <regularStages />
   <specialStages />

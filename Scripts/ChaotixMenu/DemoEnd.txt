@@ -1,0 +1,268 @@
+// ----------------------------------
+// RSDK Project: Sonic 1/Sonic 2
+// Script Description: Menu Control Object
+// Script Author: Christian Whitehead/Simon Thomley
+// Unpacked by Rubberduckycooly's script unpacker
+// ----------------------------------
+
+//-------Aliases-------//
+private alias 2 : TYPE_MENUCONTROL
+//NEW SYNTAX KEY
+private alias object.value0 : object.timer
+private alias object.value6 : object.extraoffset
+private alias object.value7 : object.extratarget
+
+private alias object.value8 : object.extrachoose	
+
+public alias saveRAM[295]: saved.mobile
+private alias 20 : ST.xspeed
+public alias 3 : slot.total
+
+reserve function TitleScreen
+
+private alias object.value2 : bg.scroll
+
+//STATE LIST
+
+//0: Fade in
+//1: Fade in 2
+//2: the scroll
+//3: logo appears and scales in
+
+
+
+function Titlescreen
+	object.priority = PRIORITY_ACTIVE
+
+	object.ypos += object.yvel
+	object.xpos += object.xvel
+
+	
+	switch object.state
+	case 0
+		object.timer = 255
+		SetClassicFade(0, 0, 0, object.timer)	//fade in
+
+		object.state++
+		break
+	case 1	//more fade in stuff
+		if object.timer > 0
+			object.timer -= 4
+		else
+			object.timer = 0
+			PlayMusic(0)
+			object.state++
+		end if
+		SetClassicFade(0, 0, 0, object.timer)
+		break
+	case 2
+		object.timer++
+		if object.timer == 10
+			
+			object.state++
+			object.timer = 0
+
+		end if
+
+	break
+	case 3	
+		object.timer++
+		if object.timer == 5
+			object.state++
+			object.timer = 0
+		end if	
+	break
+	case 4
+		CheckTouchRect(0, 0, screen.xsize, screen.ysize)
+		if checkResult > -1
+			object.state = 99
+		end if
+
+		if inputpress.start == 1
+			object.state = 99
+		end if
+	break
+	case 5
+	
+		music.volume -= 2
+		if music.volume == 0
+			PlayMusic(1)
+			object.state++
+		end if
+	break
+	case 6	//data select
+		
+		if inputPress.buttonB == 1	//leave lol
+			PlayMusic(0)
+			object.state = 4
+		end if	
+	break
+	end switch
+end function
+
+
+event ObjectMain
+
+	object.value18++
+	if object.value18 == 8
+		object.value18 = 0
+		RotatePalette(0, 240, 251, 1)
+	end if
+
+CallFunction(TitleScreen)
+end event
+
+
+event ObjectDraw
+
+	temp1 = 0
+	
+	while temp1 < screen.xsize
+		temp2 = 3
+		DrawSpriteScreenXY(temp2, temp1, temp0)
+		temp1 += 96
+	loop
+
+		// Draw the black background
+	DrawRect(0, 0, screen.xsize, screen.ysize, 0x00, 0x00, 0x00, 96)
+
+		bg.scroll++
+		temp1 = bg.scroll
+		FlipSign(temp1)
+		while temp1 < screen.xsize
+			DrawSpriteScreenXY(1, temp1, -15)
+				temp1 += 20
+			DrawSpriteScreenXY(2, temp1, 225)
+				temp1 += 5			
+		loop
+
+
+		switch object.state
+		case 0
+		case 1
+		case 2
+		break
+		case 3	//INTRO SCALE SETUP
+		
+		temp3 = screen.xcenter	
+		temp3 -= 5
+
+		temp4 = screen.ycenter	
+		temp4 -= 90
+		object.alpha = 0
+
+		object.scale = 2000	//522 IS MOST NORMAL
+		
+		if object.timer >= 35
+		DrawSpriteScreenFX(0, FX_SCALE, temp3, temp4)		//sign	
+		end if
+		break
+		case 4	//TITLE + SCALE IN
+			temp3 = screen.xcenter	
+			temp3 -= 5
+
+			temp4 = screen.ycenter	
+			temp4 -= 90
+			
+
+			if object.scale >= 522
+			object.scale -= 30
+			end if
+			if object.scale >= 522
+			DrawSpriteScreenFX(0, FX_SCALE, temp3, temp4)		//island	
+			else
+			DrawSpriteScreenXY(0, temp3, temp4)	//normal sprite
+
+				if saved.mobile == 1
+					object.alpha += 8
+					object.inkEffect = INK_ALPHA
+
+					DrawSpriteScreenFX(4, FX_INK, 0, 0)	//back button		
+				end if	
+			end if
+
+		break
+	
+
+		case 5	//save select
+		case 6
+			temp3 = screen.xcenter	
+			temp3 -= 10
+			temp4 = screen.ycenter	
+			temp4 -= 90		
+			DrawSpriteScreenXY(0, temp3, temp4)	//normal sprite
+				
+		
+
+
+
+	break
+		case 99	
+		
+			if object.value0 < 320
+				object.value0 += 8
+				music.volume -= 2
+			else
+				StopMusic()
+				stage.activeList = PRESENTATION_STAGE
+				stage.listPos = 0
+				LoadStage()
+			end if
+			SetClassicFade(0, 0, 0, object.value0)
+			temp3 = screen.xcenter	
+			temp3 -= 5
+			temp4 = screen.ycenter	
+			temp4 -= 90		
+			object.scale -= 16
+			DrawSpriteScreenFX(0, FX_SCALE, temp3, temp4)		//island	
+			break	
+		case 100	
+			
+			if object.value0 < 320
+				object.value0 += 16
+				music.volume -= 2
+			else
+				StopMusic()
+				stage.activeList = PRESENTATION_STAGE
+				stage.listPos = 0
+				LoadStage()
+			end if
+			SetClassicFade(0, 0, 0, object.value0)
+			temp3 = screen.xcenter	
+			temp3 -= 5
+			temp4 = screen.ycenter	
+			temp4 -= 90		
+			DrawSpriteScreenXY(0, temp3, temp4)	//normal sprite
+		
+			break
+	end switch	
+		
+	object.drawOrder = 4
+	object.priority = PRIORITY_ACTIVE
+		
+end event
+
+
+event ObjectStartup
+	LoadSpriteSheet("DemoEnd/Objects.gif")
+	
+	SetMusicTrack("HappyDay.ogg", 0, 1)	//167086
+	SetMusicTrack("HappyDay.ogg", 1, 1)	
+	//old data dont worry about it
+	SpriteFrame(-50, 80, 110, 15, 1, 1)	//TRIANGLE 0	
+
+	SpriteFrame(0, 0, 30, 30, 112, 1)	//0
+	SpriteFrame(0, 0, 30, 30, 143, 1)	//1	
+
+	SpriteFrame(0, -1, 96, 240, 415, 1)//#2	checker bg	
+
+end event
+
+event RSDKDraw
+	DrawSprite(0)
+end event
+
+event RSDKLoad
+	LoadSpriteSheet("Global/Display.gif")
+	SpriteFrame(-16, -16, 32, 32, 1, 143)
+end event
