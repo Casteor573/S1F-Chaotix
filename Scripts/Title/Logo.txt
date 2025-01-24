@@ -496,14 +496,8 @@ event ObjectDraw
 
 			if object.timer > 0
 				object.timer -= 8
-			rand(temp0, 99)	
-			if temp0 == 0
-				PlayMusic(1)
-			else
 				PlayMusic(0)
-			end if	
 			else
-				
 				object.state++
 			end if
 
