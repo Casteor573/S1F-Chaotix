@@ -1384,7 +1384,7 @@ event ObjectStartup
 	
 	//Level Name
 	SpriteFrame(0, 0, 22, 6, 89, 27) //22 IIZ
-	SpriteFrame(0, 0, 14, 6, 89, 34) //23 MZ
+	SpriteFrame(0, 0, 22, 6, 89, 27) //22 IIZ
 	SpriteFrame(0, 0, 21, 6, 89, 41) //24 SYZ
 	SpriteFrame(0, 0, 13, 6, 93, 48) //25 LZ
 	SpriteFrame(0, 0, 20, 6, 93, 55) //26 SLZ
