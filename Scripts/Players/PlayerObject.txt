@@ -1197,7 +1197,10 @@ function PlayerObject_CheckHit
 		CheckEqual(object[currentPlayer].animation, 56)
 		temp0 |= checkResult				
 	end if	
-
+	if object[0].propertyValue == 11
+		CheckEqual(object[currentPlayer].animation, 52)
+		temp0 |= checkResult	
+	end if	
 
 	CheckNotEqual(object[currentPlayer].value7, 0)
 	temp0 |= checkResult
@@ -1225,15 +1228,19 @@ function PlayerObject_CheckHit
 		FlipSign(object[currentPlayer].xvel)
 		object[currentPlayer].xvel >>= 1
 		object[currentPlayer].speed = object[currentPlayer].xvel
-
-		CheckNotEqual(object[currentPlayer].state, PlayerObject_MightyHammerDrop)
-		temp5 = checkResult
-		CheckNotEqual(object[currentPlayer].state, PlayerObject_HeavyStompLand)
-		temp5 &= checkResult		
-		if temp5 == 1		
+		if object[currentPlayer].propertyValue == 11
+			CheckNotEqual(object[currentPlayer].state, PlayerObject_MightyHammerDrop)
+			temp5 = checkResult
+			CheckNotEqual(object[currentPlayer].state, PlayerObject_HeavyStompLand)
+			temp5 &= checkResult		
+			if temp5 == 1		
+				FlipSign(object[currentPlayer].yvel)
+				object[currentPlayer].yvel >>= 1
+			end if
+		else
 			FlipSign(object[currentPlayer].yvel)
-			object[currentPlayer].yvel >>= 1
-		end if
+			object[currentPlayer].yvel >>= 1			
+		end if	
 		if object[currentPlayer].animation == ANI_GLIDING
 			object[currentPlayer].value1 = 0
 			object[currentPlayer].animation = ANI_GLIDING_DROP
