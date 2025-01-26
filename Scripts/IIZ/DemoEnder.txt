@@ -26,11 +26,19 @@ event ObjectMain
 		BoxCollisionTest(C_TOUCH, object.entityPos, -0, -160, 0, 160, currentPlayer, object[currentPlayer].value40, object[currentPlayer].value38, object[currentPlayer].value41, object[currentPlayer].value39)
 		if checkResult == 1
 			
-			object[0].controlMode = -1
-			object[0].speed = 0
-			object[0].xvel = 0
-			object[0].animation = 0
-			object[0].state = PlayerObject_Blank	
+			currentPlayer = 0
+			object[currentPlayer].speed = 0
+			object[currentPlayer].xvel = 0
+		
+			if object[currentPlayer].gravity == GRAVITY_AIR
+				object[currentPlayer].animation = ANI_JUMPING		
+				object[currentPlayer].state = PlayerObject_HandleAir
+			else
+				object[currentPlayer].animation = ANI_STOPPED		
+				object[currentPlayer].state = PlayerObject_Blank
+			end if			
+			object[currentPlayer].controlMode = -1
+
 			object.state++
 
 
@@ -41,11 +49,17 @@ event ObjectMain
 
 		music.volume -= 2
 
-		object[0].controlMode = -1
-		object[0].speed = 0
-		object[0].xvel = 0
-		object[0].animation = 3
-		object[0].state = PlayerObject_Blank	
+		object[currentPlayer].speed = 0
+		object[currentPlayer].xvel = 0
+	
+		if object[currentPlayer].gravity == GRAVITY_AIR
+			object[currentPlayer].animation = ANI_JUMPING		
+			object[currentPlayer].state = PlayerObject_HandleAir
+		else
+			object[currentPlayer].animation = ANI_LOOKINGUP		
+			object[currentPlayer].state = PlayerObject_Blank
+		end if			
+		object[currentPlayer].controlMode = -1	
 		screen.cameraStyle = 2
 
 		object.value0++
