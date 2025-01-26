@@ -11,6 +11,7 @@ RestGhost: Trailer
 -------------------
 
 Special Thanks
+El Somari Man: Spanish Translation
 KarlEmerald: helped me on stuff i think 
 De Gezonde Roker: Sega Script
 REMS: Support

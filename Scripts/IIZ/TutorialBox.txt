@@ -226,7 +226,14 @@ end event
 
 event ObjectStartup
 
-	LoadTextFile(1, "Data/Game/Tutorial.txt")
+	switch saved.language
+		case 2
+			LoadTextFile(1, "Data/Game/TutorialSP.txt")
+		break	
+		default
+			LoadTextFile(1, "Data/Game/Tutorial.txt")
+		break
+	end switch
 	LoadSpriteSheet("IIZ/Objects1.gif")
 
 	SpriteFrame(0, 0, 0, 0, 0, 0)	//0 the bar
