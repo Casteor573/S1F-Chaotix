@@ -265,7 +265,10 @@ event ObjectMain
 						break		
 					case 10
 						object[0].frame = 29
-						break																												
+						break		
+					case 11
+						object[0].frame = 30
+						break																																	
 				end switch
 				object[0].direction = temp0				
 				object[0].value0 = temp1
@@ -419,6 +422,9 @@ event ObjectStartup
 	SpriteFrame(-9, -9, 16, 24, 197, 130) //27
 	SpriteFrame(-22, -19, 41, 34, 214, 130) //28
 	SpriteFrame(-15, -8, 32, 23, 197, 165) //29
+
+	SpriteFrame(-15, -23, 30, 43, 225, 212) //30
+
 	
 	if stage.actNum == 1
 		temp1 = 5072
