@@ -461,8 +461,11 @@ event ObjectDraw
 				temp1 = 78
 			end if					
           	if temp1 == 11 	//vector
-				temp1 = 80
-			end if							
+				temp1 = 81
+			end if			
+          	if temp1 == 12 	//vector
+				temp1 = 84
+			end if									
            	if temp1 <= 5
 				temp1 += 18
 			end if
