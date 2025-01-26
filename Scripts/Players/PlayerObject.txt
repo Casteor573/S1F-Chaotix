@@ -118,21 +118,7 @@ reserve function PlayerObject_RollingJump
 reserve function PlayerObject_LookingUp
 reserve function PlayerObject_Crouching
 
-reserve function PlayerObject_Espio_WallClimbStartup
-reserve function PlayerObject_Espio_WallClimb
-reserve function PlayerObject_Espio_CeilingClimb
-reserve function PlayerObject_Vector_AirDash
-reserve function PlayerObject_Vector_AirDashing
-reserve function PlayerObject_Charmy_Flight
-reserve function PlayerObject_Charmy_FlightEnd
-reserve function PlayerObject_HandleHeavyMoves
-reserve function PlayerObject_HandleMightyAbilities
-reserve function PlayerObject_MightyHammerDrop
 
-
-reserve function PlayerObject_HeavyStompLand
-reserve function PlayerObject_HeavyAirDashStart
-reserve function PlayerObject_Vector_WallClimb
 
 reserve function PlayerObject_HandleSpindash
 reserve function PlayerObject_HandleTailsFlight
@@ -193,7 +179,25 @@ reserve function PlayerObject_HandleHammerSwing
 reserve function PlayerObject_StartHammerSpin
 reserve function PlayerObject_HandleHammerSpin
 
+
+reserve function PlayerObject_Espio_WallClimbStartup
+reserve function PlayerObject_Espio_WallClimb
+reserve function PlayerObject_Espio_CeilingClimb
+reserve function PlayerObject_Vector_AirDash
+reserve function PlayerObject_Vector_AirDashing
+reserve function PlayerObject_Charmy_Flight
+reserve function PlayerObject_Charmy_FlightEnd
+reserve function PlayerObject_HandleHeavyMoves
+reserve function PlayerObject_HandleMightyAbilities
+reserve function PlayerObject_MightyHammerDrop
+
+
+reserve function PlayerObject_HeavyStompLand
+
+reserve function PlayerObject_Vector_WallClimb
+
 reserve function PlayerObject_HeavyJumpCharge
+reserve function PlayerObject_HeavyAirDashStart
 reserve function PlayerObject_HeavyAirDashing
 reserve function PlayerObject_HeavyWallStick
 reserve function PlayerObject_HandleBombMoves
