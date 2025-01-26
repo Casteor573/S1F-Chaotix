@@ -4842,10 +4842,8 @@ function PlayerObject_HandleMightyAbilities
 				CallFunction(PlayerObject_SuperTransform)
 			end if
 		end if
-		CheckEqual(object.jumpPress, 1)
-		temp0 = checkResult
 		CheckEqual(object.down, 1)
-		temp0 &= checkResult
+		temp0 = checkResult
 		if temp0 == 1
 			object.animation = 52
 			player.checkHammerDrop = 1
